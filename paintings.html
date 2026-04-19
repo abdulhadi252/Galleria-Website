@@ -4,95 +4,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Types</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <title>Galleria — Paint Color Types</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="fontawesome-free-7.0.1-web/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <style>
-        * {
+        :root {
+            --navy: #0f1e2e;
+            --coral: #e8603c;
+            --coral2: #f07a58;
+            --cream: #faf7f2;
+            --cream2: #f0ebe2;
+            --white: #fff;
+            --text: #1a1a2e;
+            --muted: #6b7280;
+            --border: rgba(15, 35, 64, .1);
+            --sh: 0 4px 24px rgba(15, 35, 64, .08);
+            --sh2: 0 20px 56px rgba(15, 35, 64, .16);
+            --tr: all .38s cubic-bezier(.23, 1, .32, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
- /* .................navbar styling..................... */
 
-        .navbar {
-            background-color: #1e1e1e;
-            height: 100px;
+        html {
+            scroll-behavior: smooth;
         }
 
-        .navbar-brand .logo-img {
-            width: 140px;
-            height: 100px
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--navy);
+        }
+
+        em {
+            font-style: italic;
+            color: var(--coral);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--navy), var(--coral));
+            border-radius: 2px;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity .85s cubic-bezier(.23, 1, .32, 1), transform .85s cubic-bezier(.23, 1, .32, 1);
+        }
+
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-child {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal-child.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-child:nth-child(2) {
+            transition-delay: .08s;
+        }
+
+        .reveal-child:nth-child(3) {
+            transition-delay: .16s;
+        }
+
+        .reveal-child:nth-child(4) {
+            transition-delay: .24s;
+        }
+
+        .reveal-child:nth-child(5) {
+            transition-delay: .32s;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: .68rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--coral);
+            margin-bottom: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+        }
+
+        .section-badge::before,
+        .section-badge::after {
+            content: '';
+            width: 20px;
+            height: 1.5px;
+            background: var(--coral);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: transparent !important;
+            padding: 0;
+            height: auto;
+            transition: background .5s, box-shadow .5s;
+        }
+
+        .navbar.nav-scrolled {
+            background: rgba(13, 26, 39, .97) !important;
+            box-shadow: 0 1px 0 rgba(232, 96, 60, .2), 0 8px 32px rgba(0, 0, 0, .28);
+        }
+
+        .navbar-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 18px 40px;
+            transition: padding .4s;
+        }
+
+        .navbar.nav-scrolled .navbar-container {
+            padding: 13px 40px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: .5px;
+        }
+
+        .brand-tag {
+            font-size: .58rem;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .4);
+            margin-top: 3px;
         }
 
         .navbar-nav {
-            gap: 30px;
+            gap: 2px;
+            align-items: center;
         }
 
         .nav-link {
             position: relative;
-            transition: 0.3s;
-            font-size: 1.2rem;
-            color: #f5f5f5 !important;
-            font-weight: bold;
-        }
-
-
-        .navbar-container {
-            background-color: #1e1e1e !important;
+            font-size: .79rem !important;
+            font-weight: 500 !important;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .78) !important;
+            padding: 9px 15px !important;
+            border-radius: 8px;
+            transition: color .3s, background .3s !important;
         }
 
         .nav-link::after {
-            content: "";
-            position: absolute;
-            left: .5rem;
-            bottom: -.5px;
-            width: 0%;
-            height: 3px;
-            background: #1B4965;
-            transition: 0.4s ease-in-out;
-            border-radius: 2px;
+            display: none !important;
         }
 
-        .nav-link:hover::after {
-            width: 80%;
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 8px;
+            background: rgba(232, 96, 60, .1);
+            opacity: 0;
+            transform: scale(.88);
+            transition: opacity .3s, transform .3s;
         }
 
         .nav-link:hover {
-            color: #1B4965 !important;
+            color: #fff !important;
         }
 
-        .btn-signup {
-            background-color: #1B4965;
-            color: #f5f5f5;
-            border: none;
-            width: 150px;
-            height: 40px;
-            padding: 8px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+        .nav-link:hover::before {
+            opacity: 1;
+            transform: scale(1);
         }
 
-        .btn-signup:hover {
-            background-color: #FF8C42;
-            color: #121212;
+        .nav-link.nav-active {
+            color: var(--coral) !important;
+            background: rgba(232, 96, 60, .1);
         }
 
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,140,66,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        .nav-chevron {
+            font-size: .55rem;
+            margin-left: 3px;
+            transition: transform .3s;
         }
 
+        .nav-item.dropdown:hover .nav-chevron {
+            transform: rotate(180deg);
+        }
 
-        /* Dropdown Styles */
         .nav-item.dropdown:hover .dropdown-menu {
             display: block;
-            animation: slideDown 0.3s ease;
+            animation: dropIn .3s cubic-bezier(.23, 1, .32, 1);
         }
 
-        @keyframes slideDown {
+        @keyframes dropIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(8px);
             }
 
             to {
@@ -102,402 +269,914 @@
         }
 
         .dropdown-menu {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 10px 0;
-            background-color: #121212;
-            border: 1px solid #1B4965;
+            background: #0d1a27 !important;
+            border: 1px solid rgba(232, 96, 60, .18) !important;
+            border-radius: 12px !important;
+            padding: 8px !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .35) !important;
+            min-width: 185px;
+            margin-top: 6px !important;
         }
 
         .dropdown-item {
-            padding: 10px 20px;
-            transition: background-color 0.2s ease;
-            color: #f5f5f5;
+            color: rgba(255, 255, 255, .72) !important;
+            font-size: .8rem;
+            padding: 10px 15px !important;
+            border-radius: 8px !important;
+            transition: var(--tr);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .dropdown-item i {
+            color: var(--coral);
+            font-size: .75rem;
         }
 
         .dropdown-item:hover {
-            background-color: #1B4965;
-            color: #f5f5f5;
+            background: rgba(232, 96, 60, .14) !important;
+            color: var(--coral) !important;
+            transform: translateX(4px);
         }
 
-        .navbar-collapse .mobile-search {
-            display: none;
+        .nav-buttons {
+            display: flex;
+            align-items: center;
         }
 
-        /* LEFT SLIDE MOBILE NAVBAR */
-        @media (max-width: 991px) {
-            .navbar-brand .logo-img {
-                width: 100px;
-                height: 50px
+        .btn-signup {
+            background: var(--coral);
+            color: #fff;
+            border: none;
+            padding: 10px 26px;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .78rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: var(--tr);
+        }
+
+        .btn-signup::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--coral2);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .38s ease;
+        }
+
+        .btn-signup span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232, 96, 60, .42);
+        }
+
+        .btn-signup:hover::before {
+            transform: scaleX(1);
+        }
+
+        .navbar-toggler {
+            border: 1px solid rgba(255, 255, 255, .15) !important;
+            border-radius: 8px !important;
+            padding: 8px 11px !important;
+            background: rgba(255, 255, 255, .07) !important;
+            transition: var(--tr);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .navbar-toggler:hover {
+            background: var(--coral) !important;
+            border-color: var(--coral) !important;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none !important;
+        }
+
+        .toggler-line {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: #fff;
+            border-radius: 2px;
+        }
+
+        @media(max-width:991px) {
+            .navbar-container {
+                padding: 14px 20px;
             }
 
             .navbar-collapse {
                 position: fixed;
-                top: 100px;
-                left: -100%;
+                top: 0;
+                right: -300px;
+                left: auto !important;
                 width: 280px;
                 height: 100vh;
-                background: #121212;
-                padding: 50px 20px 20px;
-                transition: 0.4s ease-in-out;
+                background: #0d1a27;
+                border-left: 1px solid rgba(232, 96, 60, .15);
+                padding: 80px 22px 40px;
+                transition: right .42s cubic-bezier(.23, 1, .32, 1) !important;
+                z-index: 1050;
+                overflow-y: auto;
             }
 
             .navbar-collapse.show {
-                left: 0;
+                right: 0 !important;
+                left: auto !important;
             }
 
             .navbar-nav {
                 flex-direction: column;
+                align-items: stretch;
             }
 
-            .navbar-collapse .nav-link {
-                display: inline-block;
-                padding-bottom: 6px;
+            .nav-link {
+                padding: 12px 15px !important;
             }
 
-            .navbar-collapse .nav-link::after {
-                left: 0;
-                bottom: 0;
-                width: 0%;
-            }
-
-            .navbar-collapse .nav-link:hover::after {
-                width: 100%;
+            .dropdown-menu {
+                position: static !important;
+                background: rgba(255, 255, 255, .04) !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 4px 0 !important;
+                margin: 0 !important;
+                border-radius: 8px !important;
             }
 
             .nav-buttons {
-                margin-top: 20px;
-                display: flex;
-                flex-direction: column;
-                width: 50%;
+                margin-top: 18px;
+                padding-top: 18px;
+                border-top: 1px solid rgba(232, 96, 60, .15);
+            }
+
+            .btn-signup {
+                width: 100%;
             }
         }
 
-        /* .................navbar styling end..................... */
-
-                /* .............register sign up form start................... */
+        /* AUTH */
         .register-form-section {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
+            inset: 0;
+            background: rgba(15, 35, 64, .7);
+            backdrop-filter: blur(8px);
             display: none;
             z-index: 9999;
-        }
-
-
-        .sign-up-form {
-            display: flex;
+            align-items: center;
             justify-content: center;
         }
 
-        .sign-up {
-            position: relative;
-            /* for close button */
-            margin-top: 100px;
-            text-align: center;
-            padding: 15px 30px;
-            width: 100%;
-            border-radius: 10px;
-            height: auto;
-            border: none;
-            background-color: #fff;
-        }
-
-        .register-form-main-head {
-            text-transform: capitalize;
-            font-weight: bold;
-            color: #1b4965;
-        }
-
-        .sign-up p {
-            text-transform: capitalize;
-            font-weight: 500;
-        }
-
-        .form-control {
-            border-radius: 5px;
-        }
-
-        .forget-password {
-            color: #ff8c42;
-        }
-
-        .forget-password:hover {
-            color: #1b4965;
-        }
-
-        .register-sign-up-form-input {
-            padding: 10px;
-            width: 100%;
-            text-align: center;
-            margin: 30px 10px;
-        }
-
-        .register-sign-in-form-input {
-            padding: 10px;
-            width: 100%;
-            text-align: center;
-            margin: 20px 10px;
-
-        }
-
-        .form-control::placeholder {
-            text-align: left;
-            text-transform: capitalize;
-        }
-
-        .register-btn,
-        .register-sign-in-btn {
-            text-decoration: none;
-            text-transform: capitalize;
-            background-color: #1b4965;
-            width: 100%;
-            color: white;
-            margin: 30px auto;
-        }
-
-        .register-btn:hover,
-        .register-sign-in-btn:hover {
-            text-decoration: none;
-            text-transform: capitalize;
-            background-color: #ff8c42;
-            width: 100%;
-            color: white;
-            margin: 30px auto;
-        }
-
-        .sign-in-link a {
-            color: #ff8c42;
-            text-decoration: none;
-        }
-
-        .sign-in-link a:hover {
-            color: #1b4965;
-        }
-
+        .sign-up-form,
         .sign-in-form {
-            position: relative;
-            top: 50px;
             display: flex;
             justify-content: center;
         }
 
-        .sign-up .register-sign-up-btn {
-            text-decoration: none;
-            margin-left: 5px;
-            text-transform: capitalize;
-            font-weight: 500;
-            color: #ff8c42;
+        .auth-card {
+            position: relative;
+            margin-top: 80px;
+            text-align: center;
+            padding: 40px 36px;
+            width: 100%;
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: 0 40px 80px rgba(15, 35, 64, .25);
+            animation: authIn .4s cubic-bezier(.23, 1, .32, 1);
         }
 
-        .sign-up .register-sign-up-btn:hover {
-            color: #1b4965;
+        @keyframes authIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Cross button */
-        .close-btn {
+        .auth-close-btn {
             position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 1.5rem;
-            font-weight: bold;
+            top: 14px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--cream2);
+            border: none;
+            font-size: 1.2rem;
             cursor: pointer;
-            color: #198754;
+            color: var(--muted);
+            transition: var(--tr);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .close-btn:hover {
-            color: red;
+        .auth-close-btn:hover {
+            background: var(--coral);
+            color: #fff;
         }
-        /* .............register sign up form end................... */
 
-        /* ..................paints section start.................. */
-    .paints-container {
-        margin: 150px auto;
-        background-color: rgba(27, 73, 101, 0.05);
-        padding: 40px 20px;
-        border-radius: 20px;
-    }
+        .auth-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
 
-    .color-type-main-heading {
-        font-weight: bold;
-        margin: 50px auto;
-        text-align: center;
-        color: #1B4965;
-        font-size: 3rem;
-    }
+        .auth-brand span {
+            color: var(--coral);
+        }
 
-    .paints-card {
-        height: 500px;
-        border-radius: 10px;
-        border: 2px solid #1B4965;
-        background: white;
-        transition: all 0.3s ease;
-    }
+        .auth-sub {
+            font-size: .88rem;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
 
-    .paints-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 20px rgba(255, 140, 66, 0.4);
-        border-color: #FF8C42;
-    }
+        .auth-input {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .92rem;
+            color: var(--text);
+            background: var(--cream);
+            outline: none;
+            transition: border-color .3s;
+            margin-bottom: 14px;
+        }
 
-    .paints-card-image {
-        height: 350px;
-        border-radius: 10px 10px 0px 0px;
-        width: 100%;
-        object-fit: cover;
-    }
+        .auth-input:focus {
+            border-color: var(--navy);
+            background: #fff;
+        }
 
-    .paint-card-body {
-        display: flex;
-        flex-direction: column;
-    }
+        .auth-input::placeholder {
+            color: var(--muted);
+        }
 
-    .paint-card-heading {
-        font-weight: bold;
-        font-size: 25px;
-        margin: 20px auto;
-        text-align: center;
-        color: #1B4965;
-    }
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: var(--navy);
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            font-weight: 600;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: var(--tr);
+            margin-top: 6px;
+        }
 
-    .paint-card-btn {
-        width: 100%;
-        background-color: #1B4965;
-        border-radius: 20px;
-        color: #f5f5f5;
-        border: none;
-        padding: 10px 20px;
-        transition: all 0.3s ease;
-    }
+        .auth-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--coral);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .4s ease;
+        }
 
-    .paint-card-btn:hover {
-        background-color: #FF8C42;
-        color: #121212;
-        transform: translateY(-2px);
-    }
+        .auth-btn span {
+            position: relative;
+            z-index: 1;
+        }
 
-    /* ...................colors section start.................. */
-    .colors-section {
-        margin: 100px auto;
-    }
+        .auth-btn:hover::before {
+            transform: scaleX(1);
+        }
 
-    .section-head-container .oil-color-head {
-        margin: 100px auto;
-        text-align: center;
-        font-weight: bolder;
-        font-size: 50px;
-        color: #1B4965;
-    }
+        .auth-switch {
+            margin-top: 18px;
+            font-size: .85rem;
+            color: var(--muted);
+        }
 
-    .colors-card {
-        height: auto;
-        border: 2px solid #1B4965;
-        border-radius: 30px;
-        background: white;
-        transition: all 0.3s ease;
-    }
+        .auth-switch a {
+            color: var(--coral);
+            font-weight: 600;
+            cursor: pointer;
+        }
 
-    .colors-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 20px rgba(255, 140, 66, 0.4);
-        border-color: #FF8C42;
-    }
+        .auth-forgot {
+            display: block;
+            color: var(--coral);
+            font-size: .82rem;
+            margin-bottom: 16px;
+            text-align: right;
+        }
 
-    .colors-card .colors-card-img {
-        height: 300px;
-        border-radius: 30px 30px 0 0;
-        width: 100%;
-        object-fit: cover;
-    }
+        /* PAGE HERO */
+        .page-hero {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-    .colors-card-body .colors-card-head {
-        margin: 20px;
-        font-weight: bold;
-        color: #1B4965;
-    }
+        .page-hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1400&q=80') center/cover no-repeat;
+            filter: brightness(.4) saturate(.8);
+            animation: heroBgZoom 16s ease-in-out infinite alternate;
+        }
 
-    .colors-card-body .colors-card-btn {
-        background-color: #1B4965;
-        color: #f5f5f5;
-        width: 50%;
-        border-radius: 20px;
-        border: none;
-        padding: 10px 20px;
-        transition: all 0.3s ease;
-    }
+        @keyframes heroBgZoom {
+            from {
+                transform: scale(1);
+            }
 
-    .colors-card-body .colors-card-btn:hover {
-        background-color: #FF8C42;
-        color: #121212;
-        transform: translateY(-2px);
-    }
+            to {
+                transform: scale(1.08);
+            }
+        }
 
-    /* ...................colors section end.................. */
+        .page-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15, 35, 64, .75) 0%, rgba(15, 35, 64, .3) 60%, transparent 100%);
+        }
 
-        /* .........................Footer section start............................ */
+        .page-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .page-hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: .7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--coral);
+            margin-bottom: 16px;
+            font-weight: 600;
+            opacity: 0;
+            animation: fadeUp .8s forwards .3s;
+        }
+
+        .page-hero-eyebrow::before,
+        .page-hero-eyebrow::after {
+            content: '';
+            width: 28px;
+            height: 1.5px;
+            background: var(--coral);
+        }
+
+        .page-hero h1 {
+            font-size: clamp(2.4rem, 5vw, 4.5rem);
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 16px;
+            opacity: 0;
+            animation: fadeUp 1s forwards .5s;
+        }
+
+        .page-hero p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, .75);
+            max-width: 480px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeUp 1s forwards .75s;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* COLORS PAGE */
+        .colors-page {
+            padding: 80px 0;
+        }
+
+        .colors-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Category section */
+        .color-category {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .color-category:last-child {
+            border-bottom: none;
+        }
+
+        .color-cat-head {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 14px;
+        }
+
+        .color-cat-head::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--coral), var(--coral2));
+        }
+
+        .color-cat-sub {
+            font-size: .9rem;
+            color: var(--muted);
+            margin-bottom: 40px;
+            max-width: 560px;
+        }
+
+        /* Color cards */
+        .colors-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .color-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--tr);
+            cursor: pointer;
+        }
+
+        .color-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--sh2);
+            border-color: rgba(232, 96, 60, .25);
+        }
+
+        .color-card-img {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            background: var(--cream2);
+        }
+
+        .color-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .6s cubic-bezier(.23, 1, .32, 1), filter .4s;
+        }
+
+        .color-card:hover .color-card-img img {
+            transform: scale(1.07);
+            filter: brightness(.75);
+        }
+
+        .color-card-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            background: rgba(15, 35, 64, .45);
+            transition: opacity .4s;
+        }
+
+        .color-card:hover .color-card-overlay {
+            opacity: 1;
+        }
+
+        .color-card-overlay-btn {
+            background: var(--coral);
+            color: #fff;
+            border: none;
+            padding: 9px 20px;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transform: translateY(8px);
+            transition: var(--tr);
+        }
+
+        .color-card:hover .color-card-overlay-btn {
+            transform: translateY(0);
+        }
+
+        .color-card-body {
+            padding: 16px 18px 20px;
+        }
+
+        .color-card-body h5 {
+            font-size: .95rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* DETAIL PANEL */
+        .detail-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 35, 64, .7);
+            backdrop-filter: blur(6px);
+            z-index: 8888;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .detail-overlay.show {
+            display: flex;
+        }
+
+        .detail-panel {
+            background: var(--white);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 860px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: authIn .4s cubic-bezier(.23, 1, .32, 1);
+        }
+
+        .detail-panel-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .detail-img-side {
+            background: var(--cream2);
+            border-radius: 20px 0 0 20px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-img-side img {
+            max-height: 300px;
+            object-fit: contain;
+            width: 100%;
+        }
+
+        .detail-info-side {
+            padding: 40px;
+        }
+
+        .detail-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--cream2);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--muted);
+            transition: var(--tr);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-close:hover {
+            background: var(--coral);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .detail-cat-tag {
+            font-size: .62rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--coral);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .detail-name {
+            font-size: 1.8rem;
+            color: var(--navy);
+            margin-bottom: 14px;
+        }
+
+        .detail-desc {
+            font-size: .9rem;
+            color: var(--muted);
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        .detail-features-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .detail-features-list li {
+            padding: 7px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: .88rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .detail-features-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--coral);
+            flex-shrink: 0;
+        }
+
+        .detail-price-tag {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--coral);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .detail-buy-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            background: var(--navy);
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--tr);
+        }
+
+        .detail-buy-btn:hover {
+            background: var(--coral);
+            box-shadow: 0 8px 20px rgba(232, 96, 60, .38);
+        }
+
+        /* BUY NOW MODAL */
+        .modal-content {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--navy);
+            padding: 22px 30px;
+            border: none;
+        }
+
+        .modal-heading {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-size: 1.5rem;
+            font-style: italic;
+        }
+
+        .btn-close {
+            filter: invert(1);
+            opacity: .7;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-label-g {
+            display: block;
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .modal-input-g {
+            width: 100%;
+            padding: 11px 15px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .92rem;
+            color: var(--text);
+            background: var(--cream);
+            outline: none;
+            transition: border-color .3s;
+            margin-bottom: 20px;
+        }
+
+        .modal-input-g:focus {
+            border-color: var(--navy);
+            background: #fff;
+        }
+
+        .modal-input-g.modal-textarea {
+            min-height: 100px;
+            resize: none;
+        }
+
+        .modal-order-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--navy);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--tr);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-order-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--coral);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .4s ease;
+        }
+
+        .modal-order-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-order-btn:hover::before {
+            transform: scaleX(1);
+        }
+
+        .modal-order-btn:hover {
+            box-shadow: 0 8px 22px rgba(232, 96, 60, .38);
+        }
+
+        #buyNowModal {
+            z-index: 100000;
+        }
+
+        /* FOOTER */
         footer {
-            background: #121212;
-            padding: 80px 0 0;
+            background: var(--navy);
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            right: -60px;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(232, 96, 60, .05);
+            pointer-events: none;
+        }
+
+        .footer-top-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--coral), transparent);
+            opacity: .5;
+        }
+
+        .footer-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 70px 40px 50px;
         }
 
         .footer-content {
             display: grid;
-            grid-template-columns: 3fr 2fr 6fr;
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-bottom: 60px;
+            grid-template-columns: 2.5fr 1.5fr 2.5fr;
+            gap: 60px;
         }
 
         .footer-about h3 {
+            font-family: 'Playfair Display', serif;
             font-size: 2rem;
-            color: #1B4965;
-            margin-bottom: 20px;
+            font-style: italic;
+            color: #fff;
+            margin-bottom: 14px;
+        }
+
+        .footer-about h3 span {
+            color: var(--coral);
         }
 
         .footer-about p {
-            margin-bottom: 30px;
-            color: #f5f5f5;
+            color: rgba(255, 255, 255, .5);
+            font-size: .88rem;
+            margin-bottom: 28px;
+            line-height: 1.85;
+            max-width: 300px;
         }
 
         .social-links {
             display: flex;
-            gap: 15px;
+            gap: 10px;
         }
 
         .social-link {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 140, 66, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .1);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #1B4965;
-            text-decoration: none;
-            transition: all 0.5s ease;
+            color: rgba(255, 255, 255, .6);
+            font-size: .88rem;
+            transition: var(--tr);
         }
 
         .social-link:hover {
-            background: #FF8C42;
-            color: #121212;
-            transform: translateY(-10px);
-        }
-
-        .footer-links h4 {
-            margin-left: 30px;
+            background: var(--coral);
+            color: #fff;
+            border-color: var(--coral);
+            transform: translateY(-3px);
         }
 
         .footer-links h4,
         .footer-contact h4 {
-            font-size: 1.3rem;
-            color: #1B4965;
-            margin-bottom: 25px;
+            font-size: .72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .38);
+            margin-bottom: 22px;
             position: relative;
-            padding-bottom: 10px;
+            padding-bottom: 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
         }
 
         .footer-links h4::after,
@@ -506,505 +1185,856 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 40px;
-            height: 2px;
-            background: #FF8C42;
+            width: 24px;
+            height: 1.5px;
+            background: var(--coral);
         }
 
         .footer-links ul {
             list-style: none;
-        }
-
-        .footer-links ul li a i {
-            color: #FF8C42;
-        }
-        .footer-links ul li a:hover {
-            color: #1B4965;
+            padding-left: 0;
+            margin-left: 0;
         }
 
         .footer-links li {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .footer-links a {
-            color: #f5f5f5;
-            text-decoration: none;
-            transition: all 1s ease;
+            color: rgba(255, 255, 255, .52);
+            font-size: .88rem;
             display: flex;
             align-items: center;
-            line-height: 40px;
-            gap: 10px;
+            gap: 9px;
+            transition: var(--tr);
+        }
+
+        .footer-links a i {
+            font-size: .65rem;
+            color: var(--coral);
         }
 
         .footer-links a:hover {
-            color: #FF8C42;
-            transform: translateX(10px);
-        }
-
-
-
-        .footer-bottom {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 25px 0;
-            text-align: center;
-            color: #f5f5f5;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transform: translateX(4px);
         }
 
         .footer-contact p {
-            color: #f5f5f5;
-        }
-
-        .footer-contact .input {
-            width: 80%;
-            height: 40px;
-            border-radius: 10px;
-            padding: 10px;
-            border: none;
-            outline: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: #f5f5f5;
-        }
-
-        .footer-contact .input::placeholder {
-            color: rgba(245, 245, 245, 0.7);
+            color: rgba(255, 255, 255, .5);
+            font-size: .85rem;
+            margin-bottom: 18px;
+            line-height: 1.7;
         }
 
         .subscribe-box {
             display: flex;
-            gap: 20px;
-        }
-
-        .subscribe-box #footersubscribeBtn {
-            padding: 0 10px;
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #1B4965;
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .1);
             border-radius: 10px;
-            color: #f5f5f5;
-            transition: all 0.3s ease;
+            overflow: hidden;
         }
 
-        .subscribe-box #footersubscribeBtn:hover {
-            background-color: #FF8C42;
-            color: #121212;
-            transform: translateY(-2px);
+        .subscribe-box .input {
+            flex: 1;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .85rem;
+            outline: none;
         }
 
-        @media (max-width:768px) {
-            .footer-content {
-                grid-template-columns: 1fr;
+        .subscribe-box .input::placeholder {
+            color: rgba(255, 255, 255, .28);
+        }
+
+        #footersubscribeBtn {
+            padding: 0 18px;
+            background: var(--coral);
+            border: none;
+            color: #fff;
+            font-size: .95rem;
+            cursor: pointer;
+            transition: var(--tr);
+        }
+
+        #footersubscribeBtn:hover {
+            background: var(--coral2);
+        }
+
+        .footer-bottom {
+            background: rgba(0, 0, 0, .3);
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, .32);
+            font-size: .78rem;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:1200px) {
+            .colors-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
-        /* .............................footer section end..................... */
-
-    @media (max-width:992px) {
-        .footer-content {
-            grid-template-columns: 1fr 1fr;
-            margin-left: 20px;
-        }
-    }
-
-    @media (max-width:768px) {
-        .footer-content {
-            grid-template-columns: 1fr;
-        }
-    }
-    /* .............................footer section end..................... */
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .color-type-main-heading {
-            font-size: 2rem;
-            margin: 30px auto;
+        @media(max-width:1100px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        .paints-card {
-            height: 450px;
+        @media(max-width:991px) {
+            .colors-container {
+                padding: 0 24px;
+            }
+
+            .colors-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .detail-panel-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-img-side {
+                border-radius: 20px 20px 0 0;
+            }
         }
 
-        .paints-card-image {
-            height: 300px;
+        @media(max-width:768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .colors-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .page-hero {
+                height: 50vh;
+            }
+
+            .colors-container {
+                padding: 0 16px;
+            }
         }
 
-        .paint-card-heading {
-            font-size: 20px;
+        @media(max-width:480px) {
+            .colors-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
-
-        .colors-card .colors-card-img {
-            height: 250px;
-        }
-
-        .colors-card-body .colors-card-btn {
-            width: 70%;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .color-type-main-heading {
-            font-size: 1.8rem;
-        }
-
-        .paints-card {
-            height: 400px;
-        }
-
-        .paints-card-image {
-            height: 250px;
-        }
-
-        .paint-card-heading {
-            font-size: 18px;
-        }
-
-        .paint-card-btn {
-            width: 100%;
-            font-size: 14px;
-        }
-
-        .colors-card {
-            border: 1px solid #1B4965;
-        }
-
-        .colors-card-body .colors-card-btn {
-            width: 90%;
-        }
-    }
-</style>
     </style>
 </head>
 
 <body>
-    <!-- /* .................navbar section start..................... */ -->
+
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
         <div class="container-fluid navbar-container">
-            <!-- Logo -->
-            <a class="navbar-brand" href="#home">
-                <img src="images/navbar-logo-original.png" class="logo-img" alt="">
+            <div class="brand-text">
+                <a href="index.html"><span class="brand-name">Galleria</span></a>
+                <a href="index.html"><span class="brand-tag">Paints</span></a>
+            </div>
             </a>
-
-            <!-- Toggler Button -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" b>
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="toggler-line"></span><span class="toggler-line"></span><span class="toggler-line"></span>
             </button>
-
-            <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="navbarContent">
-                <!-- Links -->
                 <ul class="navbar-nav m-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button">Paintings</a>
+                        <a class="nav-link nav-active" href="#">Paintings <i
+                                class="fas fa-chevron-down nav-chevron"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="surface.html">Surface</a></li>
-                            <li><a class="dropdown-item" href="paintings.html">Color Type</a></li>
+                            <li><a class="dropdown-item" href="surface.html"><i class="fas fa-layer-group"></i>
+                                    Surface</a></li>
+                            <li><a class="dropdown-item" href="paintings.html"><i class="fas fa-palette"></i> Color
+                                    Type</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#product-section">products</a>
-                    </li>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gallery.html">Gallery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#product-section">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
                 </ul>
-
-                <!-- Buttons -->
                 <div class="nav-buttons">
-                    <button class="btn btn-signup" onclick="openSignup()">Sign Up</button>
+                    <button class="btn-signup" onclick="openSignup()"><span>Sign Up</span></button>
                 </div>
-
             </div>
         </div>
     </nav>
 
-    <!-- /* .................navbar section end..................... */ -->
-
-    <!-- .....................sign-up and register form start.......,.......... -->
-         <!-- Sign Up Form -->
-    <section class="register-form-section">
+    <!-- AUTH -->
+    <section class="register-form-section" id="registerSection">
         <div id="sign-up" class="container sign-up-form">
             <div class="col-md-6 col-lg-4 col-10">
-                <div class="sign-up">
-                    <span class="close-btn">&times;</span>
-                    <h1 class="register-form-main-head">Galleria</h1>
-                    <p>create your account</p>
-                    <input type="text" id="signup-name" class="form-control register-sign-up-form-input"
-                        placeholder="full name">
-                    <input type="text" id="signup-email" class="form-control register-sign-up-form-input"
-                        placeholder="email">
-                    <input type="password" id="signup-pass" class="form-control register-sign-up-form-input"
-                        placeholder="password">
-                    <input type="password" id="signup-cpass" class="form-control register-sign-up-form-input"
-                        placeholder="confirm password">
-                    <div id="register-btn" class="reg-btn btn register-btn">register
-                    </div>
-                    <p class="sign-in-link">already have an account? <a href="" id="open-sign-in">sign in</a></p>
+                <div class="auth-card"><button class="auth-close-btn" onclick="closeSignup()">&times;</button>
+                    <div class="auth-brand">Galler<span>ia</span></div>
+                    <p class="auth-sub">Create your account</p><input type="text" id="signup-name" class="auth-input"
+                        placeholder="Full Name"><input type="text" id="signup-email" class="auth-input"
+                        placeholder="Email Address"><input type="password" id="signup-pass" class="auth-input"
+                        placeholder="Password"><input type="password" id="signup-cpass" class="auth-input"
+                        placeholder="Confirm Password"><button id="register-btn" class="auth-btn"><span>Create
+                            Account</span></button>
+                    <p class="auth-switch">Already have an account? <a id="open-sign-in">Sign In</a></p>
                 </div>
             </div>
         </div>
-
-        <!-- Sign In Form -->
-        <div id="sign-in" class="container  sign-in-form  d-none">
+        <div id="sign-in" class="container sign-in-form d-none">
             <div class="col-md-6 col-lg-4 col-10">
-                <div id="log" class="sign-up">
-                    <span class="close-btn">&times;</span>
-                    <h1 class="register-form-main-head">Galleria</h1>
-                    <p>Great to have you back.</p>
-                    <input type="text" id="signin-email" class="form-control register-sign-in-form-input"
-                        placeholder="email">
-                    <input type="password" id="signin-pass" class="form-control register-sign-in-form-input"
-                        placeholder="password">
-                    <a href="" class="forget-password">forgot password?</a>
-                    <div class="reg-btn btn register-sign-in-btn">sign in</div>
-                    <p>don't have an account? <a href="" class="register-sign-up-btn" id="open-sign-up"> sign up</a></p>
+                <div class="auth-card"><button class="auth-close-btn" onclick="closeSignup()">&times;</button>
+                    <div class="auth-brand">Galler<span>ia</span></div>
+                    <p class="auth-sub">Great to have you back.</p><input type="text" id="signin-email"
+                        class="auth-input" placeholder="Email Address"><input type="password" id="signin-pass"
+                        class="auth-input" placeholder="Password"><a class="auth-forgot">Forgot password?</a><button
+                        class="auth-btn register-sign-in-btn"><span>Sign In</span></button>
+                    <p class="auth-switch">Don't have an account? <a class="register-sign-up-btn" id="open-sign-up">Sign
+                            Up</a></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- .....................sign-up and register form end.......,.......... -->
+    <!-- DETAIL PANEL -->
+    <div class="detail-overlay" id="detailOverlay">
+        <div class="detail-panel">
+            <button class="detail-close" onclick="closeDetail()"><i class="fas fa-times"></i></button>
+            <div class="detail-panel-inner">
+                <div class="detail-img-side"><img id="d-img" src="" alt=""></div>
+                <div class="detail-info-side">
+                    <div class="detail-cat-tag" id="d-cat">Galleria Premium</div>
+                    <h2 class="detail-name" id="d-name"></h2>
+                    <p class="detail-desc" id="d-desc"></p>
+                    <h3
+                        style="font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--navy);margin-bottom:12px;">
+                        <i class="fas fa-check-circle" style="color:var(--coral);margin-right:6px;"></i>Key Features
+                    </h3>
+                    <ul class="detail-features-list" id="d-features"></ul>
+                    <div class="detail-price-tag" id="d-price"></div>
+                    <button class="detail-buy-btn" data-bs-toggle="modal" data-bs-target="#buyNowModal"
+                        onclick="closeDetail()"><i class="fas fa-shopping-bag me-2"></i>Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <section class="container paints-container">
-        <h1 class="color-type-main-heading">Color Types</h1>
-        <div class="row g-5 color-types-row">
+    <!-- BUY NOW MODAL -->
+    <div class="modal fade" id="buyNowModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-heading"><i class="fas fa-shopping-bag me-2"></i>Order Now</h2><button
+                        type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="buyNowForm">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="modal-label-g">Full Name</label><input type="text"
+                                    class="modal-input-g" id="b-name" required placeholder="Your full name"></div>
+                            <div class="col-md-6"><label class="modal-label-g">Email</label><input type="email"
+                                    class="modal-input-g" id="b-email" required placeholder="your@email.com"></div>
+                            <div class="col-md-6"><label class="modal-label-g">Phone</label><input type="tel"
+                                    class="modal-input-g" id="b-phone" required placeholder="+92 xxx xxxxxxx"></div>
+                            <div class="col-md-6"><label class="modal-label-g">City</label><input type="text"
+                                    class="modal-input-g" id="b-city" required placeholder="Your city"></div>
+                            <div class="col-12"><label class="modal-label-g">Address</label><textarea
+                                    class="modal-input-g modal-textarea" id="b-address" required
+                                    placeholder="Delivery address"></textarea></div>
+                            <div class="col-md-8"><label class="modal-label-g">Order Notes</label><input type="text"
+                                    class="modal-input-g" id="b-notes" placeholder="Special instructions..."></div>
+                            <div class="col-md-4"><label class="modal-label-g">Quantity</label><input type="number"
+                                    class="modal-input-g" value="1" min="1" required></div>
+                        </div>
+                        <button type="submit" class="modal-order-btn mt-3"><span>Place Order</span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Oil Colors -->
-            <div class="col-12 col-lg-4 col-md-6">
-                <div class="card paints-card">
-                    <img src="https://www.jacksonsart.com/blog/wp-content/uploads/2017/02/Williamsburg_Viridian_blog-mixing.jpg"
-                        class="paints-card-image" alt="Oil Colors">
-                    <div class="card-body paint-card-body">
-                        <h5 class="card-title paint-card-heading">Oil Colors</h5>
-                        <a href="catogries.html#oil-colors-section" class="btn paint-card-btn">View More</a>
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="page-hero-bg"></div>
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content container">
+            <div class="page-hero-eyebrow">Explore Colors</div>
+            <h1>Paint <em style="-webkit-text-fill-color:var(--coral);color:var(--coral);">Color Types</em></h1>
+            <p>Discover our complete range of premium paint types — from oil to metallic, every finish you need.</p>
+        </div>
+    </section>
+
+    <!-- COLORS PAGE -->
+    <div class="colors-page">
+        <div class="colors-container">
+
+            <!-- OIL COLORS -->
+            <div class="color-category reveal">
+                <div class="section-badge" style="justify-content:flex-start;">Category 01</div>
+                <h2 class="color-cat-head">Oil <em>Colors</em></h2>
+                <p class="color-cat-sub">Classic oil-based paints offering deep, rich pigments and smooth blending for
+                    fine art and decorative applications.</p>
+                <div class="colors-grid">
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Traditional Linseed Oil Paints','Traditional linseed oil paints are classic oil paints made with natural linseed oil, providing deep, rich colors and smooth blending. Perfect for traditional fine art painting.',['Slow drying for extended blending','Strong color retention','Ideal for layered painting','Glossy finish'],'Rs 6,000','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMnN8UgAvkEsWmBroalocD5VywJ_veCS4aew&s','Oil Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMnN8UgAvkEsWmBroalocD5VywJ_veCS4aew&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Traditional Linseed Oil</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Water-Mixable Oil Paints','Oil paints that can be thinned and cleaned with water, making them safer and easier to use.',['Easy water cleanup','Non-toxic','Suitable for beginners','Flexible paint film'],'Rs 3,000','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvzD5APJvwGNC6VQGXL3x0OFASGfMXsVeNSQ&s','Oil Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvzD5APJvwGNC6VQGXL3x0OFASGfMXsVeNSQ&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Water-Mixable Oil</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Fast-Dry Oil Paints','Special oils formulated to dry faster than traditional oils, saving time without compromising quality.',['Quick drying','Maintains vibrant colors','Suitable for multiple layers','Smooth texture'],'Rs 2,000','https://artincontext.org/wp-content/uploads/2021/09/Fast-Drying-Oil-Paint.jpg','Oil Colors')">
+                        <div class="color-card-img"><img
+                                src="https://artincontext.org/wp-content/uploads/2021/09/Fast-Drying-Oil-Paint.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Fast-Dry Oil Paints</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Cold Wax Oil Paints','Combination of oil paint with cold wax for textured, matte finishes and unique artistic effects.',['Textured matte finish','Increased paint body','Excellent for palette knife','Easy to sculpt layers'],'Rs 7,500','https://images.squarespace-cdn.com/content/v1/6534d73c957ff6387fca4f5d/aa240bfa-ad9b-4037-ba2d-02c980a4741e/IMG_8853.JPG','Oil Colors')">
+                        <div class="color-card-img"><img
+                                src="https://images.squarespace-cdn.com/content/v1/6534d73c957ff6387fca4f5d/aa240bfa-ad9b-4037-ba2d-02c980a4741e/IMG_8853.JPG"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Cold Wax Oil Paints</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Alkyd Oil Paints','Modern oil paints that dry much faster than traditional oils. Maintain smooth blending and strong durability.',['Faster drying than oils','Smooth blending','Durable surface','Strong pigment strength'],'Rs 12,000','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFJrkXvalhDFKlAtRsnpR4Nyq5SAuYcYMI9Q&s','Oil Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFJrkXvalhDFKlAtRsnpR4Nyq5SAuYcYMI9Q&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Alkyd Oil Paints</h5>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Water Colors -->
-            <div class="col-12 col-lg-4 col-md-6">
-                <div class="card paints-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtIowWHI2y_a4kiR9FGAPab-MC1DWm6MOq5g&s"
-                        class="paints-card-image" alt="Water Colors">
-                    <div class="card-body paint-card-body">
-                        <h5 class="card-title paint-card-heading">Water Colors</h5>
-                        <a href="catogries.html#water-colors-section" class="btn paint-card-btn">View More</a>
+            <!-- WATERCOLORS -->
+            <div class="color-category reveal">
+                <div class="section-badge" style="justify-content:flex-start;">Category 02</div>
+                <h2 class="color-cat-head">Water <em>Colors</em></h2>
+                <p class="color-cat-sub">Transparent, luminous watercolors for artists of all levels — from pans to
+                    liquid formulas.</p>
+                <div class="colors-grid">
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Pan Watercolors','Pan watercolors come in solid blocks and are easy to carry. Perfect for outdoor and travel painting.',['Portable and compact','Easy to activate with water','Long-lasting pans','Ideal for sketching'],'Rs 11,000','https://images.squarespace-cdn.com/content/v1/5d4be45b12b61900013dfa24/ea70b5c1-12dc-48c1-a6fc-9a13e798a922/watercolor+pans+and+tubes.jpg','Water Colors')">
+                        <div class="color-card-img"><img
+                                src="https://images.squarespace-cdn.com/content/v1/5d4be45b12b61900013dfa24/ea70b5c1-12dc-48c1-a6fc-9a13e798a922/watercolor+pans+and+tubes.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Pan Watercolors</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Tube Watercolors','Tube watercolors provide vibrant pigments in liquid form. Ideal for mixing large washes and smooth gradients.',['High pigment concentration','Easy color mixing','Flexible usage','Smooth washes'],'Rs 5,000','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKRmQkD5hT5NnxdkgWKMnKzGDF6u3t8jMROw&s','Water Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKRmQkD5hT5NnxdkgWKMnKzGDF6u3t8jMROw&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Tube Watercolors</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Liquid Watercolors','Liquid watercolors are ready-to-use and highly saturated. Flow smoothly and create bright transparent effects.',['Intense colors','Smooth flow','Easy blending','Quick drying'],'Rs 5,500','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTeaCFTMRbokQNCwLXea3AjeM0_H-isHzFjw&s','Water Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTeaCFTMRbokQNCwLXea3AjeM0_H-isHzFjw&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Liquid Watercolors</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Granulating Watercolors','Granulating watercolors separate pigments naturally while drying. Create beautiful textured effects on paper.',['Natural texture effect','Unique pigment separation','Transparent look','Artistic depth'],'Rs 3,000','https://akvarell.se/wp-content/uploads/2023/09/granulerande_farger.jpg','Water Colors')">
+                        <div class="color-card-img"><img
+                                src="https://akvarell.se/wp-content/uploads/2023/09/granulerande_farger.jpg" alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Granulating Watercolors</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Metallic Watercolors','Metallic watercolors add shimmer and shine to artwork. Perfect for highlights and decorative details.',['Shiny metallic finish','Reflective effect','Easy to mix','Ideal for highlights'],'Rs 2,000','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyi9pXUk0MCrcertTAS3YGGKiBW2Gyyz4tWQ&s','Water Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyi9pXUk0MCrcertTAS3YGGKiBW2Gyyz4tWQ&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Metallic Watercolors</h5>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Acrylic Colors -->
-            <div class="col-12 col-lg-4 col-md-6">
-                <div class="card paints-card">
-                    <img src="https://basics.pk/cdn/shop/products/maries-30ml-acrylic-paints_c6858d9f-e9a8-426b-88f7-3724fe2b6f84_2048x.jpg?v=1682918271"
-                        class="paints-card-image" alt="Acrylic Colors">
-                    <div class="card-body paint-card-body">
-                        <h5 class="card-title paint-card-heading">Acrylic Colors</h5>
-                        <a href="catogries.html#acrylic-colors-section" class="btn paint-card-btn">View More</a>
+            <!-- ACRYLIC -->
+            <div class="color-category reveal">
+                <div class="section-badge" style="justify-content:flex-start;">Category 03</div>
+                <h2 class="color-cat-head">Acrylic <em>Colors</em></h2>
+                <p class="color-cat-sub">Fast-drying acrylic paints in a variety of consistencies — from heavy body to
+                    fluid acrylics.</p>
+                <div class="colors-grid">
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Heavy Body Acrylics','Heavy body acrylics are thick and hold brush strokes well. Perfect for textured and impasto painting.',['Thick consistency','Strong pigmentation','Texture retention','Fast drying'],'Rs 10,000','https://i.ytimg.com/vi/wH-LaRNyuP4/maxresdefault.jpg','Acrylic Colors')">
+                        <div class="color-card-img"><img src="https://i.ytimg.com/vi/wH-LaRNyuP4/maxresdefault.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Heavy Body Acrylics</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Fluid Acrylics','Fluid acrylics have a smooth, pourable consistency. Ideal for fine details and glazing techniques.',['Smooth flow','Easy layering','Even coverage','Quick drying'],'Rs 11,000','https://i.ytimg.com/vi/EySd5UV5exg/hq720.jpg','Acrylic Colors')">
+                        <div class="color-card-img"><img src="https://i.ytimg.com/vi/EySd5UV5exg/hq720.jpg" alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Fluid Acrylics</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Open Acrylics','Open acrylics stay wet longer than standard acrylics. Allow extended blending time like oil paints.',['Slow drying','Smooth blending','High pigment quality','Oil-like feel'],'Rs 500','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbcE2ahmYHE2E3J0FdWT6RhyLALTzjydLNow&s','Acrylic Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbcE2ahmYHE2E3J0FdWT6RhyLALTzjydLNow&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Open Acrylics</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Acrylic Ink','Acrylic inks are highly pigmented and liquid based. Perfect for line work and illustrations.',['Intense color','Waterproof finish','Smooth application','Suitable for fine details'],'Rs 1,300','https://altenew.com/cdn/shop/articles/Acrylic_paints_fc405293-6d48-472b-a3a1-d993edf76332_1200x.jpg','Acrylic Colors')">
+                        <div class="color-card-img"><img
+                                src="https://altenew.com/cdn/shop/articles/Acrylic_paints_fc405293-6d48-472b-a3a1-d993edf76332_1200x.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Acrylic Ink</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Pouring Acrylics','Pouring acrylics are made for fluid art techniques. Create cells and abstract patterns naturally.',['Fluid consistency','Cell creation','Bright colors','Easy mixing'],'Rs 2,000','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk_2v_odzi--6C70POe_S2LnHFlGw8D053GQ&s','Acrylic Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk_2v_odzi--6C70POe_S2LnHFlGw8D053GQ&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Pouring Acrylics</h5>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Poster Colors -->
-            <div class="col-12 col-lg-4 col-md-6">
-                <div class="card paints-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRRfnhP0Jg3Rar4PNRV_iqXmcTeT2kG6OQzw&s"
-                        class="paints-card-image" alt="Poster Colors">
-                    <div class="card-body paint-card-body">
-                        <h5 class="card-title paint-card-heading">Poster Colors</h5>
-                        <a href="catogries.html#poster-colors-section" class="btn paint-card-btn">View More</a>
+            <!-- POSTER COLORS -->
+            <div class="color-category reveal">
+                <div class="section-badge" style="justify-content:flex-start;">Category 04</div>
+                <h2 class="color-cat-head">Poster <em>Colors</em></h2>
+                <p class="color-cat-sub">Bold, opaque poster colors ideal for illustrations, school projects, and
+                    creative designs.</p>
+                <div class="colors-grid">
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Opaque Poster Colors','Opaque poster colors provide solid and bold color coverage. Easy to use and dry quickly.',['Strong opacity','Bright shades','Smooth texture','Quick drying'],'Rs 5,000','https://i.pinimg.com/736x/cc/9e/c4/cc9ec4142c4d8529b3e80ab6db95088d.jpg','Poster Colors')">
+                        <div class="color-card-img"><img
+                                src="https://i.pinimg.com/736x/cc/9e/c4/cc9ec4142c4d8529b3e80ab6db95088d.jpg" alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Opaque Poster Colors</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Fluorescent Poster Colors','Fluorescent poster colors produce neon and glowing shades. Highly visible and eye-catching.',['Neon brightness','High visibility','Smooth application','Fast drying'],'Rs 6,500','https://i.etsystatic.com/52088649/r/il/4123da/6193090955/il_fullxfull.6193090955_e212.jpg','Poster Colors')">
+                        <div class="color-card-img"><img
+                                src="https://i.etsystatic.com/52088649/r/il/4123da/6193090955/il_fullxfull.6193090955_e212.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Fluorescent Poster Colors</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Matte Poster Colors','Matte poster colors offer a flat and non-shiny finish. Give clean and professional results.',['Matte finish','Even color spread','Easy handling','Quick drying'],'Rs 5,800','https://i.ebayimg.com/images/g/P-UAAOSwlDxhiCcN/s-l400.jpg','Poster Colors')">
+                        <div class="color-card-img"><img
+                                src="https://i.ebayimg.com/images/g/P-UAAOSwlDxhiCcN/s-l400.jpg" alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Matte Poster Colors</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Jar Poster Colors','Jar poster colors are suitable for large artwork and classrooms. Provide ample quantity.',['Large quantity','Easy mixing','Smooth consistency','Long lasting'],'Rs 7,000','https://i.pinimg.com/736x/ed/84/ac/ed84ac8aa5e6443c1349d75ffd78e4dc.jpg','Poster Colors')">
+                        <div class="color-card-img"><img
+                                src="https://i.pinimg.com/736x/ed/84/ac/ed84ac8aa5e6443c1349d75ffd78e4dc.jpg" alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Jar Poster Colors</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Ready-Mix Poster Colors','Ready-mix poster colors come pre-mixed for convenience. Save time and effort.',['No mixing needed','Consistent color','Beginner friendly','Fast drying'],'Rs 6,000','https://c8.alamy.com/comp/D1E936/primary-colors-in-paint-pot-yellow-green-red-and-blue-poster-ready-D1E936.jpg','Poster Colors')">
+                        <div class="color-card-img"><img
+                                src="https://c8.alamy.com/comp/D1E936/primary-colors-in-paint-pot-yellow-green-red-and-blue-poster-ready-D1E936.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Ready-Mix Poster Colors</h5>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Charcoal -->
-            <div class="col-12 col-lg-4 col-md-6">
-                <div class="card paints-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8eGG5Fie4KD8ep7SvcNhLr0I1AQbvm6ygbg&s"
-                        class="paints-card-image" alt="Charcoal">
-                    <div class="card-body paint-card-body">
-                        <h5 class="card-title paint-card-heading">Charcoal</h5>
-                        <a href="catogries.html#charcoal-colors-section" class="btn paint-card-btn">View More</a>
+            <!-- CHARCOAL -->
+            <div class="color-category reveal">
+                <div class="section-badge" style="justify-content:flex-start;">Category 05</div>
+                <h2 class="color-cat-head">Charcoal <em>Colors</em></h2>
+                <p class="color-cat-sub">Professional charcoal products for sketching, shading, and expressive drawing
+                    techniques.</p>
+                <div class="colors-grid">
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Vine Charcoal','Vine charcoal is soft and lightweight. Easy to erase and ideal for rough sketches.',['Very soft texture','Easy to erase','Light shading','Natural material'],'Rs 4,500','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1_CAyYqC9HDDfFVvbbvB4NVzfZOgdIZpcwg&s','Charcoal Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1_CAyYqC9HDDfFVvbbvB4NVzfZOgdIZpcwg&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Vine Charcoal</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Compressed Charcoal','Compressed charcoal produces dark and bold strokes. Offers better control and rich blacks.',['Deep black tone','Strong strokes','Less smudging','High durability'],'Rs 6,000','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj-1HXyQUT_EDXqdYs19rTwLZhFeC0_YR6Uw&s','Charcoal Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj-1HXyQUT_EDXqdYs19rTwLZhFeC0_YR6Uw&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Compressed Charcoal</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Charcoal Pencils','Charcoal pencils allow controlled and precise drawing. Excellent for portraits and realism.',['Precise control','Fine detailing','Smooth shading','Easy handling'],'Rs 7,200','https://i.ytimg.com/vi/YI2U9RqNC3E/hq720.jpg','Charcoal Colors')">
+                        <div class="color-card-img"><img src="https://i.ytimg.com/vi/YI2U9RqNC3E/hq720.jpg" alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Charcoal Pencils</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Charcoal Powder','Powdered charcoal is used for covering large areas. Blends smoothly and creates soft backgrounds.',['Smooth blending','Wide coverage','Soft effects','Easy application'],'Rs 5,500','https://i.ytimg.com/vi/-an3m39nLIU/maxresdefault.jpg','Charcoal Colors')">
+                        <div class="color-card-img"><img src="https://i.ytimg.com/vi/-an3m39nLIU/maxresdefault.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Charcoal Powder</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Tinted Charcoal','Tinted charcoal adds color to charcoal work. Perfect for highlights on dark paper.',['Color variation','Soft texture','Easy blending','Dark paper friendly'],'Rs 6,800','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjKjf-Yy7Z9p81f85HvVN3fQQl7dJbtsF4XA&s','Charcoal Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjKjf-Yy7Z9p81f85HvVN3fQQl7dJbtsF4XA&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Tinted Charcoal</h5>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Gouache Colors -->
-            <div class="col-12 col-lg-4 col-md-6">
-                <div class="card paints-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc9wO2fXHE1FRhRS0txLlxSnd0I-kLUYK7_A&s"
-                        class="paints-card-image" alt="Gouache Colors">
-                    <div class="card-body paint-card-body">
-                        <h5 class="card-title paint-card-heading">Gouache Colors</h5>
-                        <a href="catogries.html#guoache-colors-section" class="btn paint-card-btn">View More</a>
+            <!-- GOUACHE -->
+            <div class="color-category reveal">
+                <div class="section-badge" style="justify-content:flex-start;">Category 06</div>
+                <h2 class="color-cat-head">Gouache <em>Colors</em></h2>
+                <p class="color-cat-sub">Opaque, matte-finish gouache paints for illustration, commercial art, and fine
+                    artwork.</p>
+                <div class="colors-grid">
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Traditional Gouache','Traditional gouache can be reactivated with water. Allows easy corrections and smooth layering.',['Reworkable','High opacity','Smooth blending','Easy corrections'],'Rs 10,800','https://drawpaintacademy.com/wp-content/uploads/2021/06/Henri-Matisse-Woman-with-a-Hat-1905-700W.jpg','Gouache Colors')">
+                        <div class="color-card-img"><img
+                                src="https://drawpaintacademy.com/wp-content/uploads/2021/06/Henri-Matisse-Woman-with-a-Hat-1905-700W.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Traditional Gouache</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Acrylic Gouache','Acrylic gouache combines gouache appearance with acrylic durability. Once dry, becomes water resistant.',['Water resistant','Fast drying','Matte surface','Strong adhesion'],'Rs 14,500','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr1RRGJoek3F4gdPgxQidC7xTpLcXcPD20vA&s','Gouache Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr1RRGJoek3F4gdPgxQidC7xTpLcXcPD20vA&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Acrylic Gouache</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Designer Gouache','Designer gouache offers strong opacity with smooth matte finish. Ideal for illustration and commercial art.',['Matte finish','High opacity','Smooth texture','Rich pigments'],'Rs 11,500','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSklxP5WUAkZsqACGNo8Q5Y1LLPirvw9qqr-A&s','Gouache Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSklxP5WUAkZsqACGNo8Q5Y1LLPirvw9qqr-A&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Designer Gouache</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Re-Wettable Gouache','Re-wettable gouache stays workable longer and can be re-moistened after drying for easy fixes.',['Re-wettable','Long working time','Smooth application','Professional grade'],'Rs 12,000','https://www.outdoorpainter.com/wp-content/uploads/2025/02/duomo-view.jpg','Gouache Colors')">
+                        <div class="color-card-img"><img
+                                src="https://www.outdoorpainter.com/wp-content/uploads/2025/02/duomo-view.jpg" alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Re-Wettable Gouache</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Metallic Gouache','Metallic gouache produces bright fluorescent and metallic colors. Perfect for bold and creative artwork.',['Metallic sheen','High visibility','Smooth application','Matte finish'],'Rs 13,000','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzczdLCqyQtirz2IEoNheM3A1RchQWSolglg&s','Gouache Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzczdLCqyQtirz2IEoNheM3A1RchQWSolglg&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Metallic Gouache</h5>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Fabric Colors -->
-            <div class="col-12 col-lg-4 col-md-6">
-                <div class="card paints-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmIpMDpdpj9anLZrQjUaL6Rs51wHNqJlBAEA&s"
-                        class="paints-card-image" alt="Fabric Colors">
-                    <div class="card-body paint-card-body">
-                        <h5 class="card-title paint-card-heading">Fabric Colors</h5>
-                        <a href="catogries.html#fabric-colors-section" class="btn paint-card-btn">View More</a>
+            <!-- METALLIC -->
+            <div class="color-category reveal">
+                <div class="section-badge" style="justify-content:flex-start;">Category 07</div>
+                <h2 class="color-cat-head">Metallic <em>Colors</em></h2>
+                <p class="color-cat-sub">Luxurious metallic paints with brilliant shine — gold, silver, bronze, and
+                    more.</p>
+                <div class="colors-grid">
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Gold Metallic Paint','Gold metallic paint gives a rich luxurious shine. Ideal for decorative highlights and premium artwork.',['Rich gold tone','High shine','Strong coverage','Luxury look'],'Rs 15,000','https://oytra.com/cdn/shop/files/4_436ee48e-fbf0-4f31-8dc0-f4c2e362d86a.png?v=1753688997&width=1445','Metallic Colors')">
+                        <div class="color-card-img"><img
+                                src="https://oytra.com/cdn/shop/files/4_436ee48e-fbf0-4f31-8dc0-f4c2e362d86a.png?v=1753688997&width=1445"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Gold Metallic Paint</h5>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Glass Colors -->
-            <div class="col-12 col-lg-4 col-md-6">
-                <div class="card paints-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO6Q6kJDgPcMTMpsKFXcM_0d9GTT79nsHZ5w&s"
-                        class="paints-card-image" alt="Glass Colors">
-                    <div class="card-body paint-card-body">
-                        <h5 class="card-title paint-card-heading">Glass Colors</h5>
-                        <a href="catogries.html#glass-colors-section" class="btn paint-card-btn">View More</a>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Silver Metallic Paint','Silver metallic paint offers reflective brilliance. Perfect for modern and decorative designs.',['Reflective finish','Smooth texture','Bright shine','Durable coating'],'Rs 14,500','https://i.ytimg.com/vi/ZDoBTPFTrbg/maxresdefault.jpg','Metallic Colors')">
+                        <div class="color-card-img"><img src="https://i.ytimg.com/vi/ZDoBTPFTrbg/maxresdefault.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Silver Metallic Paint</h5>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Metallic Colors -->
-            <div class="col-12 col-lg-4 col-md-6">
-                <div class="card paints-card">
-                    <img src="https://static-01.daraz.pk/p/b162575b427fa112511b278e768a7b64.jpg"
-                        class="paints-card-image" alt="Metallic Colors">
-                    <div class="card-body paint-card-body">
-                        <h5 class="card-title paint-card-heading">Metallic Colors</h5>
-                        <a href="catogries.html#metallic-colors-section" class="btn paint-card-btn">View More</a>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Bronze Metallic Paint','Bronze metallic paint creates warm antique effects. Adds depth and character to artwork.',['Antique look','Warm tone','Smooth coverage','Artistic depth'],'Rs 13,800','https://i.ytimg.com/vi/XzOixu5x9vQ/maxresdefault.jpg','Metallic Colors')">
+                        <div class="color-card-img"><img src="https://i.ytimg.com/vi/XzOixu5x9vQ/maxresdefault.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Bronze Metallic Paint</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Copper Metallic Paint','Copper metallic paint delivers bold metallic shine. Ideal for modern décor and accents.',['Copper shine','Strong pigments','Smooth finish','Stylish effect'],'Rs 14,200','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd7l1-vFQlIWMFvJZPftNFTXRm_2KNZbBgCQ&s','Metallic Colors')">
+                        <div class="color-card-img"><img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd7l1-vFQlIWMFvJZPftNFTXRm_2KNZbBgCQ&s"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Copper Metallic Paint</h5>
+                        </div>
+                    </div>
+                    <div class="color-card reveal-child"
+                        onclick="openDetail('Pearl Metallic Paint','Pearl metallic paint provides a soft shimmering glow. Perfect for elegant and premium finishes.',['Pearl shimmer','Soft glow','Smooth texture','Elegant finish'],'Rs 16,000','https://www.shutterstock.com/image-illustration/currents-translucent-hues-snaking-metallic-260nw-2618116389.jpg','Metallic Colors')">
+                        <div class="color-card-img"><img
+                                src="https://www.shutterstock.com/image-illustration/currents-translucent-hues-snaking-metallic-260nw-2618116389.jpg"
+                                alt="">
+                            <div class="color-card-overlay"><button class="color-card-overlay-btn">View Detail</button>
+                            </div>
+                        </div>
+                        <div class="color-card-body">
+                            <h5>Pearl Metallic Paint</h5>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </div>
-    </section>
+    </div>
 
-    <!-- ...............................Footer start........................ -->
+    <!-- FOOTER -->
     <footer>
+        <div class="footer-top-line"></div>
         <div class="footer-container">
             <div class="footer-content">
                 <div class="footer-about">
-                    <h3>Galleria</h3>
-                    <p>Creating exceptional digital experiences with modern design and cutting-edge technology. Let's
-                        build something amazing together.</p>
+                    <h3>Galler<span>ia</span></h3>
+                    <p>Pakistan's finest paint brand — delivering premium quality, vibrant colors, and lasting finishes
+                        for every surface.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                     </div>
                 </div>
                 <div class="footer-links">
-                    <h4>Usefull Links</h4>
+                    <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="about.html"><i class="fas fa-user"></i> About us</a></li>
-                        <li><a href="gallery.html"><i class="fas fa-code"></i> Gallery</a></li>
-                        <li><a href="paintings.html"><i class="fas fa-briefcase"></i>Paintings</a></li>
-                        <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact Us</a></li>
-                        <li><a href="signup.html"><i class="fas fa-envelope"></i>Sign Up</a></li>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="gallery.html"><i class="fas fa-chevron-right"></i> Gallery</a></li>
+                        <li><a href="paintings.html"><i class="fas fa-chevron-right"></i> Paintings</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-contact">
-                    <h4>Subscribe Now</h4>
-                    <p>Promotions, new products and sales.Not Forget Subscribe Our Brand.</p>
-                    <div class="subscribe-box" style="display:flex; gap:10px;">
-                        <input type="text" placeholder="SUBSCRIBE TO OUR NEWS LETTER ->" id="subscribeInput"
-                            class="input">
-                        <button id="footersubscribeBtn">&#8594;</button>
+                    <h4>Stay Updated</h4>
+                    <p>Get promotions, new products and exclusive deals delivered to your inbox.</p>
+                    <div class="subscribe-box">
+                        <input type="text" placeholder="Enter your email..." id="subscribeInput" class="input">
+                        <button id="footersubscribeBtn"><i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="container">
-                <p>&copy; Gallery Is First Choice For You: BEST.</p>
+            <div class="container-fluid">
+                <p>&copy; 2026 Galleria Paints — All Rights Reserved &nbsp;|&nbsp; Made with <span
+                        style="color:var(--coral);">♥</span> in Pakistan</p>
             </div>
         </div>
     </footer>
-    <!-- ...............................Footer end........................ -->
 
-    <script src="js/bootstrap.js"></script>
     <script src="jquerydownload.js"></script>
+    <script src="js/bootstrap.js"></script>
     <script>
-
-                // ..................sign up register form script start............
+        window.addEventListener('scroll', function () { document.getElementById('navbar').classList.toggle('nav-scrolled', window.scrollY > 60); }, { passive: true });
+        function openSignup() { var s = document.getElementById('registerSection'); s.style.display = 'flex'; setTimeout(function () { s.style.opacity = '1'; }, 10); }
+        function closeSignup() { var s = document.getElementById('registerSection'); s.style.opacity = '0'; setTimeout(function () { s.style.display = 'none'; s.style.opacity = ''; }, 300); }
+        document.getElementById('registerSection').addEventListener('click', function (e) { if (e.target === this) closeSignup(); });
+        function showToast(msg, type) { var t = document.createElement('div'); t.style.cssText = 'position:fixed;bottom:28px;right:28px;background:' + (type === 'error' ? '#e8603c' : '#0f1e2e') + ';color:#fff;padding:14px 22px;border-radius:10px;font-family:DM Sans,sans-serif;font-size:.88rem;z-index:999999;box-shadow:0 8px 28px rgba(0,0,0,.22);display:flex;align-items:center;gap:10px;border-left:3px solid ' + (type === 'error' ? '#fff' : '#e8603c') + ';max-width:320px;'; t.innerHTML = '<i class="fas ' + (type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle') + '" style="color:' + (type === 'error' ? '#fff' : '#e8603c') + '"></i>' + msg; document.body.appendChild(t); setTimeout(function () { t.style.transition = 'opacity .4s'; t.style.opacity = '0'; setTimeout(function () { t.remove(); }, 400); }, 2800); }
         $(document).ready(function () {
-
-                        // Navbar button click → show form
-            $(".btn-signup, #open-signup-btn").click(function (e) {
-                e.preventDefault();
-                $("#sign-up").closest(".register-form-section").fadeIn(300);
-            });
-
-            // Close button
-            $(".close-btn").click(function () {
-                $(this).closest(".register-form-section").fadeOut(300);
-            });
-
-            // Open Login
-            $("#open-sign-in").click(function (e) {
-                e.preventDefault();
-                $("#sign-up").fadeOut(300, function () {
-                    $("#sign-in").removeClass("d-none").fadeIn(300);
-                });
-            });
-
-            // Open Sign Up from Sign In
-            $("#open-sign-up").click(function (e) {
-                e.preventDefault();
-                $("#sign-in").fadeOut(300, function () {
-                    $("#sign-up").removeClass("d-none").fadeIn(300);
-                });
-            });
-
-            // Simple Sign Up Validation
-            $("#register-btn").click(function () {
-                let name = $("#signup-name").val();
-                let email = $("#signup-email").val();
-                let pass = $("#signup-pass").val();
-                let cpass = $("#signup-cpass").val();
-
-                if (name === "" || email === "" || pass === "" || cpass === "") {
-                    alert("All fields are required!");
-                    return;
-                }
-                if (pass !== cpass) {
-                    alert("Passwords do not match!");
-                    return;
-                }
-
-                alert("Registration Successful!");
-                $("#signup-name, #signup-email, #signup-pass, #signup-cpass").val('');
-                $("#sign-up").closest(".register-form-section").fadeOut(300);
-            });
+            $('#register-btn').click(function () { var n = $('#signup-name').val().trim(), e = $('#signup-email').val().trim(), p = $('#signup-pass').val(), c = $('#signup-cpass').val(); if (!n || !e || !p || !c) { showToast('All fields are required!', 'error'); return; } if (p !== c) { showToast('Passwords do not match!', 'error'); return; } showToast('Registration Successful!', 'success'); $('#signup-name,#signup-email,#signup-pass,#signup-cpass').val(''); setTimeout(closeSignup, 1200); });
+            $('.register-sign-in-btn').click(function () { var e = $('#signin-email').val().trim(), p = $('#signin-pass').val(); if (!e || !p) { showToast('Please fill all fields!', 'error'); return; } showToast('Signed in successfully!', 'success'); setTimeout(closeSignup, 1200); });
+            $('#open-sign-in').click(function (e) { e.preventDefault(); $('#sign-up').fadeOut(250, function () { $('#sign-in').removeClass('d-none').fadeIn(250); }); });
+            $('#open-sign-up').click(function (e) { e.preventDefault(); $('#sign-in').fadeOut(250, function () { $('#sign-up').removeClass('d-none').fadeIn(250); }); });
+            $('#footersubscribeBtn').click(function () { var v = $('#subscribeInput').val().trim(); if (!v) { showToast('Please enter your email!', 'error'); return; } showToast('Thanks for subscribing!', 'success'); $('#subscribeInput').val(''); });
         });
-
-        // ..................sign up register form script end............
-
-        // <!-- /* .................footer section end..................... */ -->
-        $('#footersubscribeBtn').click(function () {
-            let subscribe = $('#subscribeInput').val();
-            if (subscribe === '') {
-                alert('Please enter your email!');
-            }
-            else {
-                alert('Thanks for subscribing!');
-                $('#subscribeInput').val(''); // input clear kar de
-            }
+        /* SCROLL REVEAL */
+        document.addEventListener('DOMContentLoaded', function () {
+            var obs = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in-view'); e.target.querySelectorAll('.reveal-child').forEach(function (c) { c.classList.add('in-view'); }); obs.unobserve(e.target); } }); }, { threshold: .06 });
+            document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+            var cObs = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in-view'); cObs.unobserve(e.target); } }); }, { threshold: .1 });
+            document.querySelectorAll('.reveal-child').forEach(function (el) { cObs.observe(el); });
         });
-
-        // <!-- /* .................footer section end..................... */ -->
+        /* DETAIL */
+        function openDetail(name, desc, features, price, img, cat) {
+            document.getElementById('d-name').textContent = name;
+            document.getElementById('d-desc').textContent = desc;
+            document.getElementById('d-price').textContent = price;
+            document.getElementById('d-img').src = img;
+            document.getElementById('d-cat').textContent = cat;
+            var fl = document.getElementById('d-features'); fl.innerHTML = '';
+            features.forEach(function (f) { var li = document.createElement('li'); li.textContent = f; fl.appendChild(li); });
+            document.getElementById('detailOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDetail() { document.getElementById('detailOverlay').classList.remove('show'); document.body.style.overflow = ''; }
+        document.getElementById('detailOverlay').addEventListener('click', function (e) { if (e.target === this) closeDetail(); });
+        /* BUY NOW */
+        document.getElementById('buyNowForm').addEventListener('submit', function (e) { e.preventDefault(); var n = document.getElementById('b-name').value.trim(), em = document.getElementById('b-email').value.trim(), p = document.getElementById('b-phone').value.trim(), a = document.getElementById('b-address').value.trim(), c = document.getElementById('b-city').value.trim(); if (!n || !em || !p || !a || !c) { showToast('Please fill all required fields.', 'error'); return; } showToast('Order placed! We will contact you shortly.', 'success'); var modal = bootstrap.Modal.getInstance(document.getElementById('buyNowModal')); if (modal) modal.hide(); this.reset(); });
     </script>
 </body>
 

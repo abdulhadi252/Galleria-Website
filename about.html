@@ -4,97 +4,284 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galleria - About Us</title>
-  <link href="css/bootstrap.css" rel="stylesheet">
+  <title>Galleria — About Us</title>
+  <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="fontawesome-free-7.0.1-web/css/all.min.css">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
   <style>
-    * {
+    /* ── VARIABLES ── */
+    :root {
+      --navy: #0f1e2e;
+      --navy2: #162d50;
+      --coral: #e8603c;
+      --coral2: #f07a58;
+      --cream: #faf7f2;
+      --cream2: #f0ebe2;
+      --white: #fff;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: rgba(15, 35, 64, .1);
+      --sh: 0 4px 24px rgba(15, 35, 64, .08);
+      --sh2: 0 20px 56px rgba(15, 35, 64, .16);
+      --tr: all .38s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* .................navbar styling..................... */
-
-    .navbar {
-      background-color: #1e1e1e;
-      height: 100px;
+    html {
+      scroll-behavior: smooth;
     }
 
-    .navbar-brand .logo-img {
-      width: 140px;
-      height: 100px
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Playfair Display', serif;
+      color: var(--navy);
+    }
+
+    em {
+      font-style: italic;
+      color: var(--coral);
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--cream);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--navy), var(--coral));
+      border-radius: 2px;
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .85s cubic-bezier(.23, 1, .32, 1), transform .85s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity .85s cubic-bezier(.23, 1, .32, 1), transform .85s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    .reveal-left.in-view {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity .85s cubic-bezier(.23, 1, .32, 1), transform .85s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    .reveal-right.in-view {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-child {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal-child.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-child:nth-child(2) {
+      transition-delay: .1s;
+    }
+
+    .reveal-child:nth-child(3) {
+      transition-delay: .2s;
+    }
+
+    .reveal-child:nth-child(4) {
+      transition-delay: .3s;
+    }
+
+    /* ── SECTION BADGE ── */
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .68rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+    }
+
+    .section-badge::before,
+    .section-badge::after {
+      content: '';
+      width: 20px;
+      height: 1.5px;
+      background: var(--coral);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    /* ════ NAVBAR ════ */
+    .navbar {
+      background: transparent !important;
+      padding: 0;
+      height: auto;
+      transition: background .5s, box-shadow .5s;
+    }
+
+    .navbar.nav-scrolled {
+      background: rgba(13, 26, 39, .97) !important;
+      box-shadow: 0 1px 0 rgba(232, 96, 60, .2), 0 8px 32px rgba(0, 0, 0, .28);
+    }
+
+    .navbar-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 18px 40px;
+      transition: padding .4s;
+    }
+
+    .navbar.nav-scrolled .navbar-container {
+      padding: 13px 40px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: .5px;
+    }
+
+    .brand-tag {
+      font-size: .58rem;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .4);
+      margin-top: 3px;
     }
 
     .navbar-nav {
-      gap: 30px;
+      gap: 2px;
+      align-items: center;
     }
 
     .nav-link {
       position: relative;
-      transition: 0.3s;
-      font-size: 1.2rem;
-      color: #f5f5f5 !important;
-      font-weight: bold;
-    }
-
-
-    .navbar-container {
-      background-color: #1e1e1e !important;
+      font-size: .79rem !important;
+      font-weight: 500 !important;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .78) !important;
+      padding: 9px 15px !important;
+      border-radius: 8px;
+      transition: color .3s, background .3s !important;
     }
 
     .nav-link::after {
-      content: "";
-      position: absolute;
-      left: .5rem;
-      bottom: -.5px;
-      width: 0%;
-      height: 3px;
-      background: #1B4965;
-      transition: 0.4s ease-in-out;
-      border-radius: 2px;
+      display: none !important;
     }
 
-    .nav-link:hover::after {
-      width: 80%;
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: rgba(232, 96, 60, .1);
+      opacity: 0;
+      transform: scale(.88);
+      transition: opacity .3s, transform .3s;
     }
 
     .nav-link:hover {
-      color: #1B4965 !important;
+      color: #fff !important;
     }
 
-    .btn-signup {
-      background-color: #1B4965;
-      color: #f5f5f5;
-      border: none;
-      width: 150px;
-      height: 40px;
-      padding: 8px 20px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+    .nav-link:hover::before {
+      opacity: 1;
+      transform: scale(1);
     }
 
-    .btn-signup:hover {
-      background-color: #FF8C42;
-      color: #121212;
+    .nav-link.nav-active {
+      color: var(--coral) !important;
+      background: rgba(232, 96, 60, .1);
     }
 
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,140,66,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    .nav-chevron {
+      font-size: .55rem;
+      margin-left: 3px;
+      transition: transform .3s;
     }
 
+    .nav-item.dropdown:hover .nav-chevron {
+      transform: rotate(180deg);
+    }
 
-    /* Dropdown Styles */
     .nav-item.dropdown:hover .dropdown-menu {
       display: block;
-      animation: slideDown 0.3s ease;
+      animation: dropIn .3s cubic-bezier(.23, 1, .32, 1);
     }
 
-    @keyframes slideDown {
+    @keyframes dropIn {
       from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(8px);
       }
 
       to {
@@ -104,641 +291,1038 @@
     }
 
     .dropdown-menu {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      padding: 10px 0;
-      background-color: #121212;
-      border: 1px solid #1B4965;
+      background: #0d1a27 !important;
+      border: 1px solid rgba(232, 96, 60, .18) !important;
+      border-radius: 12px !important;
+      padding: 8px !important;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, .35) !important;
+      min-width: 185px;
+      margin-top: 6px !important;
     }
 
     .dropdown-item {
-      padding: 10px 20px;
-      transition: background-color 0.2s ease;
-      color: #f5f5f5;
+      color: rgba(255, 255, 255, .72) !important;
+      font-size: .8rem;
+      padding: 10px 15px !important;
+      border-radius: 8px !important;
+      transition: var(--tr);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .dropdown-item i {
+      color: var(--coral);
+      font-size: .75rem;
     }
 
     .dropdown-item:hover {
-      background-color: #1B4965;
-      color: #f5f5f5;
+      background: rgba(232, 96, 60, .14) !important;
+      color: var(--coral) !important;
+      transform: translateX(4px);
     }
 
-    .navbar-collapse .mobile-search {
-      display: none;
+    .nav-buttons {
+      display: flex;
+      align-items: center;
     }
 
-    /* LEFT SLIDE MOBILE NAVBAR */
-    @media (max-width: 991px) {
-      .navbar-brand .logo-img {
-        width: 100px;
-        height: 50px
+    .btn-signup {
+      background: var(--coral);
+      color: #fff;
+      border: none;
+      padding: 10px 26px;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: var(--tr);
+    }
+
+    .btn-signup::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--coral2);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .38s ease;
+    }
+
+    .btn-signup span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(232, 96, 60, .42);
+    }
+
+    .btn-signup:hover::before {
+      transform: scaleX(1);
+    }
+
+    .navbar-toggler {
+      border: 1px solid rgba(255, 255, 255, .15) !important;
+      border-radius: 8px !important;
+      padding: 8px 11px !important;
+      background: rgba(255, 255, 255, .07) !important;
+      transition: var(--tr);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .navbar-toggler:hover {
+      background: var(--coral) !important;
+      border-color: var(--coral) !important;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none !important;
+    }
+
+    .toggler-line {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: var(--tr);
+    }
+
+    @media(max-width:991px) {
+      .navbar-container {
+        padding: 14px 20px;
       }
 
       .navbar-collapse {
         position: fixed;
-        top: 100px;
-        left: -100%;
+        top: 0;
+        right: -300px;
+        left: auto !important;
         width: 280px;
         height: 100vh;
-        background: #121212;
-        padding: 50px 20px 20px;
-        transition: 0.4s ease-in-out;
+        background: #0d1a27;
+        border-left: 1px solid rgba(232, 96, 60, .15);
+        padding: 80px 22px 40px;
+        transition: right .42s cubic-bezier(.23, 1, .32, 1) !important;
+        z-index: 1050;
+        overflow-y: auto;
       }
 
       .navbar-collapse.show {
-        left: 0;
+        right: 0 !important;
+        left: auto !important;
       }
 
       .navbar-nav {
         flex-direction: column;
+        align-items: stretch;
+        gap: 2px;
       }
 
-      .navbar-collapse .nav-link {
-        display: inline-block;
-        padding-bottom: 6px;
+      .nav-link {
+        padding: 12px 15px !important;
       }
 
-      .navbar-collapse .nav-link::after {
-        left: 0;
-        bottom: 0;
-        width: 0%;
-      }
-
-      .navbar-collapse .nav-link:hover::after {
-        width: 100%;
+      .dropdown-menu {
+        position: static !important;
+        background: rgba(255, 255, 255, .04) !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 4px 0 !important;
+        margin: 0 !important;
+        border-radius: 8px !important;
       }
 
       .nav-buttons {
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        width: 50%;
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(232, 96, 60, .15);
+      }
+
+      .btn-signup {
+        width: 100%;
       }
     }
 
-    /* .................navbar styling end..................... */
-
-            /* .............register sign up form start................... */
-        .register-form-section {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 9999;
-        }
-
-
-        .sign-up-form {
-            display: flex;
-            justify-content: center;
-        }
-
-        .sign-up {
-            position: relative;
-            /* for close button */
-            margin-top: 100px;
-            text-align: center;
-            padding: 15px 30px;
-            width: 100%;
-            border-radius: 10px;
-            height: auto;
-            border: none;
-            background-color: #fff;
-        }
-
-        .register-form-main-head {
-            text-transform: capitalize;
-            font-weight: bold;
-            color: #1b4965;
-        }
-
-        .sign-up p {
-            text-transform: capitalize;
-            font-weight: 500;
-        }
-
-        .form-control {
-            border-radius: 5px;
-        }
-
-        .forget-password {
-            color: #ff8c42;
-        }
-
-        .forget-password:hover {
-            color: #1b4965;
-        }
-
-        .register-sign-up-form-input {
-            padding: 10px;
-            width: 100%;
-            text-align: center;
-            margin: 30px 10px;
-        }
-
-        .register-sign-in-form-input {
-            padding: 10px;
-            width: 100%;
-            text-align: center;
-            margin: 20px 10px;
-
-        }
-
-        .form-control::placeholder {
-            text-align: left;
-            text-transform: capitalize;
-        }
-
-        .register-btn,
-        .register-sign-in-btn {
-            text-decoration: none;
-            text-transform: capitalize;
-            background-color: #1b4965;
-            width: 100%;
-            color: white;
-            margin: 30px auto;
-        }
-
-        .register-btn:hover,
-        .register-sign-in-btn:hover {
-            text-decoration: none;
-            text-transform: capitalize;
-            background-color: #ff8c42;
-            width: 100%;
-            color: white;
-            margin: 30px auto;
-        }
-
-        .sign-in-link a {
-            color: #ff8c42;
-            text-decoration: none;
-        }
-
-        .sign-in-link a:hover {
-            color: #1b4965;
-        }
-
-        .sign-in-form {
-            position: relative;
-            top: 50px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .sign-up .register-sign-up-btn {
-            text-decoration: none;
-            margin-left: 5px;
-            text-transform: capitalize;
-            font-weight: 500;
-            color: #ff8c42;
-        }
-
-        .sign-up .register-sign-up-btn:hover {
-            color: #1b4965;
-        }
-
-        /* Cross button */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            color: #198754;
-        }
-
-        .close-btn:hover {
-            color: red;
-        }
-        /* .............register sign up form end................... */
-
-    /* ................about section start........... */
-    .about-section{
-      margin-top: 150px;
+    /* ════ AUTH MODAL ════ */
+    .register-form-section {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 35, 64, .7);
+      backdrop-filter: blur(8px);
+      display: none;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
     }
 
-    .about-main-head {
-      text-align: center;
-      margin: 30px auto;
-      color: #1B4965;
-      font-size: 3rem;
-      font-weight: bold;
-    }
-
-    /* Main Image */
-    .about-main-image {
-      width: 100%;
-      height: 60vh;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(27, 73, 101, 0.3);
-      display: block;
-      margin: 40px auto;
-      border: 3px solid #FF8C42;
-    }
-
-    /* Main Heading */
-    .about-sub-head {
-      margin: 100px 0px 40px 0px;
-      font-weight: bold;
-      font-size: 2rem;
-      text-align: center;
-      color: #1B4965;
-    }
-
-    .about-para-container {
+    .sign-up-form,
+    .sign-in-form {
       display: flex;
-      justify-content: space-around;
-      margin: 50px auto;
-      font-size: large;
-      line-height: 30px;
+      justify-content: center;
     }
 
-    .about-left-para {
-      width: 40%;
-      text-align: justify;
-      color: #1B4965;
+    .auth-card {
+      position: relative;
+      margin-top: 80px;
+      text-align: center;
+      padding: 40px 36px;
+      width: 100%;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 40px 80px rgba(15, 35, 64, .25);
+      animation: authIn .4s cubic-bezier(.23, 1, .32, 1);
     }
 
-    .about-right-para {
-      width: 40%;
-      text-align: justify;
-      color: #1B4965;
+    @keyframes authIn {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
+    .auth-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--cream2);
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--muted);
+      transition: var(--tr);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-    /* Text Sections */
-    .about-main-text {
-      font-size: 18px;
-      line-height: 1.8;
-      text-align: justify;
-      color: #1B4965;
+    .auth-close-btn:hover {
+      background: var(--coral);
+      color: #fff;
+    }
+
+    .auth-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .auth-brand span {
+      color: var(--coral);
+    }
+
+    .auth-sub {
+      font-size: .88rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .auth-input {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .92rem;
+      color: var(--text);
+      background: var(--cream);
+      outline: none;
+      transition: border-color .3s;
+      margin-bottom: 14px;
+    }
+
+    .auth-input:focus {
+      border-color: var(--navy);
+      background: #fff;
+    }
+
+    .auth-input::placeholder {
+      color: var(--muted);
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: var(--navy);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: var(--tr);
+      margin-top: 6px;
+    }
+
+    .auth-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--coral);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s ease;
+    }
+
+    .auth-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-btn:hover::before {
+      transform: scaleX(1);
+    }
+
+    .auth-btn:hover {
+      box-shadow: 0 8px 24px rgba(232, 96, 60, .4);
+    }
+
+    .auth-switch {
+      margin-top: 18px;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .auth-switch a {
+      color: var(--coral);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .auth-forgot {
+      display: block;
+      color: var(--coral);
+      font-size: .82rem;
+      margin-bottom: 16px;
+      text-align: right;
+    }
+
+    /* ════ PAGE HERO ════ */
+    .page-hero {
+      position: relative;
+      height: 60vh;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-top: 0;
+    }
+
+    .page-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://img.freepik.com/premium-photo/creative-designer-showcasing-photo-realistic-concept-with-sketchpad-colors-whimsical-backgrou_980716-335349.jpg?semt=ais_hybrid&w=740&q=80') center/cover no-repeat;
+      filter: brightness(.45) saturate(.8);
+      animation: heroBgZoom 16s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroBgZoom {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.08);
+      }
+    }
+
+    .page-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(15, 35, 64, .75) 0%, rgba(15, 35, 64, .3) 60%, transparent 100%);
+    }
+
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .page-hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 16px;
+      font-weight: 600;
+      opacity: 0;
+      animation: fadeUp .8s forwards .3s;
+    }
+
+    .page-hero-eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 1.5px;
+      background: var(--coral);
+    }
+
+    .page-hero-eyebrow::after {
+      content: '';
+      width: 28px;
+      height: 1.5px;
+      background: var(--coral);
+    }
+
+    .page-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4.5rem);
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 1s forwards .5s;
+    }
+
+    .page-hero p {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, .75);
+      max-width: 480px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fadeUp 1s forwards .75s;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ════ ABOUT SECTION ════ */
+    .about-section {
+      padding: 100px 0;
+      background: var(--cream);
+    }
+
+    .about-intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .about-intro-img {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .about-intro-img img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+      border-radius: 20px;
+      transition: transform .8s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    .about-intro-img:hover img {
+      transform: scale(1.04);
+    }
+
+    .about-intro-img::before,
+    .about-intro-img::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      z-index: 2;
+      transition: var(--tr);
+    }
+
+    .about-intro-img::before {
+      top: -10px;
+      left: -10px;
+      border-top: 2px solid var(--coral);
+      border-left: 2px solid var(--coral);
+    }
+
+    .about-intro-img::after {
+      bottom: -10px;
+      right: -10px;
+      border-bottom: 2px solid var(--coral);
+      border-right: 2px solid var(--coral);
+    }
+
+    .about-intro-img:hover::before {
+      top: -18px;
+      left: -18px;
+    }
+
+    .about-intro-img:hover::after {
+      bottom: -18px;
+      right: -18px;
+    }
+
+    .exp-badge {
+      position: absolute;
+      bottom: 24px;
+      right: -18px;
+      background: var(--navy);
+      border: 2px solid rgba(232, 96, 60, .4);
+      padding: 18px 22px;
+      border-radius: 14px;
+      z-index: 3;
+      text-align: center;
+    }
+
+    .exp-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--coral);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1;
+    }
+
+    .exp-label {
+      font-size: .6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .6);
+      margin-top: 4px;
+      display: block;
+    }
+
+    .about-intro-text h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .about-intro-text p {
+      font-size: .97rem;
+      color: var(--muted);
+      line-height: 1.95;
+      margin-bottom: 16px;
+    }
+
+    .about-tagline {
+      background: linear-gradient(135deg, rgba(232, 96, 60, .06), transparent);
+      border-left: 2px solid var(--coral);
+      padding: 18px 24px;
+      border-radius: 0 10px 10px 0;
+      margin: 24px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-tagline::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 8px;
+      font-size: 100px;
+      color: rgba(232, 96, 60, .06);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .about-tagline p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--navy);
+      position: relative;
+      z-index: 1;
+    }
+
+    .read-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 12px 30px;
+      border: 2px solid var(--navy);
+      background: transparent;
+      color: var(--navy);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--tr);
+    }
+
+    .read-more-btn i {
+      transition: transform .3s;
+    }
+
+    .read-more-btn:hover {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .read-more-btn.open i {
+      transform: rotate(180deg);
     }
 
     .about-full-text {
-      font-size: 18px;
-      line-height: 1.8;
-      color: #1B4965;
       display: none;
-    }
-
-    .about-main-text-brand-name {
-      color: #FF8C42;
-      font-weight: bold;
-    }
-
-    /* Read More Button */
-    .about-read-more-btn {
-      background: #1B4965;
-      color: #f5f5f5;
-      border: none;
-      padding: 12px 35px;
-      border-radius: 25px;
-      font-weight: 600;
-      cursor: pointer;
       margin-top: 20px;
-      transition: all 0.3s;
     }
 
-    .about-read-more-btn:hover {
-      background: #FF8C42;
-      color: #121212;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255, 140, 66, 0.4);
+    .about-full-text p {
+      font-size: .97rem;
+      color: var(--muted);
+      line-height: 1.95;
+      margin-bottom: 14px;
     }
 
-    /* Side Images */
-    .side-images img {
+    /* ════ SIDE IMAGES ════ */
+    .side-images-grid {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+      height: 100%;
+    }
+
+    .side-images-grid img {
       width: 100%;
-      height: 300px;
+      height: 230px;
       object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(27, 73, 101, 0.3);
-      margin-bottom: 15px;
-      display: block;
-      transition: all 0.4s ease;
-      cursor: pointer;
+      border-radius: 14px;
+      transition: var(--tr);
       border: 2px solid transparent;
     }
 
-    .side-images img:hover {
+    .side-images-grid img:hover {
       transform: scale(1.02);
-      box-shadow: 0 8px 25px rgba(255, 140, 66, 0.4);
-      border: 2px solid #FF8C42;
+      box-shadow: var(--sh2);
+      border-color: var(--coral);
     }
 
-    /* Carousel Section */
-    .about-carousel-head {
-      margin: 60px auto 30px;
+    /* ════ STATS STRIP ════ */
+    .stats-strip {
+      background: var(--navy);
+      padding: 70px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stats-strip::before,
+    .stats-strip::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232, 96, 60, .4), transparent);
+    }
+
+    .stats-strip::before {
+      top: 0;
+    }
+
+    .stats-strip::after {
+      bottom: 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .07);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .stat-box {
+      padding: 44px 20px;
       text-align: center;
-      font-weight: bold;
-      font-size: 2rem;
-      color: #1B4965;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+      transition: background .4s;
+    }
+
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--coral), var(--coral2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .5s;
+    }
+
+    .stat-box:hover {
+      background: rgba(232, 96, 60, .04);
+    }
+
+    .stat-box:hover::before {
+      transform: scaleX(1);
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-style: italic;
+      color: var(--coral);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: .7rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .5);
+      margin-top: 8px;
+      display: block;
+    }
+
+    /* ════ WHY GALLERIA ════ */
+    .why-section {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .why-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 32px;
+      transition: var(--tr);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--coral), var(--coral2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .5s;
+    }
+
+    .why-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--sh2);
+      border-color: rgba(232, 96, 60, .2);
+    }
+
+    .why-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .why-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--navy);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      transition: var(--tr);
+    }
+
+    .why-icon i {
+      font-size: 1.1rem;
+      color: var(--coral);
+    }
+
+    .why-card:hover .why-icon {
+      background: var(--coral);
+    }
+
+    .why-card:hover .why-icon i {
+      color: #fff;
+    }
+
+    .why-card h5 {
+      font-size: 1.2rem;
+      color: var(--navy);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .why-card p {
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    /* ════ GALLERY CAROUSEL ════ */
+    .gallery-carousel-section {
+      padding: 100px 0;
+      background: var(--cream);
     }
 
     .carousel-inner img {
       width: 100%;
-      height: 400px;
+      height: 440px;
       object-fit: cover;
-      border-radius: 15px;
-      display: block;
+      border-radius: 16px;
+    }
+
+    .carousel-ctrl-btn {
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 35, 64, .75);
+      border: 1px solid rgba(232, 96, 60, .25);
+      border-radius: 50%;
+      color: #fff;
+      font-size: .9rem;
+      transition: var(--tr);
+    }
+
+    .carousel-ctrl-btn:hover {
+      background: var(--coral);
+      border-color: var(--coral);
+    }
+
+    .carousel-control-prev {
+      left: 20px;
+      width: auto;
+      opacity: 1;
+    }
+
+    .carousel-control-next {
+      right: 20px;
+      width: auto;
+      opacity: 1;
+    }
+
+    .carousel-indicators [data-bs-target] {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .45);
+      border: none;
+      transition: var(--tr);
+    }
+
+    .carousel-indicators .active {
+      background: var(--coral);
+      transform: scale(1.35);
+    }
+
+    /* ════ FAQ ════ */
+    .faq-section {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .faq-wrapper {
+      max-width: 820px;
       margin: 0 auto;
-      border: 3px solid #FF8C42;
-    }
-
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-      background-color: rgba(27, 73, 101, 0.8);
-    }
-
-    .carousel-control-prev-icon:hover,
-    .carousel-control-next-icon:hover {
-      background-color: rgba(255, 140, 66, 0.8);
-    }
-
-    /* Why Choose Galleria Section */
-    .gallery-section {
-      margin: 60px auto;
-      background: white;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(27, 73, 101, 0.15);
-      border-top: 4px solid #FF8C42;
-    }
-
-    .gallery-text-center {
-      color: #1B4965;
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    .gallery-section .gallery-section-main-head {
-      font-weight: bolder;
-      text-align: center;
-      margin: 30px auto 50px auto;
-      color: #1B4965;
-    }
-
-    .gallery-sub-container {
-      margin: 30px auto;
-    }
-
-    .gallery-end-para-container {
-      margin: 50px auto;
-    }
-
-    .gallery-section h5 {
-      color: #1B4965;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    .gallery-para-h5 {
-      font-size: 16px;
-      line-height: 1.8;
-      color: #1B4965;
-      font-weight: 500;
-    }
-
-    .gallery-end-para {
-      color: #1B4965;
-      font-size: 18px;
-      line-height: 1.8;
-    }
-
-    .gallery-end-para strong {
-      color: #FF8C42;
-    }
-
-    /* FAQs Section */
-    .about-faq {
-      max-width: 900px;
-      margin: 60px auto;
       padding: 0 20px;
     }
 
-    .about-faq h3 {
-      color: #1B4965;
-      font-weight: bold;
-      text-align: center;
-      margin-bottom: 40px;
-      font-size: 2.5rem;
-    }
-
-    .about-faq-item {
-      margin-bottom: 15px;
-      border-radius: 10px;
+    .faq-item {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
       overflow: hidden;
-      background: white;
-      box-shadow: 0 2px 10px rgba(27, 73, 101, 0.1);
-      border-left: 4px solid #FF8C42;
+      border-left: 3px solid var(--coral);
+      transition: var(--tr);
     }
 
-    .about-faq-ques {
-      margin: 0;
+    .faq-item:hover {
+      box-shadow: var(--sh);
     }
 
-    .about-collapse-button {
+    .faq-btn {
       width: 100%;
-      background: white;
+      background: transparent;
       border: none;
-      padding: 18px 25px;
+      padding: 18px 22px;
       text-align: left;
+      font-family: 'DM Sans', sans-serif;
       font-weight: 600;
-      font-size: 1.1rem;
-      color: #1B4965;
+      font-size: .95rem;
+      color: var(--navy);
       cursor: pointer;
-      transition: all 0.3s;
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: var(--tr);
     }
 
-    .about-collapse-button::after {
-      content: '\f078';
-      font-family: 'Font Awesome 7 Free';
-      font-weight: 900;
-      position: absolute;
-      right: 25px;
-      transition: transform 0.3s;
-      color: #1B4965;
+    .faq-btn i {
+      font-size: .7rem;
+      color: var(--coral);
+      transition: transform .3s;
+      flex-shrink: 0;
     }
 
+    .faq-btn:not(.collapsed) {
+      background: var(--navy);
+      color: #fff;
+    }
 
-    .about-collapse-button:not(.collapsed)::after {
+    .faq-btn:not(.collapsed) i {
+      color: var(--coral2);
       transform: rotate(180deg);
     }
 
-    .about-collapse-button:hover {
-      background-color: #1B4965;
-      color: #f5f5f5;
+    .faq-answer {
+      padding: 16px 22px 20px;
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.85;
+      background: rgba(232, 96, 60, .03);
+      border-top: 1px solid var(--border);
     }
 
-    .about-collapse-button:hover::after {
-      color: #f5f5f5;
-    }
-
-    .about-collapse-button:not(.collapsed) {
-      background-color: #1B4965;
-      color: #f5f5f5;
-    }
-
-    .about-collapse-button:not(.collapsed)::after {
-      color: #f5f5f5;
-    }
-
-    .about-collapse-button:focus {
-      outline: none;
-      box-shadow: none;
-    }
-
-    .about-faq-ans {
-      padding: 20px 25px;
-      background: rgba(27, 73, 101, 0.05);
-      color: #1B4965;
-      line-height: 1.8;
-      border-top: 1px solid rgba(27, 73, 101, 0.1);
-      font-size: 1rem;
-    }
-
-    /* Responsive */
-    @media (max-width: 991px) {
-      .about-read-more-btn {
-        margin: 30px auto;
-        display: block;
-        width: fit-content;
-      }
-
-      .about-main-image {
-        height: 40vh;
-      }
-
-      .side-images {
-        margin-top: 30px;
-      }
-
-      .about-para-container {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .about-left-para,
-      .about-right-para {
-        width: 90%;
-        margin-bottom: 20px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .about-main-head {
-        font-size: 2.2rem;
-      }
-
-      .about-sub-head {
-        font-size: 1.8rem;
-        margin: 40px 0px 30px 0px;
-      }
-
-      .about-faq h3 {
-        font-size: 2rem;
-      }
-
-      .about-carousel-head {
-        font-size: 1.6rem;
-      }
-
-      .gallery-text-center {
-        font-size: 1.6rem;
-      }
-
-      .gallery-section {
-        padding: 25px;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .about-main-head {
-        font-size: 1.8rem;
-      }
-
-      .about-sub-head {
-        font-size: 1.5rem;
-      }
-
-      .about-main-text,
-      .about-left-para,
-      .about-right-para,
-      .gallery-para-h5 {
-        font-size: 16px;
-      }
-
-      .carousel-inner img {
-        height: 300px;
-      }
-    }
-
-    /* .........................Footer section start............................ */
+    /* ════ FOOTER ════ */
     footer {
-      background: #121212;
-      padding: 80px 0 0;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      right: -60px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(232, 96, 60, .05);
+      pointer-events: none;
+    }
+
+    .footer-top-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--coral), transparent);
+      opacity: .5;
+    }
+
+    .footer-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 70px 40px 50px;
     }
 
     .footer-content {
       display: grid;
-      grid-template-columns: 3fr 2fr 6fr;
-      gap: 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-bottom: 60px;
+      grid-template-columns: 2.5fr 1.5fr 2.5fr;
+      gap: 60px;
     }
 
     .footer-about h3 {
+      font-family: 'Playfair Display', serif;
       font-size: 2rem;
-      color: #1B4965;
-      margin-bottom: 20px;
+      font-style: italic;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .footer-about h3 span {
+      color: var(--coral);
     }
 
     .footer-about p {
-      margin-bottom: 30px;
-      color: #f5f5f5;
+      color: rgba(255, 255, 255, .5);
+      font-size: .88rem;
+      margin-bottom: 28px;
+      line-height: 1.85;
+      max-width: 300px;
     }
 
     .social-links {
       display: flex;
-      gap: 15px;
+      gap: 10px;
     }
 
     .social-link {
       width: 40px;
       height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 140, 66, 0.2);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .1);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #1B4965;
-      text-decoration: none;
-      transition: all 0.5s ease;
+      color: rgba(255, 255, 255, .6);
+      font-size: .88rem;
+      transition: var(--tr);
     }
 
     .social-link:hover {
-      background: #FF8C42;
-      color: #121212;
-      transform: translateY(-10px);
-    }
-
-    .footer-links h4 {
-      margin-left: 30px;
+      background: var(--coral);
+      color: #fff;
+      border-color: var(--coral);
+      transform: translateY(-3px);
     }
 
     .footer-links h4,
     .footer-contact h4 {
-      font-size: 1.3rem;
-      color: #1B4965;
-      margin-bottom: 25px;
+      font-size: .72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .38);
+      margin-bottom: 22px;
       position: relative;
-      padding-bottom: 10px;
+      padding-bottom: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
     }
 
     .footer-links h4::after,
@@ -747,591 +1331,549 @@
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 40px;
-      height: 2px;
-      background: #FF8C42;
+      width: 24px;
+      height: 1.5px;
+      background: var(--coral);
     }
 
     .footer-links ul {
       list-style: none;
-    }
-
-    .footer-links ul li a i {
-      color: #FF8C42;
-    }
-
-    .footer-links ul li a:hover {
-      color: #1B4965;
+      padding-left: 0;
+      margin-left: 0;
     }
 
     .footer-links li {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .footer-links a {
-      color: #f5f5f5;
-      text-decoration: none;
-      transition: all 1s ease;
+      color: rgba(255, 255, 255, .52);
+      font-size: .88rem;
       display: flex;
       align-items: center;
-      line-height: 40px;
-      gap: 10px;
+      gap: 9px;
+      transition: var(--tr);
+    }
+
+    .footer-links a i {
+      font-size: .65rem;
+      color: var(--coral);
     }
 
     .footer-links a:hover {
-      color: #FF8C42;
-      transform: translateX(10px);
-    }
-
-
-
-    .footer-bottom {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 25px 0;
-      text-align: center;
-      color: #f5f5f5;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transform: translateX(4px);
     }
 
     .footer-contact p {
-      color: #f5f5f5;
-    }
-
-    .footer-contact .input {
-      width: 80%;
-      height: 40px;
-      border-radius: 10px;
-      padding: 10px;
-      border: none;
-      outline: none;
-      background: rgba(255, 255, 255, 0.1);
-      color: #f5f5f5;
-    }
-
-    .footer-contact .input::placeholder {
-      color: rgba(245, 245, 245, 0.7);
+      color: rgba(255, 255, 255, .5);
+      font-size: .85rem;
+      margin-bottom: 18px;
+      line-height: 1.7;
     }
 
     .subscribe-box {
       display: flex;
-      gap: 20px;
-    }
-
-    .subscribe-box #footersubscribeBtn {
-      padding: 0 10px;
-      font-size: 20px;
-      cursor: pointer;
-      background-color: #1B4965;
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 10px;
-      color: #f5f5f5;
-      transition: all 0.3s ease;
+      overflow: hidden;
     }
 
-    .subscribe-box #footersubscribeBtn:hover {
-      background-color: #FF8C42;
-      color: #121212;
-      transform: translateY(-2px);
+    .subscribe-box .input {
+      flex: 1;
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem;
+      outline: none;
     }
 
-    @media (max-width:768px) {
+    .subscribe-box .input::placeholder {
+      color: rgba(255, 255, 255, .28);
+    }
+
+    #footersubscribeBtn {
+      padding: 0 18px;
+      background: var(--coral);
+      border: none;
+      color: #fff;
+      font-size: .95rem;
+      cursor: pointer;
+      transition: var(--tr);
+    }
+
+    #footersubscribeBtn:hover {
+      background: var(--coral2);
+    }
+
+    .footer-bottom {
+      background: rgba(0, 0, 0, .3);
+      padding: 20px 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, .06);
+    }
+
+    .footer-bottom p {
+      color: rgba(255, 255, 255, .32);
+      font-size: .78rem;
+      letter-spacing: .5px;
+    }
+
+    /* ════ RESPONSIVE ════ */
+    @media(max-width:1100px) {
       .footer-content {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
       }
     }
 
-    /* .............................footer section end..................... */
+    @media(max-width:991px) {
+      .about-intro-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 0 24px;
+      }
 
-    /* Additional color consistency updates */
-    .about-main-text p {
-      color: #1B4965;
+      .exp-badge {
+        right: 16px;
+      }
+
+      .why-grid {
+        padding: 0 24px;
+      }
+
+      .footer-container {
+        padding: 60px 24px 40px;
+      }
     }
 
-    .about-full-text p {
-      color: #1B4965;
+    @media(max-width:768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .carousel-inner img {
+        height: 280px;
+      }
+
+      .page-hero {
+        height: 50vh;
+      }
     }
 
-    .gallery-section h3 {
-      color: #1B4965;
-    }
+    @media(max-width:576px) {
+      .navbar-container {
+        padding: 14px 20px;
+      }
 
-    .faq-section h3 {
-      color: #1B4965;
-    }
-
-    /* Update carousel controls hover */
-    .carousel-control-prev:hover .carousel-control-prev-icon,
-    .carousel-control-next:hover .carousel-control-next-icon {
-      background-color: rgba(255, 140, 66, 0.8);
+      .footer-container {
+        padding: 50px 20px 36px;
+      }
     }
   </style>
 </head>
 
 <body>
-    <!-- /* .................navbar section start..................... */ -->
-    <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
-        <div class="container-fluid navbar-container">
-            <!-- Logo -->
-            <a class="navbar-brand" href="#home">
-                <img src="images/navbar-logo-original.png" class="logo-img" alt="">
-            </a>
 
-            <!-- Toggler Button -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" b>
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Navbar Content -->
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <!-- Links -->
-                <ul class="navbar-nav m-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button">Paintings</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="surface.html">Surface</a></li>
-                            <li><a class="dropdown-item" href="paintings.html">Color Type</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#product-section">products</a>
-                    </li>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gallery.html">Gallery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
-                    </li>
-                </ul>
-
-                <!-- Buttons -->
-                <div class="nav-buttons">
-                    <button class="btn btn-signup" onclick="openSignup()">Sign Up</button>
-                </div>
-
-            </div>
-        </div>
-    </nav>
-
-    <!-- /* .................navbar section end..................... */ -->
-
-    <!-- .....................sign-up and register form start.......,.......... -->
-         <!-- Sign Up Form -->
-    <section class="register-form-section">
-        <div id="sign-up" class="container sign-up-form">
-            <div class="col-md-6 col-lg-4 col-10">
-                <div class="sign-up">
-                    <span class="close-btn">&times;</span>
-                    <h1 class="register-form-main-head">Galleria</h1>
-                    <p>create your account</p>
-                    <input type="text" id="signup-name" class="form-control register-sign-up-form-input"
-                        placeholder="full name">
-                    <input type="text" id="signup-email" class="form-control register-sign-up-form-input"
-                        placeholder="email">
-                    <input type="password" id="signup-pass" class="form-control register-sign-up-form-input"
-                        placeholder="password">
-                    <input type="password" id="signup-cpass" class="form-control register-sign-up-form-input"
-                        placeholder="confirm password">
-                    <div id="register-btn" class="reg-btn btn register-btn">register
-                    </div>
-                    <p class="sign-in-link">already have an account? <a href="" id="open-sign-in">sign in</a></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sign In Form -->
-        <div id="sign-in" class="container  sign-in-form  d-none">
-            <div class="col-md-6 col-lg-4 col-10">
-                <div id="log" class="sign-up">
-                    <span class="close-btn">&times;</span>
-                    <h1 class="register-form-main-head">Galleria</h1>
-                    <p>Great to have you back.</p>
-                    <input type="text" id="signin-email" class="form-control register-sign-in-form-input"
-                        placeholder="email">
-                    <input type="password" id="signin-pass" class="form-control register-sign-in-form-input"
-                        placeholder="password">
-                    <a href="" class="forget-password">forgot password?</a>
-                    <div class="reg-btn btn register-sign-in-btn">sign in</div>
-                    <p>don't have an account? <a href="" class="register-sign-up-btn" id="open-sign-up"> sign up</a></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- .....................sign-up and register form end.......,.......... -->
-
-  <section class="about-section">
-    <div class="container about-container">
-      <!-- Main Banner Image -->
-      <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=1200" class="about-main-image"
-        alt="Painting Banner">
-
-      <h1 class="about-main-head">About Us</h1>
-
-      <div class="about-para-container">
-        <p class="about-left-para">Galleria is a creative art platform where every painting tells a unique story. We
-          connect art lovers with carefully curated artworks that express emotion and depth. Each piece is designed to
-          enhance spaces with beauty and meaning. Our collection reflects timeless creativity and artistic passion. At
-          Galleria, art is more than decoration it is an experience.
-        </p>
-        <p class="about-right-para">
-          We focus on originality, quality, and fine craftsmanship in every artwork we present. All paintings are
-          thoughtfully selected to ensure lasting value and visual impact. Whether for homes, offices, or gifting, our
-          art fits every purpose. Galleria offers a wide range of styles and color expressions. Here, creativity comes
-          alive through color and detail.
-        </p>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+    <div class="container-fluid navbar-container">
+      <div class="brand-text">
+        <a href="index.html"><span class="brand-name">Galleria</span></a>
+        <a href="index.html"><span class="brand-tag">Paints</span></a>
       </div>
-      <!-- Main Heading -->
-      <h2 class="about-sub-head">"Where Art Comes Alive" ✨</h2>
-
-      <!-- About Content Row -->
-      <div class="row">
-        <!-- Left Column - Text Content -->
-        <div class="col-md-7">
-          <div class="about-main-text">
-            <p>
-              Welcome to <span class="about-main-text-brand-name">Galleria Paintings</span>, a certified company engaged
-              in selling
-              a wide variety of premium paintings.
-              We bring the world's most beautiful artistic creations right to your home.
-              From abstract art to classic masterpieces, every painting we offer is full of emotion,
-              color, and creativity.
-              We bring the world's most beautiful artistic creations right to your home.
-              From abstract art to classic masterpieces, every painting we offer is full of emotion,
-              color, and creativity.
-              We bring the world's most beautiful artistic creations right to your home.
-              From abstract art to classic masterpieces, every painting we offer is full of emotion,
-              color, and creativity.
-              <br><br>
-              We bring the world's most beautiful artistic creations right to your home.
-              From abstract art to classic masterpieces, every painting we offer is full of emotion,
-              color, and creativity.
-              We bring the world's most beautiful artistic creations right to your home.
-              From abstract art to classic masterpieces, every painting we offer is full of emotion,
-              color, and creativity.
-              Trusted by thousands worldwide. Our paintings have found homes in over 50 countries,
-              adorning living rooms, corporate offices, galleries, and boutique hotels.
-              Each piece comes with a certificate of authenticity and is backed by our commitment to excellence.
-            </p>
-          </div>
-
-          <!-- Extra Text (Hidden Initially) -->
-          <div class="about-full-text">
-            <p>
-              The ever-increasing acceptance of our products on a global platform highlights
-              our strong market presence and goodwill. Our company has maintained its market
-              value throughout the world, earning the trust of art collectors, interior designers,
-              and painting enthusiasts across different countries.
-            </p>
-          </div>
-
-          <button class="about-read-more-btn" onclick="toggleReadMore()">
-            Read More
-          </button>
-        </div>
-
-        <!-- Right Column - Side Images -->
-        <div class="col-md-5 side-images">
-          <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600" alt="Side Painting 1">
-          <img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=600" alt="Side Painting 2">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="toggler-line"></span>
+        <span class="toggler-line"></span>
+        <span class="toggler-line"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav m-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link nav-active" href="about.html">About</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="#">Paintings <i class="fas fa-chevron-down nav-chevron"></i></a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="surface.html"><i class="fas fa-layer-group"></i> Surface</a></li>
+              <li><a class="dropdown-item" href="paintings.html"><i class="fas fa-palette"></i> Color Type</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="index.html#product-section">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+        </ul>
+        <div class="nav-buttons">
+          <button class="btn-signup" onclick="openSignup()"><span>Sign Up</span></button>
         </div>
       </div>
+    </div>
+  </nav>
 
-      <!-- Carousel Section -->
-      <div class="about-carousel-head">
-        <h3>Our Artwork Gallery</h3>
-      </div>
-
-      <div id="paintCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="1500">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1200" class="d-block w-100"
-              alt="Artwork 1">
-          </div>
-          <div class="carousel-item">
-            <img src="https://images.unsplash.com/photo-1578301978018-3005759f48f7?w=1200" class="d-block w-100"
-              alt="Artwork 2">
-          </div>
-          <div class="carousel-item">
-            <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1200" class="d-block w-100"
-              alt="Artwork 3">
-          </div>
+  <!-- AUTH MODAL -->
+  <section class="register-form-section" id="registerSection">
+    <div id="sign-up" class="container sign-up-form">
+      <div class="col-md-6 col-lg-4 col-10">
+        <div class="auth-card">
+          <button class="auth-close-btn" onclick="closeSignup()">&times;</button>
+          <div class="auth-brand">Galler<span>ia</span></div>
+          <p class="auth-sub">Create your account</p>
+          <input type="text" id="signup-name" class="auth-input" placeholder="Full Name">
+          <input type="text" id="signup-email" class="auth-input" placeholder="Email Address">
+          <input type="password" id="signup-pass" class="auth-input" placeholder="Password">
+          <input type="password" id="signup-cpass" class="auth-input" placeholder="Confirm Password">
+          <button id="register-btn" class="auth-btn"><span>Create Account</span></button>
+          <p class="auth-switch">Already have an account? <a id="open-sign-in">Sign In</a></p>
         </div>
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#paintCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon"></span>
-        </button>
-
-        <button class="carousel-control-next" type="button" data-bs-target="#paintCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon"></span>
-        </button>
       </div>
-
-      <!-- Why Choose Galleria Section -->
-      <div class="gallery-section">
-        <h3 class="gallery-section-main-head" id="gallery-text-center">Why Choose Galleria?</h3>
-
-        <div class="row">
-          <div class="col-md-6 gallery-sub-container">
-            <h5>Diverse Collection</h5>
-            <p class="gallery-para-h5">
-              Our gallery showcases an extensive collection of paintings ranging from timeless classics
-              to contemporary masterpieces. Each artwork is carefully curated to meet the highest
-              standards of artistic excellence and craftsmanship.
-            </p>
-          </div>
-
-          <div class="col-md-6 gallery-sub-container">
-            <h5>Authentic Artworks</h5>
-            <p class="gallery-para-h5">
-              Every painting in our collection is 100% original and comes with a certificate of
-              authenticity. Our professional artists pour their heart and soul into creating unique
-              pieces that tell compelling stories.
-            </p>
-          </div>
-
-          <div class="col-md-6 gallery-sub-container">
-            <h5>Expert Craftsmanship</h5>
-            <p class="gallery-para-h5">
-              Our talented team of artists specializes in various painting techniques including oil,
-              acrylic, watercolor, charcoal, and mixed media. Each piece demonstrates exceptional
-              skill and attention to detail.
-            </p>
-          </div>
-
-          <div class="col-md-6 gallery-sub-container">
-            <h5>Premium Quality</h5>
-            <p class="gallery-para-h5">
-              Quality is our top priority. We use only the finest materials and surfaces including
-              canvas, premium paper, and high-quality fabrics to ensure your artwork stands the
-              test of time and maintains its beauty for years to come.
-            </p>
-          </div>
-        </div>
-
-        <div class="gallery-end-para-container">
-          <p class="gallery-end-para">
-            <strong>Explore our gallery and discover the perfect piece that speaks to your soul.</strong>
-            Whether you're decorating your home, office, or looking for a meaningful gift,
-            Galleria offers something special for every art lover.
+    </div>
+    <div id="sign-in" class="container sign-in-form d-none">
+      <div class="col-md-6 col-lg-4 col-10">
+        <div class="auth-card">
+          <button class="auth-close-btn" onclick="closeSignup()">&times;</button>
+          <div class="auth-brand">Galler<span>ia</span></div>
+          <p class="auth-sub">Great to have you back.</p>
+          <input type="text" id="signin-email" class="auth-input" placeholder="Email Address">
+          <input type="password" id="signin-pass" class="auth-input" placeholder="Password">
+          <a class="auth-forgot">Forgot password?</a>
+          <button class="auth-btn register-sign-in-btn"><span>Sign In</span></button>
+          <p class="auth-switch">Don't have an account? <a class="register-sign-up-btn" id="open-sign-up">Sign Up</a>
           </p>
         </div>
       </div>
-
-      <!-- FAQs Section -->
-      <section class="faq-section">
-        <div class="about-faq" id="about-faq">
-          <h3>Frequently Asked Questions</h3>
-
-          <div class="about-faq-item">
-            <h2 class="about-faq-ques">
-              <button class="about-collapse-button collapsed" data-bs-toggle="collapse" data-bs-target="#q1">
-                Do you offer custom paintings?
-              </button>
-            </h2>
-            <div id="q1" class="accordion-collapse collapse" data-bs-parent="#about-faq">
-              <div class="about-faq-ans">
-                Yes! We create fully customized artwork based on your ideas and preferences.
-              </div>
-            </div>
-          </div>
-
-          <div class="about-faq-item">
-            <h2 class="about-faq-ques">
-              <button class="about-collapse-button collapsed" data-bs-toggle="collapse" data-bs-target="#q2">
-                What is the delivery time?
-              </button>
-            </h2>
-            <div id="q2" class="accordion-collapse collapse" data-bs-parent="#about-faq">
-              <div class="about-faq-ans">
-                Orders are delivered within 5-7 working days.
-              </div>
-            </div>
-          </div>
-
-          <div class="about-faq-item">
-            <h2 class="about-faq-ques">
-              <button class="about-collapse-button collapsed" data-bs-toggle="collapse" data-bs-target="#q3">
-                Are the paintings handmade?
-              </button>
-            </h2>
-            <div id="q3" class="accordion-collapse collapse" data-bs-parent="#about-faq">
-              <div class="about-faq-ans">
-                Yes, all paintings are 100% handmade by professional artists.
-              </div>
-            </div>
-          </div>
-
-          <div class="about-faq-item">
-            <h2 class="about-faq-ques">
-              <button class="about-collapse-button collapsed" data-bs-toggle="collapse" data-bs-target="#q4">
-                Do you provide authenticity certificates?
-              </button>
-            </h2>
-            <div id="q4" class="accordion-collapse collapse" data-bs-parent="#about-faq">
-              <div class="about-faq-ans">
-                Yes, each painting comes with a certificate of authenticity.
-              </div>
-            </div>
-          </div>
-
-          <div class="about-faq-item">
-            <h2 class="about-faq-ques">
-              <button class="about-collapse-button collapsed" data-bs-toggle="collapse" data-bs-target="#q5">
-                What is your return policy?
-              </button>
-            </h2>
-            <div id="q5" class="accordion-collapse collapse" data-bs-parent="#about-faq">
-              <div class="about-faq-ans">
-                We offer a 7-day return policy for full refund or exchange.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   </section>
-  <!-- ...............................Footer start........................ -->
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content container text-center">
+      <div class="page-hero-eyebrow">Our Story</div>
+      <h1>About <em style="-webkit-text-fill-color:var(--coral);color:var(--coral);">Galleria</em></h1>
+      <p>A creative paint platform where every product tells a story of quality, color, and craft.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT INTRO -->
+  <section class="about-section">
+    <div class="about-intro-grid">
+      <div class="about-intro-img reveal-left">
+        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80" alt="About Galleria">
+        <div class="exp-badge">
+          <span class="exp-num">10+</span>
+          <span class="exp-label">Years Exp.</span>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="section-badge" style="justify-content:flex-start;">Who We Are</div>
+        <h2>Pakistan's <em>Premier</em> Paint Brand</h2>
+        <p>Welcome to <strong style="color:var(--coral);">Galleria Paints</strong> — a certified company engaged in
+          delivering a wide variety of premium quality paints. We bring the world's most beautiful color solutions right
+          to your home and workplace.</p>
+        <p>From abstract art to classic wall finishes, every product we offer is full of quality, durability, and
+          creativity. Trusted by thousands across Pakistan.</p>
+        <div class="about-tagline">
+          <p>Where color meets quality — every coat tells a story of excellence.</p>
+        </div>
+        <div class="about-full-text" id="aboutFullText">
+          <p>The ever-increasing acceptance of our products on a national platform highlights our strong market presence
+            and goodwill. Our company has maintained its market value throughout Pakistan, earning the trust of
+            homeowners, architects, interior designers, and painting professionals.</p>
+          <p>We use only the finest raw materials combined with advanced formulations to ensure every product delivers
+            superior performance. Our team of experts constantly innovates to bring you solutions that match modern
+            aesthetic demands while providing lasting protection.</p>
+        </div>
+        <button class="read-more-btn" id="readMoreBtn" onclick="toggleAboutText()">
+          <span id="readBtnText">Read More</span> <i class="fas fa-chevron-down"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dual para + side images -->
+    <div class="container mt-5 pt-4 reveal">
+      <div class="row g-4 align-items-center" style="max-width:1200px;margin:0 auto;padding:0 20px;">
+        <div class="col-lg-4 col-md-6">
+          <div class="side-images-grid">
+            <img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=600&q=80" alt="Gallery 1">
+            <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&q=80" alt="Gallery 2">
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <p style="font-size:.97rem;color:var(--muted);line-height:1.95;margin-bottom:16px;">Galleria is a creative
+            platform where every painting tells a unique story. We connect art lovers with carefully curated artworks
+            that express emotion and depth.</p>
+          <p style="font-size:.97rem;color:var(--muted);line-height:1.95;">We focus on originality, quality, and fine
+            craftsmanship in every artwork we present. All paintings are thoughtfully selected to ensure lasting value
+            and visual impact.</p>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div style="background:var(--navy);border-radius:16px;padding:36px 28px;color:#fff;">
+            <div class="section-badge dark" style="justify-content:flex-start;">Our Mission</div>
+            <h3 style="color:#fff;margin-bottom:14px;font-size:1.6rem;">Coloring <em>Pakistan</em> One Wall at a Time
+            </h3>
+            <p style="color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.85;">Quality paints, vibrant colors, and
+              professional solutions — available across the nation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="stats-strip reveal">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-box reveal-child">
+          <span class="stat-num" data-target="5000">0+</span>
+          <span class="stat-label">Happy Clients</span>
+        </div>
+        <div class="stat-box reveal-child">
+          <span class="stat-num" data-target="50">0+</span>
+          <span class="stat-label">Paint Products</span>
+        </div>
+        <div class="stat-box reveal-child">
+          <span class="stat-num" data-target="10">0+</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-box reveal-child">
+          <span class="stat-num" data-target="30">0+</span>
+          <span class="stat-label">Cities Covered</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY GALLERIA -->
+  <section class="why-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-badge">Why Choose Us</div>
+        <h2>Why <em>Galleria</em> Stands Out</h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card reveal-child">
+          <div class="why-icon"><i class="fas fa-palette"></i></div>
+          <h5>Diverse Collection</h5>
+          <p>Our range showcases an extensive collection from timeless classics to contemporary finishes. Each product
+            is carefully curated to meet the highest standards of excellence.</p>
+        </div>
+        <div class="why-card reveal-child">
+          <div class="why-icon"><i class="fas fa-certificate"></i></div>
+          <h5>Authentic Quality</h5>
+          <p>Every paint in our collection is 100% original and produced with premium raw materials. Our professionals
+            ensure consistent quality in every batch.</p>
+        </div>
+        <div class="why-card reveal-child">
+          <div class="why-icon"><i class="fas fa-tools"></i></div>
+          <h5>Expert Formulation</h5>
+          <p>Our team specializes in various paint formulations including interior, exterior, metallic, and specialty
+            coatings. Each demonstrates exceptional durability.</p>
+        </div>
+        <div class="why-card reveal-child">
+          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+          <h5>Premium Standards</h5>
+          <p>Quality is our top priority. We use only the finest pigments and chemical bases to ensure your paint stands
+            the test of time and maintains beauty for years.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY CAROUSEL -->
+  <section class="gallery-carousel-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-badge">Our Gallery</div>
+        <h2>See Our <em>Work</em> in Action</h2>
+      </div>
+      <div class="reveal">
+        <div id="aboutCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2500">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="2"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1200&q=80" alt="">
+            </div>
+            <div class="carousel-item">
+              <img src="https://images.unsplash.com/photo-1578301978018-3005759f48f7?w=1200&q=80" alt="">
+            </div>
+            <div class="carousel-item">
+              <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1200&q=80" alt="">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
+            <span class="carousel-ctrl-btn"><i class="fas fa-chevron-left"></i></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
+            <span class="carousel-ctrl-btn"><i class="fas fa-chevron-right"></i></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="faq-wrapper">
+      <div class="section-header reveal">
+        <div class="section-badge">FAQ</div>
+        <h2>Frequently Asked <em>Questions</em></h2>
+      </div>
+      <div id="aboutFaq" class="reveal">
+        <div class="faq-item">
+          <button class="faq-btn collapsed" data-bs-toggle="collapse" data-bs-target="#faq1">Do you offer custom paint
+            orders? <i class="fas fa-chevron-down"></i></button>
+          <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#aboutFaq">
+            <div class="faq-answer">Yes! We create fully customized paint solutions based on your requirements and
+              preferences.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn collapsed" data-bs-toggle="collapse" data-bs-target="#faq2">What is the delivery time?
+            <i class="fas fa-chevron-down"></i></button>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#aboutFaq">
+            <div class="faq-answer">Orders are typically processed and delivered within 5-7 working days across
+              Pakistan.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">Are your paints
+            eco-friendly? <i class="fas fa-chevron-down"></i></button>
+          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#aboutFaq">
+            <div class="faq-answer">Yes, our interior paints use low-VOC formulations that are safer for your family and
+              the environment.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn collapsed" data-bs-toggle="collapse" data-bs-target="#faq4">Do you provide color
+            consultation? <i class="fas fa-chevron-down"></i></button>
+          <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#aboutFaq">
+            <div class="faq-answer">Yes, our experienced team helps you select the right paint type, color, and finish
+              for your project.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn collapsed" data-bs-toggle="collapse" data-bs-target="#faq5">What is your return policy?
+            <i class="fas fa-chevron-down"></i></button>
+          <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#aboutFaq">
+            <div class="faq-answer">We offer a 7-day return policy for unopened products. Please contact our support
+              team for assistance.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
+    <div class="footer-top-line"></div>
     <div class="footer-container">
       <div class="footer-content">
         <div class="footer-about">
-          <h3>Galleria</h3>
-          <p>Creating exceptional digital experiences with modern design and cutting-edge technology. Let's
-            build something amazing together.</p>
+          <h3>Galler<span>ia</span></h3>
+          <p>Pakistan's finest paint brand — delivering premium quality, vibrant colors, and lasting finishes for every
+            surface.</p>
           <div class="social-links">
             <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
             <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
           </div>
         </div>
         <div class="footer-links">
-          <h4>Usefull Links</h4>
+          <h4>Quick Links</h4>
           <ul>
-            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="about.html"><i class="fas fa-user"></i> About us</a></li>
-            <li><a href="gallery.html"><i class="fas fa-code"></i> Gallery</a></li>
-            <li><a href="paintings.html"><i class="fas fa-briefcase"></i>Paintings</a></li>
-            <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact Us</a></li>
-            <li><a href="signup.html"><i class="fas fa-envelope"></i>Sign Up</a></li>
+            <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+            <li><a href="gallery.html"><i class="fas fa-chevron-right"></i> Gallery</a></li>
+            <li><a href="paintings.html"><i class="fas fa-chevron-right"></i> Paintings</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
           </ul>
         </div>
         <div class="footer-contact">
-          <h4>Subscribe Now</h4>
-          <p>Promotions, new products and sales.Not Forget Subscribe Our Brand.</p>
-          <div class="subscribe-box" style="display:flex; gap:10px;">
-            <input type="text" placeholder="SUBSCRIBE TO OUR NEWS LETTER ->" id="subscribeInput" class="input">
-            <button id="footersubscribeBtn">&#8594;</button>
+          <h4>Stay Updated</h4>
+          <p>Get promotions, new products and exclusive deals delivered to your inbox.</p>
+          <div class="subscribe-box">
+            <input type="text" placeholder="Enter your email..." id="subscribeInput" class="input">
+            <button id="footersubscribeBtn"><i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="container">
-        <p>&copy; Gallery Is First Choice For You: BEST.</p>
+      <div class="container-fluid">
+        <p>&copy; 2026 Galleria Paints — All Rights Reserved &nbsp;|&nbsp; Made with <span
+            style="color:var(--coral);">♥</span> in Pakistan</p>
       </div>
     </div>
   </footer>
-  <!-- ...............................Footer end........................ -->
-  <script src="js/bootstrap.js"></script>
+
   <script src="jquerydownload.js"></script>
-
+  <script src="js/bootstrap.js"></script>
   <script>
+    /* ── NAVBAR ── */
+    window.addEventListener('scroll', function () { document.getElementById('navbar').classList.toggle('nav-scrolled', window.scrollY > 60); }, { passive: true });
 
-     // ..................sign up register form script start............
-        $(document).ready(function () {
+    /* ── AUTH ── */
+    function openSignup() { var s = document.getElementById('registerSection'); s.style.display = 'flex'; setTimeout(function () { s.style.opacity = '1'; }, 10); }
+    function closeSignup() { var s = document.getElementById('registerSection'); s.style.opacity = '0'; setTimeout(function () { s.style.display = 'none'; s.style.opacity = ''; }, 300); }
+    document.getElementById('registerSection').addEventListener('click', function (e) { if (e.target === this) closeSignup(); });
 
-                        // Navbar button click → show form
-            $(".btn-signup, #open-signup-btn").click(function (e) {
-                e.preventDefault();
-                $("#sign-up").closest(".register-form-section").fadeIn(300);
-            });
+    /* ── TOAST ── */
+    function showToast(msg, type) { var t = document.createElement('div'); t.style.cssText = 'position:fixed;bottom:28px;right:28px;background:' + (type === 'error' ? '#e8603c' : '#0f1e2e') + ';color:#fff;padding:14px 22px;border-radius:10px;font-family:DM Sans,sans-serif;font-size:.88rem;z-index:999999;box-shadow:0 8px 28px rgba(0,0,0,.22);display:flex;align-items:center;gap:10px;border-left:3px solid ' + (type === 'error' ? '#fff' : '#e8603c') + ';max-width:320px;'; t.innerHTML = '<i class="fas ' + (type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle') + '" style="color:' + (type === 'error' ? '#fff' : '#e8603c') + '"></i>' + msg; document.body.appendChild(t); setTimeout(function () { t.style.transition = 'opacity .4s'; t.style.opacity = '0'; setTimeout(function () { t.remove(); }, 400); }, 2800); }
 
-            // Close button
-            $(".close-btn").click(function () {
-                $(this).closest(".register-form-section").fadeOut(300);
-            });
-
-            // Open Login
-            $("#open-sign-in").click(function (e) {
-                e.preventDefault();
-                $("#sign-up").fadeOut(300, function () {
-                    $("#sign-in").removeClass("d-none").fadeIn(300);
-                });
-            });
-
-            // Open Sign Up from Sign In
-            $("#open-sign-up").click(function (e) {
-                e.preventDefault();
-                $("#sign-in").fadeOut(300, function () {
-                    $("#sign-up").removeClass("d-none").fadeIn(300);
-                });
-            });
-
-            // Simple Sign Up Validation
-            $("#register-btn").click(function () {
-                let name = $("#signup-name").val();
-                let email = $("#signup-email").val();
-                let pass = $("#signup-pass").val();
-                let cpass = $("#signup-cpass").val();
-
-                if (name === "" || email === "" || pass === "" || cpass === "") {
-                    alert("All fields are required!");
-                    return;
-                }
-                if (pass !== cpass) {
-                    alert("Passwords do not match!");
-                    return;
-                }
-
-                alert("Registration Successful!");
-                $("#signup-name, #signup-email, #signup-pass, #signup-cpass").val('');
-                $("#sign-up").closest(".register-form-section").fadeOut(300);
-            });
-        });
-
-        // ..................sign up register form script end............
-
-    function toggleReadMore() {
-      var text = document.querySelector('.about-full-text');
-      var btn = document.querySelector('.about-read-more-btn');
-
-      if (text.style.display === 'none' || text.style.display === '') {
-        text.style.display = 'block';
-        btn.innerHTML = 'Read Less';
-      } else {
-        text.style.display = 'none';
-        btn.innerHTML = 'Read More';
-      }
-    }
-    $('input').click(function () {
-      this.placeholder = '';
-    })
-
-
-    // <!-- /* .................footer section end..................... */ -->
-    $('#footersubscribeBtn').click(function () {
-      let subscribe = $('#subscribeInput').val();
-      if (subscribe === '') {
-        alert('Please enter your email!');
-      }
-      else {
-        alert('Thanks for subscribing!');
-        $('#subscribeInput').val(''); // input clear kar de
-      }
+    $(document).ready(function () {
+      $('#register-btn').click(function () {
+        var n = $('#signup-name').val().trim(), e = $('#signup-email').val().trim(), p = $('#signup-pass').val(), c = $('#signup-cpass').val();
+        if (!n || !e || !p || !c) { showToast('All fields are required!', 'error'); return; }
+        if (p !== c) { showToast('Passwords do not match!', 'error'); return; }
+        showToast('Registration Successful! Welcome to Galleria.', 'success');
+        $('#signup-name,#signup-email,#signup-pass,#signup-cpass').val('');
+        setTimeout(closeSignup, 1200);
+      });
+      $('.register-sign-in-btn').click(function () {
+        var e = $('#signin-email').val().trim(), p = $('#signin-pass').val();
+        if (!e || !p) { showToast('Please fill all fields!', 'error'); return; }
+        showToast('Signed in successfully!', 'success');
+        setTimeout(closeSignup, 1200);
+      });
+      $('#open-sign-in').click(function (e) { e.preventDefault(); $('#sign-up').fadeOut(250, function () { $('#sign-in').removeClass('d-none').fadeIn(250); }); });
+      $('#open-sign-up').click(function (e) { e.preventDefault(); $('#sign-in').fadeOut(250, function () { $('#sign-up').removeClass('d-none').fadeIn(250); }); });
+      $('#footersubscribeBtn').click(function () { var v = $('#subscribeInput').val().trim(); if (!v) { showToast('Please enter your email!', 'error'); return; } showToast('Thanks for subscribing!', 'success'); $('#subscribeInput').val(''); });
     });
 
-    // <!-- /* .................footer section end..................... */ -->
+    /* ── SCROLL REVEAL ── */
+    document.addEventListener('DOMContentLoaded', function () {
+      var obs = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in-view'); e.target.querySelectorAll('.reveal-child').forEach(function (c) { c.classList.add('in-view'); }); obs.unobserve(e.target); } }); }, { threshold: .08 });
+      document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(function (el) { obs.observe(el); });
+      var cObs = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in-view'); cObs.unobserve(e.target); } }); }, { threshold: .1 });
+      document.querySelectorAll('.reveal-child').forEach(function (el) { cObs.observe(el); });
+    });
 
+    /* ── STAT COUNTER ── */
+    function easeOut(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+    function animCount(el, target, dur) { var start = null; function step(ts) { if (!start) start = ts; var p = Math.min((ts - start) / dur, 1); el.textContent = Math.floor(easeOut(p) * target) + '+'; if (p < 1) requestAnimationFrame(step); } requestAnimationFrame(step); }
+    var statsDone = false;
+    new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting && !statsDone) { statsDone = true; document.querySelectorAll('.stat-num[data-target]').forEach(function (el) { animCount(el, parseInt(el.dataset.target), 1400); }); } }); }, { threshold: .3 }).observe(document.querySelector('.stats-strip'));
 
+    /* ── READ MORE ── */
+    function toggleAboutText() { var t = document.getElementById('aboutFullText'); var btn = document.getElementById('readMoreBtn'); var txt = document.getElementById('readBtnText'); if (t.style.display === 'block') { t.style.display = 'none'; txt.textContent = 'Read More'; btn.classList.remove('open'); } else { t.style.display = 'block'; txt.textContent = 'Read Less'; btn.classList.add('open'); } }
   </script>
-
 </body>
 
 </html>
