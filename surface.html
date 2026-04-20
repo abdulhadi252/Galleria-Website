@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="fontawesome-free-7.0.1-web/css/all.min.css">
   <style>
     :root {
-      --navy: #0f2340;
+      --navy: #0f1e2e;
       --navy2: #162d50;
       --coral: #e8603c;
       --coral2: #f07a58;
@@ -25,21 +25,12 @@
       --muted: #6b7280;
       --border: rgba(15, 35, 64, 0.1);
       --sh: 0 4px 24px rgba(15, 35, 64, 0.08);
-      --sh2: 0 16px 48px rgba(15, 35, 64, 0.14);
+      --sh2: 0 20px 56px rgba(15, 35, 64, 0.16);
       --tr: all 0.38s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'DM Sans', sans-serif;
@@ -49,718 +40,288 @@
       line-height: 1.7;
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5 {
-      font-family: 'Playfair Display', serif;
-    }
+    h1, h2, h3, h4, h5 { font-family: 'Playfair Display', serif; color: var(--navy); }
+    em { font-style: italic; color: var(--coral); }
+    a { text-decoration: none; }
+    img { max-width: 100%; }
 
-    img {
-      max-width: 100%;
-    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--navy), var(--coral)); border-radius: 2px; }
 
-    a {
-      text-decoration: none;
+    /* ═══ REVEAL ANIMATIONS ═══ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .85s cubic-bezier(.23,1,.32,1), transform .85s cubic-bezier(.23,1,.32,1);
     }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
 
-    ::-webkit-scrollbar {
-      width: 4px;
+    .reveal-left {
+      opacity: 0; transform: translateX(-30px);
+      transition: opacity .85s cubic-bezier(.23,1,.32,1), transform .85s cubic-bezier(.23,1,.32,1);
     }
+    .reveal-left.in-view { opacity: 1; transform: translateX(0); }
 
-    ::-webkit-scrollbar-track {
-      background: var(--cream);
+    .reveal-right {
+      opacity: 0; transform: translateX(30px);
+      transition: opacity .85s cubic-bezier(.23,1,.32,1), transform .85s cubic-bezier(.23,1,.32,1);
     }
+    .reveal-right.in-view { opacity: 1; transform: translateX(0); }
 
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, var(--navy), var(--coral));
-      border-radius: 2px;
+    .reveal-child {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .7s ease, transform .7s ease;
     }
+    .reveal-child.in-view { opacity: 1; transform: translateY(0); }
+    .reveal-child:nth-child(1) { transition-delay: .05s; }
+    .reveal-child:nth-child(2) { transition-delay: .12s; }
+    .reveal-child:nth-child(3) { transition-delay: .19s; }
+    .reveal-child:nth-child(4) { transition-delay: .26s; }
+    .reveal-child:nth-child(5) { transition-delay: .33s; }
+    .reveal-child:nth-child(6) { transition-delay: .40s; }
 
     /* ═══ NAVBAR ═══ */
-    #mainNav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: rgba(12, 28, 52, 0.96);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 1px 0 rgba(232, 96, 60, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    .nav-inner {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 13px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-
-    .nav-logo-mark {
-      width: 40px;
-      height: 40px;
-      background: var(--coral);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      transition: transform .4s cubic-bezier(.23, 1, .32, 1), box-shadow .4s;
-    }
-
-    .nav-logo-mark::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent);
-      pointer-events: none;
-    }
-
-    .nav-logo-mark svg {
-      width: 20px;
-      height: 20px;
-      fill: none;
-      stroke: white;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .nav-logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1;
-    }
-
-    .nav-logo-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: .4px;
-    }
-
-    .nav-logo-sub {
-      font-size: .58rem;
-      letter-spacing: 3.5px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.45);
-      margin-top: 3px;
-    }
-
-    .nav-logo:hover .nav-logo-mark {
-      transform: rotate(-6deg) scale(1.08);
-      box-shadow: 0 6px 20px rgba(232, 96, 60, 0.5);
-    }
-
-    .nav-links-ul {
-      display: flex;
-      list-style: none;
-      gap: 2px;
-      align-items: center;
-      margin: 0;
+    .navbar {
+      background: transparent !important;
       padding: 0;
+      transition: background .5s, box-shadow .5s;
     }
+    .navbar.nav-scrolled {
+      background: rgba(13,26,39,.97) !important;
+      box-shadow: 0 1px 0 rgba(232,96,60,.2), 0 8px 32px rgba(0,0,0,.28);
+    }
+    .navbar-container {
+      max-width: 1320px; margin: 0 auto;
+      padding: 18px 40px;
+      transition: padding .4s;
+    }
+    .navbar.nav-scrolled .navbar-container { padding: 13px 40px; }
 
-    .nav-links-ul .nav-item-custom>a {
-      color: rgba(255, 255, 255, 0.72);
-      font-size: .78rem;
-      font-weight: 500;
-      letter-spacing: .9px;
-      text-transform: uppercase;
-      padding: 9px 15px;
-      border-radius: 7px;
+    .brand-text { display: flex; flex-direction: column; line-height: 1; }
+    .brand-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-style: italic; font-weight: 700; color: #fff; letter-spacing: .5px; }
+    .brand-tag { font-size: .58rem; letter-spacing: 3.5px; text-transform: uppercase; color: rgba(255,255,255,.4); margin-top: 3px; }
+
+    .navbar-nav { gap: 2px; align-items: center; }
+
+    .nav-link {
       position: relative;
-      transition: color .3s, background .3s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      font-size: .79rem !important; font-weight: 500 !important;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: rgba(255,255,255,.78) !important;
+      padding: 9px 15px !important; border-radius: 8px;
+      transition: color .3s, background .3s !important;
     }
+    .nav-link::after { display: none !important; }
+    .nav-link::before {
+      content: ''; position: absolute; inset: 0; border-radius: 8px;
+      background: rgba(232,96,60,.1); opacity: 0; transform: scale(.88);
+      transition: opacity .3s, transform .3s;
+    }
+    .nav-link:hover { color: #fff !important; }
+    .nav-link:hover::before { opacity: 1; transform: scale(1); }
+    .nav-link.nav-active { color: var(--coral) !important; background: rgba(232,96,60,.1); }
 
-    .nav-links-ul .nav-item-custom>a:hover {
-      color: var(--white);
-      background: rgba(255, 255, 255, 0.07);
-    }
+    .nav-chevron { font-size: .55rem; margin-left: 3px; transition: transform .3s; }
+    .nav-item.dropdown:hover .nav-chevron { transform: rotate(180deg); }
+    .nav-item.dropdown:hover .dropdown-menu { display: block; animation: dropIn .3s cubic-bezier(.23,1,.32,1); }
+    @keyframes dropIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-    .nav-links-ul .nav-item-custom>a.active-link {
-      color: var(--coral);
+    .dropdown-menu {
+      background: #0d1a27 !important; border: 1px solid rgba(232,96,60,.18) !important;
+      border-radius: 12px !important; padding: 8px !important;
+      box-shadow: 0 20px 40px rgba(0,0,0,.35) !important; min-width: 185px; margin-top: 6px !important;
     }
+    .dropdown-item {
+      color: rgba(255,255,255,.72) !important; font-size: .8rem;
+      padding: 10px 15px !important; border-radius: 8px !important;
+      transition: var(--tr); display: flex; align-items: center; gap: 9px;
+    }
+    .dropdown-item i { color: var(--coral); font-size: .75rem; }
+    .dropdown-item:hover { background: rgba(232,96,60,.14) !important; color: var(--coral) !important; transform: translateX(4px); }
+    .dropdown-item.active-item { color: var(--coral) !important; }
 
-    .nav-links-ul .nav-item-custom>a::after {
-      content: '';
-      position: absolute;
-      bottom: 4px;
-      left: 15px;
-      right: 15px;
-      height: 1.5px;
-      background: var(--coral);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform .35s cubic-bezier(.23, 1, .32, 1);
-      border-radius: 2px;
+    .nav-buttons { display: flex; align-items: center; }
+    .btn-signup {
+      background: var(--coral); color: #fff; border: none;
+      padding: 10px 26px; border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      position: relative; overflow: hidden; transition: var(--tr);
     }
+    .btn-signup::before { content: ''; position: absolute; inset: 0; background: var(--coral2); transform: scaleX(0); transform-origin: left; transition: transform .38s ease; }
+    .btn-signup span { position: relative; z-index: 1; }
+    .btn-signup:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,96,60,.42); }
+    .btn-signup:hover::before { transform: scaleX(1); }
 
-    .nav-links-ul .nav-item-custom>a:hover::after,
-    .nav-links-ul .nav-item-custom>a.active-link::after {
-      transform: scaleX(1);
-      transform-origin: left;
+    .navbar-toggler {
+      border: 1px solid rgba(255,255,255,.15) !important; border-radius: 8px !important;
+      padding: 8px 11px !important; background: rgba(255,255,255,.07) !important;
+      transition: var(--tr); display: flex; flex-direction: column; gap: 5px;
     }
-
-    .nav-item-custom {
-      position: relative;
-    }
-
-    .nav-dropdown {
-      position: absolute;
-      top: calc(100% + 12px);
-      left: 0;
-      background: rgba(12, 28, 52, 0.98);
-      border: 1px solid rgba(232, 96, 60, 0.18);
-      border-radius: 12px;
-      padding: 6px;
-      min-width: 175px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px);
-      transition: opacity .28s, transform .28s, visibility .28s;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, .35);
-      backdrop-filter: blur(10px);
-    }
-
-    .nav-item-custom:hover .nav-dropdown {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .nav-dropdown a {
-      display: block;
-      padding: 10px 14px;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: .8rem;
-      border-radius: 7px;
-      transition: background .25s, color .25s;
-      letter-spacing: .3px;
-    }
-
-    .nav-dropdown a:hover {
-      background: rgba(232, 96, 60, 0.14);
-      color: var(--coral);
-    }
-
-    .nav-dropdown-arrow {
-      font-size: .55rem;
-      opacity: .55;
-      transition: transform .3s ease;
-    }
-
-    .nav-item-custom:hover .nav-dropdown-arrow {
-      transform: rotate(180deg);
-    }
-
-    .nav-cta {
-      background: var(--coral);
-      color: var(--white);
-      border: none;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .76rem;
-      font-weight: 600;
-      letter-spacing: .9px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: transform .3s, box-shadow .3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .nav-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(232, 96, 60, 0.45);
-    }
-
-    .nav-mobile-toggle {
-      display: none;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      align-items: center;
-      justify-content: center;
-      font-size: .95rem;
-      cursor: pointer;
-      transition: background .3s;
-    }
-
-    .nav-mobile-toggle:hover {
-      background: var(--coral);
-    }
+    .navbar-toggler:hover { background: var(--coral) !important; border-color: var(--coral) !important; }
+    .navbar-toggler:focus { box-shadow: none !important; }
+    .toggler-line { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: var(--tr); }
 
     @media(max-width:991px) {
-      .nav-mobile-toggle {
-        display: flex;
+      .navbar-container { padding: 14px 20px; }
+      .navbar-collapse {
+        position: fixed; top: 0; right: -300px; left: auto !important; width: 280px; height: 100vh;
+        background: #0d1a27; border-left: 1px solid rgba(232,96,60,.15);
+        padding: 80px 22px 40px; transition: right .42s cubic-bezier(.23,1,.32,1) !important;
+        z-index: 1050; overflow-y: auto;
       }
-
-      .nav-desktop {
-        position: fixed;
-        top: 0;
-        right: -290px;
-        width: 270px;
-        height: 100vh;
-        background: rgba(12, 28, 52, 0.98);
-        backdrop-filter: blur(20px);
-        border-left: 1px solid rgba(232, 96, 60, 0.18);
-        padding: 76px 20px 40px;
-        transition: right .4s cubic-bezier(.23, 1, .32, 1);
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        z-index: 999;
-        overflow-y: auto;
-      }
-
-      .nav-desktop.open {
-        right: 0;
-        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.4);
-      }
-
-      .nav-links-ul {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .nav-links-ul .nav-item-custom>a {
-        padding: 13px 14px;
-      }
-
-      .nav-dropdown {
-        position: static;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        box-shadow: none;
-        border: none;
-        background: rgba(255, 255, 255, 0.04);
-        margin-top: 4px;
-        border-radius: 8px;
-      }
-
-      .nav-cta {
-        margin-top: 18px;
-        text-align: center;
-      }
-
-      .nav-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.55);
-        z-index: 998;
-      }
-
-      .nav-overlay.open {
-        display: block;
-      }
-
-      .nav-inner {
-        padding: 13px 20px;
-      }
+      .navbar-collapse.show { right: 0 !important; left: auto !important; }
+      .navbar-nav { flex-direction: column; align-items: stretch; gap: 2px; }
+      .nav-link { padding: 12px 15px !important; }
+      .dropdown-menu { position: static !important; background: rgba(255,255,255,.04) !important; border: none !important; box-shadow: none !important; padding: 4px 0 !important; margin: 0 !important; border-radius: 8px !important; }
+      .nav-buttons { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(232,96,60,.15); }
+      .btn-signup { width: 100%; }
     }
 
     /* ═══ AUTH ═══ */
-    .auth-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 35, 64, 0.7);
-      backdrop-filter: blur(8px);
-      z-index: 9999;
-      display: none;
-      align-items: center;
-      justify-content: center;
+    .register-form-section {
+      position: fixed; inset: 0; background: rgba(15,35,64,.7);
+      backdrop-filter: blur(8px); display: none; z-index: 9999;
+      align-items: center; justify-content: center;
     }
-
-    .auth-overlay.show {
-      display: flex;
-    }
-
+    .sign-up-form, .sign-in-form { display: flex; justify-content: center; }
     .auth-card {
-      background: var(--white);
-      border-radius: 20px;
-      width: 100%;
-      max-width: 420px;
-      padding: 48px 40px;
-      position: relative;
-      box-shadow: 0 40px 80px rgba(15, 35, 64, 0.3);
-      animation: slideUp .4s cubic-bezier(.23, 1, .32, 1);
+      position: relative; margin-top: 80px; text-align: center;
+      padding: 40px 36px; width: 100%; border-radius: 20px;
+      background: #fff; box-shadow: 0 40px 80px rgba(15,35,64,.25);
+      animation: authIn .4s cubic-bezier(.23,1,.32,1);
     }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes authIn { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    .auth-close-btn {
+      position: absolute; top: 14px; right: 16px; width: 32px; height: 32px;
+      border-radius: 50%; background: var(--cream2); border: none; font-size: 1.2rem;
+      cursor: pointer; color: var(--muted); transition: var(--tr);
+      display: flex; align-items: center; justify-content: center;
     }
-
-    .auth-close {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--cream2);
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      color: var(--muted);
-      transition: var(--tr);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .auth-close:hover {
-      background: var(--coral);
-      color: white;
-    }
-
-    .auth-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-style: italic;
-      color: var(--navy);
-      margin-bottom: 4px;
-    }
-
-    .auth-logo span {
-      color: var(--coral);
-    }
-
-    .auth-sub {
-      font-size: .88rem;
-      color: var(--muted);
-      margin-bottom: 32px;
-    }
-
+    .auth-close-btn:hover { background: var(--coral); color: #fff; }
+    .auth-brand { font-family: 'Playfair Display', serif; font-size: 2rem; font-style: italic; color: var(--navy); margin-bottom: 4px; }
+    .auth-brand span { color: var(--coral); }
+    .auth-sub { font-size: .88rem; color: var(--muted); margin-bottom: 24px; }
     .auth-input {
-      width: 100%;
-      padding: 13px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .92rem;
-      color: var(--text);
-      background: var(--cream);
-      outline: none;
-      transition: border-color .3s;
-      margin-bottom: 14px;
-      display: block;
+      display: block; width: 100%; padding: 12px 16px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: .92rem;
+      color: var(--text); background: var(--cream); outline: none;
+      transition: border-color .3s; margin-bottom: 14px;
     }
-
-    .auth-input:focus {
-      border-color: var(--navy);
-      background: var(--white);
-    }
-
+    .auth-input:focus { border-color: var(--navy); background: #fff; }
+    .auth-input::placeholder { color: var(--muted); }
     .auth-btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      background: var(--navy);
-      color: white;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .9rem;
-      font-weight: 600;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: var(--tr);
-      position: relative;
-      overflow: hidden;
+      width: 100%; padding: 14px; border: none; border-radius: 10px;
+      background: var(--navy); color: #fff; font-family: 'DM Sans', sans-serif;
+      font-size: .88rem; font-weight: 600; letter-spacing: .8px; text-transform: uppercase;
+      cursor: pointer; position: relative; overflow: hidden; transition: var(--tr); margin-top: 6px;
     }
-
-    .auth-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--coral);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .4s ease;
-    }
-
-    .auth-btn:hover::before {
-      transform: scaleX(1);
-    }
-
-    .auth-btn span {
-      position: relative;
-      z-index: 1;
-    }
-
-    .auth-switch {
-      text-align: center;
-      margin-top: 20px;
-      font-size: .85rem;
-      color: var(--muted);
-    }
-
-    .auth-switch a {
-      color: var(--coral);
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .auth-link {
-      color: var(--coral);
-      font-size: .82rem;
-      float: right;
-      margin-top: -8px;
-      margin-bottom: 16px;
-      display: block;
-      cursor: pointer;
-    }
+    .auth-btn::before { content: ''; position: absolute; inset: 0; background: var(--coral); transform: scaleX(0); transform-origin: left; transition: transform .4s ease; }
+    .auth-btn span { position: relative; z-index: 1; }
+    .auth-btn:hover::before { transform: scaleX(1); }
+    .auth-btn:hover { box-shadow: 0 8px 24px rgba(232,96,60,.4); }
+    .auth-switch { margin-top: 18px; font-size: .85rem; color: var(--muted); }
+    .auth-switch a { color: var(--coral); font-weight: 600; cursor: pointer; }
+    .auth-forgot { display: block; color: var(--coral); font-size: .82rem; margin-bottom: 16px; text-align: right; }
 
     /* ═══ PAGE HERO ═══ */
     .page-hero {
-      margin-top: 66px;
-      position: relative;
-      height: 62vh;
-      min-height: 420px;
+      position: relative; height: 65vh; min-height: 460px;
+      display: flex; align-items: center; justify-content: center;
       overflow: hidden;
-      background: var(--navy);
-      display: flex;
-      align-items: center;
     }
-
     .page-hero-bg {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background: url('images/wallpaint.jfif') center/cover no-repeat;
-      opacity: .15;
-      animation: bgZoom 14s ease-in-out infinite alternate;
+      filter: brightness(.4) saturate(.85);
+      animation: heroBgZoom 16s ease-in-out infinite alternate;
     }
-
-    @keyframes bgZoom {
-      from {
-        transform: scale(1);
-      }
-
-      to {
-        transform: scale(1.07);
-      }
-    }
-
+    @keyframes heroBgZoom { from { transform:scale(1); } to { transform:scale(1.08); } }
     .page-hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(125deg, rgba(10, 22, 44, 0.88) 0%, rgba(10, 22, 44, 0.35) 70%, transparent 100%);
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(15,35,64,.82) 0%, rgba(15,35,64,.35) 60%, transparent 100%);
     }
 
-    .page-hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 40px;
-      width: 100%;
-      text-align: center;
+    /* Floating paint splatter decorations */
+    .hero-decor {
+      position: absolute; pointer-events: none; z-index: 1;
+    }
+    .hero-decor-circle {
+      border-radius: 50%; opacity: .08;
+      background: var(--coral); animation: float 7s ease-in-out infinite alternate;
+    }
+    .hero-decor-circle:nth-child(1) { width:320px; height:320px; top:-60px; right:10%; animation-delay:0s; }
+    .hero-decor-circle:nth-child(2) { width:180px; height:180px; bottom:30px; left:8%; animation-delay:2s; opacity:.05; }
+    .hero-decor-circle:nth-child(3) { width:80px; height:80px; top:40%; left:20%; animation-delay:4s; opacity:.12; }
+    @keyframes float { from { transform:translateY(0) scale(1); } to { transform:translateY(-22px) scale(1.06); } }
+
+    .page-hero-content { position: relative; z-index: 2; text-align: center; }
+
+    .page-hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: .7rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--coral); margin-bottom: 16px; font-weight: 600;
+      opacity: 0; animation: fadeUp .8s forwards .3s;
+    }
+    .page-hero-eyebrow::before, .page-hero-eyebrow::after {
+      content: ''; width: 28px; height: 1.5px; background: var(--coral);
+    }
+    .page-hero h1 {
+      font-size: clamp(2.6rem, 5.5vw, 4.8rem); color: #fff; font-weight: 700;
+      margin-bottom: 16px; opacity: 0; animation: fadeUp 1s forwards .5s;
+    }
+    .page-hero p {
+      font-size: 1rem; color: rgba(255,255,255,.75); max-width: 500px;
+      margin: 0 auto; opacity: 0; animation: fadeUp 1s forwards .75s; line-height: 1.9;
     }
 
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: .68rem;
-      letter-spacing: 4.5px;
-      text-transform: uppercase;
-      color: var(--coral);
-      margin-bottom: 18px;
-      opacity: 0;
-      animation: fadeUp .7s cubic-bezier(.23, 1, .32, 1) forwards .2s;
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      z-index: 3; opacity: 0; animation: fadeUp .8s forwards 1.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
     }
-
-    .hero-eyebrow::before,
-    .hero-eyebrow::after {
-      content: '';
-      width: 28px;
-      height: 1.5px;
-      background: var(--coral);
+    .scroll-indicator span { font-size: .6rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,.4); }
+    .scroll-mouse {
+      width: 22px; height: 36px; border: 1.5px solid rgba(255,255,255,.25); border-radius: 12px;
+      display: flex; justify-content: center; padding-top: 6px;
     }
+    .scroll-dot { width: 3px; height: 7px; border-radius: 2px; background: var(--coral); animation: scrollDot 1.8s ease-in-out infinite; }
+    @keyframes scrollDot { 0%,100%{transform:translateY(0);opacity:1;} 50%{transform:translateY(9px);opacity:.3;} }
 
-    .hero-h1 {
-      font-size: clamp(2.4rem, 5vw, 4.6rem);
-      color: var(--white);
-      font-weight: 700;
-      line-height: 1.07;
-      margin-bottom: 14px;
-      opacity: 0;
-      animation: fadeUp .9s cubic-bezier(.23, 1, .32, 1) forwards .4s;
-    }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
 
-    .hero-h1 em {
-      font-style: italic;
-      color: var(--coral2);
-    }
-
-    .hero-p {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 500px;
-      margin: 0 auto;
-      line-height: 1.9;
-      opacity: 0;
-      animation: fadeUp .9s cubic-bezier(.23, 1, .32, 1) forwards .65s;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(28px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ═══ SECTION COMMONS ═══ */
+    /* ═══ SECTION BADGE ═══ */
     .section-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: .68rem;
-      letter-spacing: 3.5px;
-      text-transform: uppercase;
-      color: var(--coral);
-      margin-bottom: 12px;
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: .68rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--coral); margin-bottom: 10px; font-family: 'DM Sans', sans-serif; font-weight: 600;
     }
-
-    .section-badge::before,
-    .section-badge::after {
-      content: '';
-      width: 20px;
-      height: 1.5px;
-      background: var(--coral);
-    }
-
-    .section-h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      color: var(--navy);
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-
-    .section-h2 em {
-      font-style: italic;
-      color: var(--coral);
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-
-    .aos {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity .8s cubic-bezier(.23, 1, .32, 1), transform .8s cubic-bezier(.23, 1, .32, 1);
-    }
-
-    .aos.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .section-badge::before, .section-badge::after { content: ''; width: 20px; height: 1.5px; background: var(--coral); }
+    .section-header { text-align: center; margin-bottom: 56px; }
 
     /* ═══ SURFACE SECTION ═══ */
-    .surface-section {
-      padding: 100px 0;
-      background: var(--cream);
-    }
+    .surface-section { padding: 110px 0; background: var(--cream); }
+    .surface-inner { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
 
-    .surface-inner {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    /* Back button */
-    .back-btn {
-      display: none;
-      align-items: center;
-      gap: 10px;
-      background: var(--navy);
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .78rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: var(--tr);
-      margin-bottom: 40px;
-    }
-
-    .back-btn.show {
-      display: inline-flex;
-    }
-
-    .back-btn:hover {
-      background: var(--coral);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(232, 96, 60, 0.4);
-    }
-
-    /* Category view breadcrumb */
+    /* Breadcrumb */
     .breadcrumb-bar {
-      display: none;
-      align-items: center;
-      gap: 10px;
-      font-size: .8rem;
-      color: var(--muted);
-      margin-bottom: 32px;
+      display: none; align-items: center; gap: 10px;
+      font-size: .8rem; color: var(--muted); margin-bottom: 36px;
+      background: var(--white); padding: 12px 20px; border-radius: 10px;
+      border: 1px solid var(--border); box-shadow: var(--sh);
     }
-
-    .breadcrumb-bar.show {
-      display: flex;
+    .breadcrumb-bar.show { display: flex; animation: fadeUp .4s ease; }
+    .breadcrumb-bar a {
+      color: var(--muted); display: flex; align-items: center; gap: 6px;
+      font-size: .8rem; transition: color .3s;
     }
+    .breadcrumb-bar a:hover { color: var(--coral); }
+    .breadcrumb-bar span { color: var(--coral); font-weight: 600; }
 
-    .breadcrumb-bar span {
-      color: var(--coral);
-      font-weight: 600;
-    }
-
-    /* ── Category Cards ── */
+    /* ══ Category Cards ══ */
     .categories-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -768,672 +329,396 @@
     }
 
     .cat-card {
-      background: var(--white);
-      border-radius: 20px;
-      overflow: hidden;
+      background: var(--white); border-radius: 20px; overflow: hidden;
       border: 1px solid var(--border);
-      transition: transform .4s cubic-bezier(.23, 1, .32, 1), box-shadow .4s, border-color .4s;
-      cursor: pointer;
+      transition: transform .4s cubic-bezier(.23,1,.32,1), box-shadow .4s, border-color .4s;
+      cursor: pointer; position: relative;
+    }
+    .cat-card:hover {
+      transform: translateY(-12px);
+      box-shadow: var(--sh2);
+      border-color: rgba(232,96,60,.3);
     }
 
-    .cat-card:hover {
-      transform: translateY(-10px);
-      box-shadow: var(--sh2);
-      border-color: rgba(232, 96, 60, 0.3);
+    /* Top accent bar */
+    .cat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--coral), var(--coral2));
+      transform: scaleX(0); transform-origin: left; transition: transform .5s; z-index: 2;
     }
+    .cat-card:hover::before { transform: scaleX(1); }
 
     .cat-card-img {
-      position: relative;
-      height: 260px;
-      overflow: hidden;
-      background: var(--cream2);
+      position: relative; height: 260px; overflow: hidden; background: var(--cream2);
     }
-
     .cat-card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .7s cubic-bezier(.23, 1, .32, 1), filter .4s;
-      filter: brightness(.88);
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .7s cubic-bezier(.23,1,.32,1), filter .4s;
+      filter: brightness(.88) saturate(.9);
     }
-
-    .cat-card:hover .cat-card-img img {
-      transform: scale(1.07);
-      filter: brightness(.75);
-    }
+    .cat-card:hover .cat-card-img img { transform: scale(1.08); filter: brightness(.65) saturate(1.1); }
 
     .cat-card-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 40%, rgba(15, 35, 64, 0.65) 100%);
-      opacity: 0;
-      transition: opacity .4s;
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 35%, rgba(15,35,64,.7) 100%);
+      opacity: 0; transition: opacity .4s;
     }
-
-    .cat-card:hover .cat-card-overlay {
-      opacity: 1;
-    }
+    .cat-card:hover .cat-card-overlay { opacity: 1; }
 
     .cat-card-label {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 20px;
-      z-index: 2;
-      transform: translateY(100%);
-      transition: transform .4s cubic-bezier(.23, 1, .32, 1);
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; z-index: 2;
+      transform: translateY(100%); transition: transform .4s cubic-bezier(.23,1,.32,1);
     }
-
-    .cat-card:hover .cat-card-label {
-      transform: translateY(0);
-    }
-
+    .cat-card:hover .cat-card-label { transform: translateY(0); }
     .cat-card-label span {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: white;
-      font-size: .75rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 8px; color: white;
+      font-size: .75rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
     }
 
-    .cat-card-body {
-      padding: 24px 26px;
+    /* Surface number badge */
+    .cat-num {
+      position: absolute; top: 18px; left: 18px; z-index: 3;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(15,35,64,.75); border: 1.5px solid rgba(232,96,60,.4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-style: italic; font-size: .95rem; color: var(--coral);
+      backdrop-filter: blur(6px); transition: var(--tr);
     }
+    .cat-card:hover .cat-num { background: var(--coral); color: #fff; border-color: var(--coral); }
 
-    .cat-card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      color: var(--navy);
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .cat-card-desc {
-      font-size: .88rem;
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 18px;
-    }
-
+    .cat-card-body { padding: 26px 28px; }
+    .cat-card-title { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--navy); font-weight: 700; margin-bottom: 8px; }
+    .cat-card-desc { font-size: .88rem; color: var(--muted); line-height: 1.85; margin-bottom: 20px; }
     .cat-card-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      border: 1.5px solid var(--navy);
-      color: var(--navy);
-      padding: 9px 20px;
-      border-radius: 7px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .75rem;
-      font-weight: 600;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: var(--tr);
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; border: 1.5px solid var(--navy); color: var(--navy);
+      padding: 10px 22px; border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: .75rem; font-weight: 600;
+      letter-spacing: .8px; text-transform: uppercase; cursor: pointer; transition: var(--tr);
     }
+    .cat-card-btn i { font-size: .7rem; transition: transform .3s; }
+    .cat-card:hover .cat-card-btn { background: var(--navy); color: white; }
+    .cat-card:hover .cat-card-btn i { transform: translateX(5px); }
 
-    .cat-card-btn i {
-      font-size: .7rem;
-      transition: transform .3s;
-    }
+    /* ══ Paintings Grid ══ */
+    .paintings-view { display: none; }
+    .paintings-view.show { display: block; animation: fadeIn .5s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 
-    .cat-card:hover .cat-card-btn {
-      background: var(--navy);
-      color: white;
-    }
-
-    .cat-card:hover .cat-card-btn i {
-      transform: translateX(4px);
-    }
-
-    /* ── Paintings Grid (detail view) ── */
-    .paintings-view {
-      display: none;
-    }
-
-    .paintings-view.show {
-      display: block;
-      animation: fadeIn .5s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .paintings-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 22px;
-    }
+    .paintings-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
 
     .paint-card {
-      background: var(--white);
-      border-radius: 16px;
-      overflow: hidden;
+      background: var(--white); border-radius: 16px; overflow: hidden;
       border: 1px solid var(--border);
-      transition: transform .4s cubic-bezier(.23, 1, .32, 1), box-shadow .4s, border-color .4s;
-      cursor: pointer;
+      transition: transform .4s cubic-bezier(.23,1,.32,1), box-shadow .4s, border-color .4s;
+      cursor: pointer; position: relative;
     }
-
-    .paint-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--sh2);
-      border-color: rgba(232, 96, 60, 0.25);
+    .paint-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--coral), var(--coral2));
+      transform: scaleX(0); transform-origin: left; transition: transform .45s; z-index: 2;
     }
+    .paint-card:hover { transform: translateY(-8px); box-shadow: var(--sh2); border-color: rgba(232,96,60,.25); }
+    .paint-card:hover::before { transform: scaleX(1); }
 
-    .paint-card-img {
-      position: relative;
-      height: 220px;
-      overflow: hidden;
-      background: var(--cream2);
-    }
-
+    .paint-card-img { position: relative; height: 220px; overflow: hidden; background: var(--cream2); }
     .paint-card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .6s cubic-bezier(.23, 1, .32, 1), filter .4s;
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s cubic-bezier(.23,1,.32,1), filter .4s;
     }
-
-    .paint-card:hover .paint-card-img img {
-      transform: scale(1.06);
-      filter: brightness(.8);
-    }
+    .paint-card:hover .paint-card-img img { transform: scale(1.07); filter: brightness(.75); }
 
     .paint-card-expand {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(15, 35, 64, 0.3);
-      opacity: 0;
-      transition: opacity .4s;
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(15,35,64,.28); opacity: 0; transition: opacity .4s;
     }
-
-    .paint-card:hover .paint-card-expand {
-      opacity: 1;
+    .paint-card:hover .paint-card-expand { opacity: 1; }
+    .paint-card-expand-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--coral); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; transform: scale(0.65);
+      transition: transform .4s cubic-bezier(.23,1,.32,1);
+      box-shadow: 0 8px 24px rgba(232,96,60,.5);
     }
+    .paint-card:hover .paint-card-expand-icon { transform: scale(1); }
 
-    .paint-card-expand i {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--coral);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      transform: scale(0.7);
-      transition: transform .4s cubic-bezier(.23, 1, .32, 1);
-    }
+    .paint-card-info { padding: 14px 16px 18px; }
+    .paint-card-name { font-family: 'DM Sans', sans-serif; font-size: .92rem; font-weight: 600; color: var(--navy); }
 
-    .paint-card:hover .paint-card-expand i {
-      transform: scale(1);
-    }
-
-    .paint-card-info {
-      padding: 14px 16px 18px;
-    }
-
-    .paint-card-name {
-      font-family: 'DM Sans', sans-serif;
-      font-size: .92rem;
-      font-weight: 600;
-      color: var(--navy);
-    }
-
-    /* Lightbox */
+    /* ═══ LIGHTBOX ═══ */
     .lightbox {
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 12, 22, 0.96);
-      z-index: 99999;
-      display: none;
-      align-items: center;
-      justify-content: center;
+      position: fixed; inset: 0; background: rgba(5,12,22,.97);
+      z-index: 99999; display: none; align-items: center; justify-content: center;
     }
-
-    .lightbox.show {
-      display: flex;
-    }
-
-    .lb-content {
-      position: relative;
-      max-width: 90vw;
-    }
-
+    .lightbox.show { display: flex; }
+    .lb-content { position: relative; max-width: 90vw; }
     .lb-content img {
-      max-width: 90vw;
-      max-height: 85vh;
-      border-radius: 12px;
-      object-fit: contain;
-      display: block;
-      animation: lbIn .4s cubic-bezier(.23, 1, .32, 1);
+      max-width: 90vw; max-height: 85vh; border-radius: 14px;
+      object-fit: contain; display: block;
+      animation: lbIn .4s cubic-bezier(.23,1,.32,1);
+      box-shadow: 0 40px 80px rgba(0,0,0,.6);
     }
-
-    @keyframes lbIn {
-      from {
-        opacity: 0;
-        transform: scale(.93);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
+    @keyframes lbIn { from { opacity:0; transform:scale(.9); } to { opacity:1; transform:scale(1); } }
     .lb-close {
-      position: absolute;
-      top: -14px;
-      right: -14px;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: var(--coral);
-      border: none;
-      color: white;
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--tr);
+      position: absolute; top: -16px; right: -16px; width: 40px; height: 40px;
+      border-radius: 50%; background: var(--coral); border: none; color: white;
+      font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: var(--tr);
     }
-
-    .lb-close:hover {
-      background: var(--navy);
-      transform: rotate(90deg);
+    .lb-close:hover { background: var(--navy); transform: rotate(90deg); }
+    .lb-caption {
+      position: absolute; bottom: -48px; left: 0; right: 0;
+      text-align: center; color: rgba(255,255,255,.6);
+      font-size: .85rem; letter-spacing: .5px;
     }
-
     .lb-nav {
-      position: fixed;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: white;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: var(--tr);
-      font-size: .9rem;
-      z-index: 2;
-      border: none;
+      position: fixed; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      color: white; width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--tr); font-size: .95rem; z-index: 2;
     }
+    .lb-nav:hover { background: var(--coral); border-color: var(--coral); transform: translateY(-50%) scale(1.1); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
 
-    .lb-nav:hover {
-      background: var(--coral);
+    /* ═══ STATS STRIP (inspired by about.html) ═══ */
+    .stats-strip {
+      background: var(--navy); padding: 70px 0; position: relative; overflow: hidden;
     }
-
-    .lb-prev {
-      left: 20px;
+    .stats-strip::before, .stats-strip::after {
+      content: ''; position: absolute; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,96,60,.4), transparent);
     }
-
-    .lb-next {
-      right: 20px;
+    .stats-strip::before { top: 0; }
+    .stats-strip::after { bottom: 0; }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.07);
+      max-width: 1000px; margin: 0 auto;
+    }
+    .stat-box {
+      padding: 44px 20px; text-align: center;
+      background: var(--navy); position: relative; overflow: hidden; transition: background .4s;
+    }
+    .stat-box::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--coral), var(--coral2));
+      transform: scaleX(0); transform-origin: left; transition: transform .5s;
+    }
+    .stat-box:hover { background: rgba(232,96,60,.05); }
+    .stat-box:hover::before { transform: scaleX(1); }
+    .stat-num {
+      font-family: 'Playfair Display', serif; font-size: 3.2rem; font-style: italic;
+      color: var(--coral); line-height: 1; display: block;
+    }
+    .stat-label {
+      font-size: .7rem; letter-spacing: 2.5px; text-transform: uppercase;
+      color: rgba(255,255,255,.5); margin-top: 8px; display: block;
     }
 
     /* ═══ FOOTER ═══ */
-    footer {
-      background: var(--navy);
-      position: relative;
-      overflow: hidden;
-    }
-
+    footer { background: var(--navy); position: relative; overflow: hidden; }
     footer::before {
-      content: '';
-      position: absolute;
-      bottom: -80px;
-      right: -80px;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: rgba(232, 96, 60, 0.06);
-      pointer-events: none;
+      content: ''; position: absolute; bottom: -60px; right: -60px; width: 260px; height: 260px;
+      border-radius: 50%; background: rgba(232,96,60,.05); pointer-events: none;
     }
+    .footer-top-line { height: 2px; background: linear-gradient(90deg, transparent, var(--coral), transparent); opacity: .5; }
+    .footer-container { max-width: 1320px; margin: 0 auto; padding: 70px 40px 50px; }
+    .footer-content { display: grid; grid-template-columns: 2.5fr 1.5fr 2.5fr; gap: 60px; }
 
-    .footer-top {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 80px 40px 60px;
+    .footer-about h3 { font-family: 'Playfair Display', serif; font-size: 2rem; font-style: italic; color: #fff; margin-bottom: 14px; }
+    .footer-about h3 span { color: var(--coral); }
+    .footer-about p { color: rgba(255,255,255,.5); font-size: .88rem; margin-bottom: 28px; line-height: 1.85; max-width: 300px; }
+    .social-links { display: flex; gap: 10px; }
+    .social-link {
+      width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.6); font-size: .88rem; transition: var(--tr); text-decoration: none;
     }
+    .social-link:hover { background: var(--coral); color: #fff; border-color: var(--coral); transform: translateY(-3px); }
 
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2.5fr 1.5fr 2fr;
-      gap: 60px;
+    .footer-links h4, .footer-contact h4 {
+      font-size: .72rem; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,.38); margin-bottom: 22px;
+      position: relative; padding-bottom: 14px;
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
     }
+    .footer-links h4::after, .footer-contact h4::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 24px; height: 1.5px; background: var(--coral);
+    }
+    .footer-links ul { list-style: none; padding-left: 0; margin-left: 0; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { color: rgba(255,255,255,.52); font-size: .88rem; display: flex; align-items: center; gap: 9px; transition: var(--tr); }
+    .footer-links a i { font-size: .65rem; color: var(--coral); }
+    .footer-links a:hover { color: #fff; transform: translateX(4px); }
 
-    .footer-brand-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-style: italic;
-      color: var(--white);
-      margin-bottom: 16px;
-    }
+    .footer-contact p { color: rgba(255,255,255,.5); font-size: .85rem; margin-bottom: 18px; line-height: 1.7; }
+    .subscribe-box { display: flex; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; overflow: hidden; }
+    .subscribe-box .input { flex: 1; padding: 12px 16px; background: transparent; border: none; color: #fff; font-family: 'DM Sans', sans-serif; font-size: .85rem; outline: none; }
+    .subscribe-box .input::placeholder { color: rgba(255,255,255,.28); }
+    #footersubscribeBtn { padding: 0 18px; background: var(--coral); border: none; color: #fff; font-size: .95rem; cursor: pointer; transition: var(--tr); }
+    #footersubscribeBtn:hover { background: var(--coral2); }
 
-    .footer-brand-name span {
-      color: var(--coral);
-    }
+    .footer-bottom { background: rgba(0,0,0,.3); padding: 20px 0; text-align: center; border-top: 1px solid rgba(255,255,255,.06); }
+    .footer-bottom p { color: rgba(255,255,255,.32); font-size: .78rem; letter-spacing: .5px; }
 
-    .footer-desc {
-      font-size: .88rem;
-      color: rgba(255, 255, 255, 0.5);
-      line-height: 1.85;
-      margin-bottom: 28px;
-      max-width: 300px;
+    /* ═══ TOAST ═══ */
+    .toast-msg {
+      position: fixed; bottom: 28px; right: 28px; z-index: 999999;
+      padding: 14px 22px; border-radius: 10px; color: #fff;
+      font-family: 'DM Sans', sans-serif; font-size: .88rem;
+      box-shadow: 0 8px 28px rgba(0,0,0,.22);
+      display: flex; align-items: center; gap: 10px;
+      max-width: 320px; animation: toastIn .35s ease;
     }
-
-    .footer-socials {
-      display: flex;
-      gap: 12px;
-    }
-
-    .footer-social-link {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: .9rem;
-      transition: var(--tr);
-      text-decoration: none;
-    }
-
-    .footer-social-link:hover {
-      background: var(--coral);
-      color: white;
-      border-color: var(--coral);
-      transform: translateY(-3px);
-    }
-
-    .footer-col-title {
-      font-size: .72rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.4);
-      margin-bottom: 24px;
-      position: relative;
-      padding-bottom: 14px;
-    }
-
-    .footer-col-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 28px;
-      height: 1.5px;
-      background: var(--coral);
-    }
-
-    .footer-links-list {
-      list-style: none;
-    }
-
-    .footer-links-list li {
-      margin-bottom: 10px;
-    }
-
-    .footer-links-list a {
-      color: rgba(255, 255, 255, 0.55);
-      font-size: .88rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: var(--tr);
-      text-decoration: none;
-    }
-
-    .footer-links-list a i {
-      font-size: .75rem;
-      color: var(--coral);
-    }
-
-    .footer-links-list a:hover {
-      color: white;
-      transform: translateX(4px);
-    }
-
-    .footer-subscribe-text {
-      font-size: .85rem;
-      color: rgba(255, 255, 255, 0.5);
-      margin-bottom: 20px;
-      line-height: 1.7;
-    }
-
-    .footer-subscribe-form {
-      display: flex;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .footer-subscribe-input {
-      flex: 1;
-      padding: 13px 16px;
-      background: transparent;
-      border: none;
-      color: white;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .85rem;
-      outline: none;
-    }
-
-    .footer-subscribe-input::placeholder {
-      color: rgba(255, 255, 255, 0.3);
-    }
-
-    .footer-subscribe-btn {
-      padding: 0 20px;
-      background: var(--coral);
-      border: none;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: var(--tr);
-    }
-
-    .footer-subscribe-btn:hover {
-      background: var(--coral2);
-    }
-
-    .footer-divider {
-      height: 1px;
-      background: rgba(255, 255, 255, 0.07);
-      margin: 0 40px;
-    }
-
-    .footer-bottom-bar {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 22px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: .78rem;
-      color: rgba(255, 255, 255, 0.35);
-    }
+    @keyframes toastIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 
     /* ═══ RESPONSIVE ═══ */
     @media(max-width:1100px) {
-      .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .paintings-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-      }
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .paintings-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer-content { grid-template-columns: 1fr 1fr; gap: 40px; }
     }
-
     @media(max-width:768px) {
-      .categories-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .paintings-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .surface-inner {
-        padding: 0 20px;
-      }
-
-      .page-hero-content {
-        padding: 0 20px;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-top {
-        padding: 60px 20px 40px;
-      }
-
-      .footer-bottom-bar {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-      }
-
-      .footer-divider {
-        margin: 0 20px;
-      }
-
-      section {
-        padding: 70px 0 !important;
-      }
+      .categories-grid { grid-template-columns: 1fr 1fr; }
+      .paintings-grid { grid-template-columns: repeat(2, 1fr); }
+      .surface-inner { padding: 0 20px; }
+      .footer-content { grid-template-columns: 1fr; }
+      .footer-container { padding: 60px 20px 40px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .surface-section { padding: 80px 0; }
     }
-
     @media(max-width:480px) {
-      .categories-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .paintings-grid {
-        grid-template-columns: 1fr;
-      }
+      .categories-grid { grid-template-columns: 1fr; }
+      .paintings-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="nav-overlay" id="navOverlay" onclick="closeNav()"></div>
-
-  <!-- NAVBAR -->
-  <nav id="mainNav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <div class="nav-logo-mark">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-          </svg>
+  <!-- AUTH MODAL -->
+  <section class="register-form-section" id="registerSection">
+    <div id="sign-up" class="container sign-up-form">
+      <div class="col-md-6 col-lg-4 col-10">
+        <div class="auth-card">
+          <button class="auth-close-btn" onclick="closeSignup()">&times;</button>
+          <div class="auth-brand">Galler<span>ia</span></div>
+          <p class="auth-sub">Create your account</p>
+          <input type="text" id="signup-name" class="auth-input" placeholder="Full Name">
+          <input type="email" id="signup-email" class="auth-input" placeholder="Email Address">
+          <input type="password" id="signup-pass" class="auth-input" placeholder="Password">
+          <input type="password" id="signup-cpass" class="auth-input" placeholder="Confirm Password">
+          <button id="register-btn" class="auth-btn"><span>Create Account</span></button>
+          <p class="auth-switch">Already have an account? <a id="open-sign-in">Sign In</a></p>
         </div>
-        <div class="nav-logo-text">
-          <span class="nav-logo-name">Galleria</span>
-          <span class="nav-logo-sub">Paints</span>
-        </div>
-      </a>
-      <div class="nav-desktop" id="navDesktop">
-        <ul class="nav-links-ul">
-          <li class="nav-item-custom"><a href="index.html">Home</a></li>
-          <li class="nav-item-custom"><a href="about.html">About</a></li>
-          <li class="nav-item-custom">
-            <a href="#" class="active-link">Paintings <i class="fas fa-chevron-down nav-dropdown-arrow"
-                style="font-size:.55rem;"></i></a>
-            <ul class="nav-dropdown">
-              <a href="surface.html" style="color:var(--coral);">Surface</a>
-              <a href="paintings.html">Color Type</a>
-            </ul>
-          </li>
-          <li class="nav-item-custom"><a href="index.html#product-section">Products</a></li>
-          <li class="nav-item-custom"><a href="gallery.html">Gallery</a></li>
-          <li class="nav-item-custom"><a href="contact.html">Contact</a></li>
-        </ul>
-        <button class="nav-cta" onclick="openAuth('signup')">Sign Up</button>
       </div>
-      <button class="nav-mobile-toggle" id="navToggle" onclick="toggleNav()">
-        <i class="fas fa-bars" id="toggleIcon"></i>
-      </button>
     </div>
-  </nav>
-
-  <!-- AUTH -->
-  <div class="auth-overlay" id="authOverlay">
-    <div class="auth-card" id="signupCard">
-      <button class="auth-close" onclick="closeAuth()"><i class="fas fa-times"></i></button>
-      <div class="auth-logo">Galler<span>ia</span></div>
-      <p class="auth-sub">Create your account</p>
-      <input type="text" class="auth-input" placeholder="Full Name" id="su-name">
-      <input type="email" class="auth-input" placeholder="Email Address" id="su-email">
-      <input type="password" class="auth-input" placeholder="Password" id="su-pass">
-      <input type="password" class="auth-input" placeholder="Confirm Password" id="su-cpass">
-      <button class="auth-btn" onclick="doRegister()"><span>Create Account</span></button>
-      <p class="auth-switch">Already have an account? <a onclick="switchAuth('signin')">Sign In</a></p>
+    <div id="sign-in" class="container sign-in-form d-none">
+      <div class="col-md-6 col-lg-4 col-10">
+        <div class="auth-card">
+          <button class="auth-close-btn" onclick="closeSignup()">&times;</button>
+          <div class="auth-brand">Galler<span>ia</span></div>
+          <p class="auth-sub">Great to have you back.</p>
+          <input type="email" id="signin-email" class="auth-input" placeholder="Email Address">
+          <input type="password" id="signin-pass" class="auth-input" placeholder="Password">
+          <a class="auth-forgot">Forgot password?</a>
+          <button class="auth-btn sign-in-btn"><span>Sign In</span></button>
+          <p class="auth-switch">Don't have an account? <a id="open-sign-up">Sign Up</a></p>
+        </div>
+      </div>
     </div>
-    <div class="auth-card" id="signinCard" style="display:none;">
-      <button class="auth-close" onclick="closeAuth()"><i class="fas fa-times"></i></button>
-      <div class="auth-logo">Galler<span>ia</span></div>
-      <p class="auth-sub">Great to have you back.</p>
-      <input type="email" class="auth-input" placeholder="Email Address" id="si-email">
-      <input type="password" class="auth-input" placeholder="Password" id="si-pass">
-      <a class="auth-link" href="#">Forgot password?</a>
-      <button class="auth-btn" onclick="doLogin()"><span>Sign In</span></button>
-      <p class="auth-switch">Don't have an account? <a onclick="switchAuth('signup')">Sign Up</a></p>
-    </div>
-  </div>
+  </section>
 
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox">
-    <button class="lb-nav lb-prev" onclick="lbNav(-1)"><i class="fas fa-chevron-left"></i></button>
+    <button class="lb-nav lb-prev" id="lbPrev"><i class="fas fa-chevron-left"></i></button>
     <div class="lb-content">
       <button class="lb-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
       <img id="lbImg" src="" alt="">
+      <div class="lb-caption" id="lbCaption"></div>
     </div>
-    <button class="lb-nav lb-next" onclick="lbNav(1)"><i class="fas fa-chevron-right"></i></button>
+    <button class="lb-nav lb-next" id="lbNext"><i class="fas fa-chevron-right"></i></button>
   </div>
 
-  <!-- HERO -->
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+    <div class="container-fluid navbar-container">
+      <div class="brand-text">
+        <a href="index.html"><span class="brand-name">Galleria</span></a>
+        <a href="index.html"><span class="brand-tag">Paints</span></a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="toggler-line"></span>
+        <span class="toggler-line"></span>
+        <span class="toggler-line"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav m-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-active" href="#">Paintings <i class="fas fa-chevron-down nav-chevron"></i></a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item active-item" href="surface.html"><i class="fas fa-layer-group"></i> Surface</a></li>
+              <li><a class="dropdown-item" href="paintings.html"><i class="fas fa-palette"></i> Color Type</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="index.html#product-section">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+        </ul>
+        <div class="nav-buttons">
+          <button class="btn-signup" onclick="openSignup()"><span>Sign Up</span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
   <section class="page-hero">
     <div class="page-hero-bg"></div>
     <div class="page-hero-overlay"></div>
-    <div class="page-hero-content">
-      <div class="hero-eyebrow">Explore Surfaces</div>
-      <h1 class="hero-h1">Painting <em>Surfaces</em></h1>
-      <p class="hero-p">Choose your canvas — from acrylic boards to silk fabric. Each surface opens a new world of
-        artistic expression.</p>
+    <div class="hero-decor">
+      <div class="hero-decor-circle"></div>
+      <div class="hero-decor-circle"></div>
+      <div class="hero-decor-circle"></div>
+    </div>
+    <div class="page-hero-content container text-center">
+      <div class="page-hero-eyebrow">Explore Surfaces</div>
+      <h1>Painting <em style="-webkit-text-fill-color:var(--coral2);color:var(--coral2);">Surfaces</em></h1>
+      <p>Choose your canvas — from acrylic boards to silk fabric. Each surface opens a new world of artistic expression.</p>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="stats-strip reveal">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-box reveal-child">
+          <span class="stat-num" data-target="6">0</span>
+          <span class="stat-label">Unique Surfaces</span>
+        </div>
+        <div class="stat-box reveal-child">
+          <span class="stat-num" data-target="40">0+</span>
+          <span class="stat-label">Art Collections</span>
+        </div>
+        <div class="stat-box reveal-child">
+          <span class="stat-num" data-target="100">0+</span>
+          <span class="stat-label">Artworks Curated</span>
+        </div>
+        <div class="stat-box reveal-child">
+          <span class="stat-num" data-target="10">0+</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1443,36 +728,43 @@
 
       <!-- Breadcrumb -->
       <div class="breadcrumb-bar" id="breadcrumbBar">
-        <a href="#" onclick="showCategories()"
-          style="color:var(--muted);display:flex;align-items:center;gap:6px;font-size:.8rem;"><i
-            class="fas fa-arrow-left" style="font-size:.7rem;"></i> All Surfaces</a>
+        <a href="#" onclick="showCategories(event)">
+          <i class="fas fa-arrow-left" style="font-size:.7rem;"></i> All Surfaces
+        </a>
         <i class="fas fa-chevron-right" style="font-size:.6rem;color:var(--border);"></i>
         <span id="breadcrumbCat"></span>
       </div>
 
-      <!-- Section header (categories view) -->
-      <div class="section-header aos" id="catHeader">
+      <!-- Section header -->
+      <div class="section-header reveal" id="catHeader">
         <div class="section-badge">Browse Surfaces</div>
-        <h2 class="section-h2">Choose Your <em>Surface</em></h2>
+        <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;line-height:1.15;">
+          Choose Your <em>Surface</em>
+        </h2>
+        <p style="font-size:.97rem;color:var(--muted);max-width:520px;margin:.8rem auto 0;line-height:1.9;">
+          Six unique painting surfaces — each with its own character, texture, and creative potential.
+        </p>
       </div>
 
       <!-- Categories Grid -->
       <div class="categories-grid" id="categoriesView">
-        <div class="cat-card aos" style="transition-delay:.04s" data-cat="acrylic">
+
+        <div class="cat-card reveal-child" data-cat="acrylic">
+          <div class="cat-num">1</div>
           <div class="cat-card-img">
-            <img src="https://urartstudio.com/wp-content/uploads/2023/12/solitary-men-landscape-painting-2.png"
-              alt="Acrylic">
+            <img src="https://urartstudio.com/wp-content/uploads/2023/12/solitary-men-landscape-painting-2.png" alt="Acrylic">
             <div class="cat-card-overlay"></div>
             <div class="cat-card-label"><span><i class="fas fa-arrow-right"></i> View Collection</span></div>
           </div>
           <div class="cat-card-body">
             <div class="cat-card-title">Acrylic</div>
-            <div class="cat-card-desc">Vibrant, fast-drying and versatile surface for bold modern art with brilliant
-              color retention.</div>
+            <div class="cat-card-desc">Vibrant, fast-drying and versatile surface for bold modern art with brilliant color retention.</div>
             <button class="cat-card-btn">View Collection <i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
-        <div class="cat-card aos" style="transition-delay:.08s" data-cat="canvas">
+
+        <div class="cat-card reveal-child" data-cat="canvas">
+          <div class="cat-num">2</div>
           <div class="cat-card-img">
             <img src="https://i.pinimg.com/736x/30/68/26/3068269cc92a949ce1e3c8093b1d20a7.jpg" alt="Canvas">
             <div class="cat-card-overlay"></div>
@@ -1480,40 +772,41 @@
           </div>
           <div class="cat-card-body">
             <div class="cat-card-title">Canvas</div>
-            <div class="cat-card-desc">Classic textured surface perfect for oil and acrylic paintings with timeless
-              results.</div>
+            <div class="cat-card-desc">Classic textured surface perfect for oil and acrylic paintings with timeless results.</div>
             <button class="cat-card-btn">View Collection <i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
-        <div class="cat-card aos" style="transition-delay:.12s" data-cat="paper">
+
+        <div class="cat-card reveal-child" data-cat="paper">
+          <div class="cat-num">3</div>
           <div class="cat-card-img">
-            <img src="https://cdn.exoticindia.com/images/products/thumbnails/t800x600/sculptures-2016/pab305.jpg"
-              alt="Paper">
+            <img src="https://cdn.exoticindia.com/images/products/thumbnails/t800x600/sculptures-2016/pab305.jpg" alt="Paper">
             <div class="cat-card-overlay"></div>
             <div class="cat-card-label"><span><i class="fas fa-arrow-right"></i> View Collection</span></div>
           </div>
           <div class="cat-card-body">
             <div class="cat-card-title">Paper</div>
-            <div class="cat-card-desc">Ideal for watercolor, sketching, and delicate detailed works with fine texture.
-            </div>
+            <div class="cat-card-desc">Ideal for watercolor, sketching, and delicate detailed works with fine texture.</div>
             <button class="cat-card-btn">View Collection <i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
-        <div class="cat-card aos" style="transition-delay:.16s" data-cat="ohp">
+
+        <div class="cat-card reveal-child" data-cat="ohp">
+          <div class="cat-num">4</div>
           <div class="cat-card-img">
-            <img src="https://www.boredart.com/wp-content/uploads/2017/06/Glass-Painting-Ideas-for-Beginners-4.1.jpeg"
-              alt="OHP">
+            <img src="https://www.boredart.com/wp-content/uploads/2017/06/Glass-Painting-Ideas-for-Beginners-4.1.jpeg" alt="OHP">
             <div class="cat-card-overlay"></div>
             <div class="cat-card-label"><span><i class="fas fa-arrow-right"></i> View Collection</span></div>
           </div>
           <div class="cat-card-body">
             <div class="cat-card-title">OHP Sheet</div>
-            <div class="cat-card-desc">Transparent surface for innovative layered art that plays beautifully with light.
-            </div>
+            <div class="cat-card-desc">Transparent surface for innovative layered art that plays beautifully with light.</div>
             <button class="cat-card-btn">View Collection <i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
-        <div class="cat-card aos" style="transition-delay:.2s" data-cat="fabric">
+
+        <div class="cat-card reveal-child" data-cat="fabric">
+          <div class="cat-num">5</div>
           <div class="cat-card-img">
             <img src="https://i.ytimg.com/vi/YHJiHrSn_zQ/hq720.jpg" alt="Fabric">
             <div class="cat-card-overlay"></div>
@@ -1521,12 +814,13 @@
           </div>
           <div class="cat-card-body">
             <div class="cat-card-title">Fabric</div>
-            <div class="cat-card-desc">Soft and luxurious silk and linen surfaces for unique textures and wearable art.
-            </div>
+            <div class="cat-card-desc">Soft and luxurious silk and linen surfaces for unique textures and wearable art.</div>
             <button class="cat-card-btn">View Collection <i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
-        <div class="cat-card aos" style="transition-delay:.24s" data-cat="wood">
+
+        <div class="cat-card reveal-child" data-cat="wood">
+          <div class="cat-num">6</div>
           <div class="cat-card-img">
             <img src="https://i.ytimg.com/vi/eob0QRilgxc/hq720.jpg" alt="Wood">
             <div class="cat-card-overlay"></div>
@@ -1534,426 +828,107 @@
           </div>
           <div class="cat-card-body">
             <div class="cat-card-title">Wood</div>
-            <div class="cat-card-desc">Rustic and durable natural surface with beautiful grain patterns for earthy art.
-            </div>
+            <div class="cat-card-desc">Rustic and durable natural surface with beautiful grain patterns for earthy art.</div>
             <button class="cat-card-btn">View Collection <i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
-      </div>
 
-      <!-- Paintings Detail Views -->
+      </div><!-- /categories-grid -->
+
+      <!-- ══ ACRYLIC ══ -->
       <div class="paintings-view" id="pv-acrylic">
-        <div class="section-header" style="text-align:left;margin-bottom:36px;">
+        <div class="section-header" style="text-align:left;margin-bottom:40px;">
           <div class="section-badge" style="justify-content:flex-start;">Acrylic Surface</div>
-          <h2 class="section-h2">Acrylic <em>Paintings</em></h2>
+          <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;">Acrylic <em>Paintings</em></h2>
         </div>
         <div class="paintings-grid">
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKuHtCLX52u_nYSmY-6dEC-z4360AwonR85g&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Abstract Flow</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM4Gs2yl_rBqthj9b8inRKHaaCPY7z3dKj4A&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Vibrant Layers</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzzCmtjT7TtsmWUe19zloWW0UFWrWwccUs3A&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Neon Dreams</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ7DvpvvMhiLX4CXYUmlqIFuzHL6EoK-Qnxg&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Fluid Motion</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTWgYIhJA-RtaxE2YEtcA9SwSMJIGSZ1V0Cg&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Bold Strokes</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://cdn.shopify.com/s/files/1/0071/6826/2215/files/mountain_1_1.jpg?v=1638071810" alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Modern Fusion</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://i.pinimg.com/1200x/03/c4/d8/03c4d8414a4dfd22c7a71e51e0c250cc.jpg" alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Color Burst</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://5.imimg.com/data5/SELLER/Default/2023/2/YE/UO/VJ/9107407/beautiful-abstract-frameless-wall-painting-for-home-springfield-500x500.jpg"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Wall Statement</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWzUG4feCOKdKgsSVqkgNpcIaZtbQd3EA1vw&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Deep Blue</div>
-            </div>
-          </div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKuHtCLX52u_nYSmY-6dEC-z4360AwonR85g&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Abstract Flow</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM4Gs2yl_rBqthj9b8inRKHaaCPY7z3dKj4A&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Vibrant Layers</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzzCmtjT7TtsmWUe19zloWW0UFWrWwccUs3A&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Neon Dreams</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ7DvpvvMhiLX4CXYUmlqIFuzHL6EoK-Qnxg&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Fluid Motion</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTWgYIhJA-RtaxE2YEtcA9SwSMJIGSZ1V0Cg&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Bold Strokes</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://cdn.shopify.com/s/files/1/0071/6826/2215/files/mountain_1_1.jpg?v=1638071810" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Modern Fusion</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://i.pinimg.com/1200x/03/c4/d8/03c4d8414a4dfd22c7a71e51e0c250cc.jpg" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Color Burst</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://5.imimg.com/data5/SELLER/Default/2023/2/YE/UO/VJ/9107407/beautiful-abstract-frameless-wall-painting-for-home-springfield-500x500.jpg" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Wall Statement</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWzUG4feCOKdKgsSVqkgNpcIaZtbQd3EA1vw&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Deep Blue</div></div></div>
         </div>
       </div>
 
+      <!-- ══ CANVAS ══ -->
       <div class="paintings-view" id="pv-canvas">
-        <div class="section-header" style="text-align:left;margin-bottom:36px;">
+        <div class="section-header" style="text-align:left;margin-bottom:40px;">
           <div class="section-badge" style="justify-content:flex-start;">Canvas Surface</div>
-          <h2 class="section-h2">Canvas <em>Paintings</em></h2>
+          <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;">Canvas <em>Paintings</em></h2>
         </div>
         <div class="paintings-grid">
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYhmMUg9pu2_YUa8pEJiJYtX6DpMJK3EQEAw&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Classic Canvas</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpz50g6aiLGFUuAR0lxNttRJoCyJO_dPU9Bg&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Stretched Art</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLLGPMcRYh3Do82IBfQK2WxkljfmiNVPZeYw&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Oil Masterpiece</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://img.drz.lazcdn.com/static/pk/p/0cda0e91e320372112d08fc3bb3fb075.jpg_720x720q80.jpg" alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Textured Depth</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://img.kwcdn.com/product/fancy/dbc2deb5-f187-4836-9148-87108791cc65.jpg" alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Gallery Wrap</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRV_IwS1LEZkWT13wPNo98OsY6_Zf7BqSJSw&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Contemporary</div>
-            </div>
-          </div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYhmMUg9pu2_YUa8pEJiJYtX6DpMJK3EQEAw&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Classic Canvas</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpz50g6aiLGFUuAR0lxNttRJoCyJO_dPU9Bg&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Stretched Art</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLLGPMcRYh3Do82IBfQK2WxkljfmiNVPZeYw&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Oil Masterpiece</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://img.drz.lazcdn.com/static/pk/p/0cda0e91e320372112d08fc3bb3fb075.jpg_720x720q80.jpg" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Textured Depth</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://img.kwcdn.com/product/fancy/dbc2deb5-f187-4836-9148-87108791cc65.jpg" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Gallery Wrap</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRV_IwS1LEZkWT13wPNo98OsY6_Zf7BqSJSw&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Contemporary</div></div></div>
         </div>
       </div>
 
+      <!-- ══ PAPER ══ -->
       <div class="paintings-view" id="pv-paper">
-        <div class="section-header" style="text-align:left;margin-bottom:36px;">
+        <div class="section-header" style="text-align:left;margin-bottom:40px;">
           <div class="section-badge" style="justify-content:flex-start;">Paper Surface</div>
-          <h2 class="section-h2">Paper <em>Paintings</em></h2>
+          <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;">Paper <em>Paintings</em></h2>
         </div>
         <div class="paintings-grid">
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIPF4Pif_uYTpjf8MGz3YOcabuAoF1yfI8DA&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Watercolor Bloom</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS-oiUcTMpPGt70NMUzKCLCxijtO8s8mYI5Q&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Delicate Sketch</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img src="https://i.ytimg.com/vi/458NDraUfwA/sddefault.jpg" alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Ink Wash</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://trendyartideas.com/wp-content/uploads/2020/12/Cute-Kitten-Cat-Quilling-Paper.jpg.webp"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Handmade Texture</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQSCPbMXCS82UFogWXX6aZy4ep31Bl8V6IPQ&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Fine Detail</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://assets.artfullywalls.com/works/6211/mthumb-2025-03-23-2Ik8000w2ZRFsd_rMfvhgHK-xRGilrnaHwUdRR37G-XAWs4i5drnrkFNUbQKymcUTumx2QQgcTbaqksb.jpg"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Mixed Media</div>
-            </div>
-          </div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIPF4Pif_uYTpjf8MGz3YOcabuAoF1yfI8DA&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Watercolor Bloom</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS-oiUcTMpPGt70NMUzKCLCxijtO8s8mYI5Q&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Delicate Sketch</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://i.ytimg.com/vi/458NDraUfwA/sddefault.jpg" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Ink Wash</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://trendyartideas.com/wp-content/uploads/2020/12/Cute-Kitten-Cat-Quilling-Paper.jpg.webp" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Handmade Texture</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQSCPbMXCS82UFogWXX6aZy4ep31Bl8V6IPQ&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Fine Detail</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://assets.artfullywalls.com/works/6211/mthumb-2025-03-23-2Ik8000w2ZRFsd_rMfvhgHK-xRGilrnaHwUdRR37G-XAWs4i5drnrkFNUbQKymcUTumx2QQgcTbaqksb.jpg" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Mixed Media</div></div></div>
         </div>
       </div>
 
+      <!-- ══ OHP ══ -->
       <div class="paintings-view" id="pv-ohp">
-        <div class="section-header" style="text-align:left;margin-bottom:36px;">
+        <div class="section-header" style="text-align:left;margin-bottom:40px;">
           <div class="section-badge" style="justify-content:flex-start;">OHP Sheet</div>
-          <h2 class="section-h2">OHP <em>Paintings</em></h2>
+          <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;">OHP <em>Paintings</em></h2>
         </div>
         <div class="paintings-grid">
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6sCVsYxHi8H7_TcSkblxkFX3lJlgmra7Gg&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Layered Light</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGR7gFaKkcWRM4Kg6BCO9DLW6rTva3WAS6bw&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Transparent Glow</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwA4gYUAWr_qGU7zDgRBv_8dV7ZeaSweyZew&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Frosted Effect</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWQYWEO39vc2B_3tZ3o7DZsuh_kk103_cpVg&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Modern Overlay</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO7SjJych8m-uDEcPSwEqvay9o1vviK7vlvA&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Crystal Clear</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://i.pinimg.com/736x/5a/1d/04/5a1d04fcb7b40703a10f7898ac32d726.jpg" alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Ethereal Art</div>
-            </div>
-          </div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6sCVsYxHi8H7_TcSkblxkFX3lJlgmra7Gg&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Layered Light</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGR7gFaKkcWRM4Kg6BCO9DLW6rTva3WAS6bw&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Transparent Glow</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwA4gYUAWr_qGU7zDgRBv_8dV7ZeaSweyZew&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Frosted Effect</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWQYWEO39vc2B_3tZ3o7DZsuh_kk103_cpVg&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Modern Overlay</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO7SjJych8m-uDEcPSwEqvay9o1vviK7vlvA&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Crystal Clear</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://i.pinimg.com/736x/5a/1d/04/5a1d04fcb7b40703a10f7898ac32d726.jpg" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Ethereal Art</div></div></div>
         </div>
       </div>
 
+      <!-- ══ FABRIC ══ -->
       <div class="paintings-view" id="pv-fabric">
-        <div class="section-header" style="text-align:left;margin-bottom:36px;">
+        <div class="section-header" style="text-align:left;margin-bottom:40px;">
           <div class="section-badge" style="justify-content:flex-start;">Fabric Surface</div>
-          <h2 class="section-h2">Fabric <em>Paintings</em></h2>
+          <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;">Fabric <em>Paintings</em></h2>
         </div>
         <div class="paintings-grid">
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZt71qiTzHvRyrQHkaGX7ww5DB2QKz97xn7w&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Silk Elegance</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6735a7JQOTj1wUNr_sQsOJvgsYlXFOY9V5Q&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Linen Texture</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShIqsMrgP-ADOTk9hS6RKf_nZXEHWAfJrl3Q&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Soft Flow</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyhGr0ZN6mUfuqyqrdBZbpZMl2biDcDyFD1Q&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Traditional Dye</div>
-            </div>
-          </div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZt71qiTzHvRyrQHkaGX7ww5DB2QKz97xn7w&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Silk Elegance</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6735a7JQOTj1wUNr_sQsOJvgsYlXFOY9V5Q&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Linen Texture</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShIqsMrgP-ADOTk9hS6RKf_nZXEHWAfJrl3Q&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Soft Flow</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyhGr0ZN6mUfuqyqrdBZbpZMl2biDcDyFD1Q&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Traditional Dye</div></div></div>
         </div>
       </div>
 
+      <!-- ══ WOOD ══ -->
       <div class="paintings-view" id="pv-wood">
-        <div class="section-header" style="text-align:left;margin-bottom:36px;">
+        <div class="section-header" style="text-align:left;margin-bottom:40px;">
           <div class="section-badge" style="justify-content:flex-start;">Wood Surface</div>
-          <h2 class="section-h2">Wood <em>Paintings</em></h2>
+          <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;">Wood <em>Paintings</em></h2>
         </div>
         <div class="paintings-grid">
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuJEHg6pzGzhLVNfVgLeoOZZpDb85JdUniSw&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Wood Grain Art</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://i.pinimg.com/564x/08/49/ff/0849ffc3baf2648a9fe9ba6b95df8926.jpg" alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Rustic Panel</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://i.pinimg.com/736x/79/ea/ed/79eaedd7e984ee84642156b893f16528.jpg" alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Natural Beauty</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_gGjCfDsolOTzUR2p5S271ZxNE7-1pu_2Mw&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Plywood Master</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfUX2i-iaTZfUurIxhb7MskgYve2pRphYhWA&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Warm Tones</div>
-            </div>
-          </div>
-          <div class="paint-card" onclick="openLb(this)">
-            <div class="paint-card-img"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ11uxINm-LGFARWIpDkoUWhOnpZybnthrERQ&s"
-                alt="">
-              <div class="paint-card-expand"><i class="fas fa-expand-alt"></i></div>
-            </div>
-            <div class="paint-card-info">
-              <div class="paint-card-name">Solid Wood Art</div>
-            </div>
-          </div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuJEHg6pzGzhLVNfVgLeoOZZpDb85JdUniSw&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Wood Grain Art</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://i.pinimg.com/564x/08/49/ff/0849ffc3baf2648a9fe9ba6b95df8926.jpg" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Rustic Panel</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://i.pinimg.com/736x/79/ea/ed/79eaedd7e984ee84642156b893f16528.jpg" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Natural Beauty</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_gGjCfDsolOTzUR2p5S271ZxNE7-1pu_2Mw&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Plywood Master</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfUX2i-iaTZfUurIxhb7MskgYve2pRphYhWA&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Warm Tones</div></div></div>
+          <div class="paint-card" onclick="openLb(this)"><div class="paint-card-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ11uxINm-LGFARWIpDkoUWhOnpZybnthrERQ&s" alt=""><div class="paint-card-expand"><div class="paint-card-expand-icon"><i class="fas fa-expand-alt"></i></div></div></div><div class="paint-card-info"><div class="paint-card-name">Solid Wood Art</div></div></div>
         </div>
       </div>
 
@@ -1962,22 +937,22 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-top">
-      <div class="footer-grid">
-        <div class="aos-left">
-          <div class="footer-brand-name">Galler<span>ia</span></div>
-          <p class="footer-desc">Pakistan's finest paint brand — delivering premium quality, vibrant colors, and lasting
-            finishes for every surface since decades.</p>
-          <div class="footer-socials">
-            <a href="#" class="footer-social-link"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" class="footer-social-link"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="footer-social-link"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="footer-social-link"><i class="fab fa-facebook-f"></i></a>
+    <div class="footer-top-line"></div>
+    <div class="footer-container">
+      <div class="footer-content">
+        <div class="footer-about">
+          <h3>Galler<span>ia</span></h3>
+          <p>Pakistan's finest paint brand — delivering premium quality, vibrant colors, and lasting finishes for every surface since decades.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
           </div>
         </div>
-        <div>
-          <div class="footer-col-title">Quick Links</div>
-          <ul class="footer-links-list">
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
             <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
             <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
             <li><a href="gallery.html"><i class="fas fa-chevron-right"></i> Gallery</a></li>
@@ -1985,117 +960,163 @@
             <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
           </ul>
         </div>
-        <div>
-          <div class="footer-col-title">Stay Updated</div>
-          <p class="footer-subscribe-text">Get promotions, new product launches, and exclusive deals.</p>
-          <div class="footer-subscribe-form">
-            <input type="email" class="footer-subscribe-input" placeholder="Enter your email..." id="subInput">
-            <button class="footer-subscribe-btn" onclick="doSubscribe()"><i class="fas fa-arrow-right"></i></button>
+        <div class="footer-contact">
+          <h4>Stay Updated</h4>
+          <p>Get promotions, new product launches, and exclusive deals delivered to your inbox.</p>
+          <div class="subscribe-box">
+            <input type="email" class="input" placeholder="Enter your email..." id="subscribeInput">
+            <button id="footersubscribeBtn"><i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
       </div>
     </div>
-    <div class="footer-divider"></div>
-    <div class="footer-bottom-bar">
-      <span>&copy; 2026 Galleria Paints — All Rights Reserved</span>
-      <span>Made with <span style="color:var(--coral);">♥</span> in Pakistan</span>
+    <div class="footer-bottom">
+      <div class="container-fluid">
+        <p>&copy; 2026 Galleria Paints — All Rights Reserved &nbsp;|&nbsp; Made with <span style="color:var(--coral);">♥</span> in Pakistan</p>
+      </div>
     </div>
   </footer>
 
   <script src="js/bootstrap.js"></script>
   <script src="jquerydownload.js"></script>
   <script>
-    /* NAV */
-    function toggleNav() {
-      var d = document.getElementById('navDesktop');
-      var o = document.getElementById('navOverlay');
-      var i = document.getElementById('toggleIcon');
-      d.classList.toggle('open'); o.classList.toggle('open');
-      i.className = d.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+    /* ── NAVBAR SCROLL ── */
+    window.addEventListener('scroll', function () {
+      document.getElementById('navbar').classList.toggle('nav-scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    /* ── AUTH ── */
+    function openSignup() {
+      var s = document.getElementById('registerSection');
+      s.style.display = 'flex';
+      setTimeout(function () { s.style.opacity = '1'; }, 10);
     }
-    function closeNav() {
-      document.getElementById('navDesktop').classList.remove('open');
-      document.getElementById('navOverlay').classList.remove('open');
-      document.getElementById('toggleIcon').className = 'fas fa-bars';
+    function closeSignup() {
+      var s = document.getElementById('registerSection');
+      s.style.opacity = '0';
+      setTimeout(function () { s.style.display = 'none'; s.style.opacity = ''; }, 300);
+    }
+    document.getElementById('registerSection').addEventListener('click', function (e) {
+      if (e.target === this) closeSignup();
+    });
+
+    /* ── TOAST ── */
+    function showToast(msg, type) {
+      var t = document.createElement('div');
+      t.className = 'toast-msg';
+      t.style.background = type === 'error' ? '#e8603c' : '#0f1e2e';
+      t.style.borderLeft = '3px solid ' + (type === 'error' ? '#fff' : '#e8603c');
+      t.innerHTML = '<i class="fas ' + (type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle') + '" style="color:' + (type === 'error' ? '#fff' : '#e8603c') + '"></i>' + msg;
+      document.body.appendChild(t);
+      setTimeout(function () {
+        t.style.transition = 'opacity .4s'; t.style.opacity = '0';
+        setTimeout(function () { t.remove(); }, 400);
+      }, 2800);
     }
 
-    /* AUTH */
-    function openAuth(type) {
-      document.getElementById('authOverlay').classList.add('show');
-      document.getElementById('signupCard').style.display = type === 'signup' ? 'block' : 'none';
-      document.getElementById('signinCard').style.display = type === 'signin' ? 'block' : 'none';
-    }
-    function closeAuth() { document.getElementById('authOverlay').classList.remove('show'); }
-    function switchAuth(type) {
-      document.getElementById('signupCard').style.display = type === 'signup' ? 'block' : 'none';
-      document.getElementById('signinCard').style.display = type === 'signin' ? 'block' : 'none';
-    }
-    function doRegister() {
-      var n = document.getElementById('su-name').value;
-      var e = document.getElementById('su-email').value;
-      var p = document.getElementById('su-pass').value;
-      var c = document.getElementById('su-cpass').value;
-      if (!n || !e || !p || !c) { alert('All fields are required!'); return; }
-      if (p !== c) { alert('Passwords do not match!'); return; }
-      alert('Registration Successful!'); closeAuth();
-    }
-    function doLogin() {
-      var e = document.getElementById('si-email').value;
-      var p = document.getElementById('si-pass').value;
-      if (!e || !p) { alert('Please fill all fields!'); return; }
-      alert('Signed in successfully!'); closeAuth();
-    }
-    document.getElementById('authOverlay').addEventListener('click', function (e) { if (e.target === this) closeAuth(); });
+    /* ── AUTH HANDLERS ── */
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('register-btn').addEventListener('click', function () {
+        var n = document.getElementById('signup-name').value.trim();
+        var e = document.getElementById('signup-email').value.trim();
+        var p = document.getElementById('signup-pass').value;
+        var c = document.getElementById('signup-cpass').value;
+        if (!n || !e || !p || !c) { showToast('All fields are required!', 'error'); return; }
+        if (p !== c) { showToast('Passwords do not match!', 'error'); return; }
+        showToast('Registration Successful! Welcome to Galleria.', 'success');
+        setTimeout(closeSignup, 1200);
+      });
+      document.querySelector('.sign-in-btn').addEventListener('click', function () {
+        var e = document.getElementById('signin-email').value.trim();
+        var p = document.getElementById('signin-pass').value;
+        if (!e || !p) { showToast('Please fill all fields!', 'error'); return; }
+        showToast('Signed in successfully!', 'success');
+        setTimeout(closeSignup, 1200);
+      });
+      document.getElementById('open-sign-in').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('sign-up').style.display = 'none';
+        document.getElementById('sign-in').classList.remove('d-none');
+        document.getElementById('sign-in').style.display = 'flex';
+      });
+      document.getElementById('open-sign-up').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('sign-in').style.display = 'none';
+        document.getElementById('sign-up').style.display = 'flex';
+      });
+      document.getElementById('footersubscribeBtn').addEventListener('click', function () {
+        var v = document.getElementById('subscribeInput').value.trim();
+        if (!v) { showToast('Please enter your email!', 'error'); return; }
+        showToast('Thanks for subscribing!', 'success');
+        document.getElementById('subscribeInput').value = '';
+      });
+    });
 
-    /* SURFACE NAVIGATION */
-    var activeCat = null;
-
+    /* ── SURFACE NAVIGATION ── */
     function showCategory(cat) {
-      /* Hide categories */
       document.getElementById('categoriesView').style.display = 'none';
       document.getElementById('catHeader').style.display = 'none';
-      /* Show breadcrumb */
       document.getElementById('breadcrumbBar').classList.add('show');
-      document.getElementById('breadcrumbCat').textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
-      /* Show paintings */
+      var label = cat.charAt(0).toUpperCase() + cat.slice(1);
+      if (cat === 'ohp') label = 'OHP Sheet';
+      document.getElementById('breadcrumbCat').textContent = label;
       document.querySelectorAll('.paintings-view').forEach(function (v) { v.classList.remove('show'); });
       var pv = document.getElementById('pv-' + cat);
       if (pv) { pv.classList.add('show'); }
-      activeCat = cat;
       window.scrollTo({ top: document.querySelector('.surface-section').offsetTop - 80, behavior: 'smooth' });
     }
 
-    function showCategories() {
+    function showCategories(e) {
+      if (e) e.preventDefault();
       document.getElementById('categoriesView').style.display = '';
       document.getElementById('catHeader').style.display = '';
       document.getElementById('breadcrumbBar').classList.remove('show');
       document.querySelectorAll('.paintings-view').forEach(function (v) { v.classList.remove('show'); });
-      activeCat = null;
       window.scrollTo({ top: document.querySelector('.surface-section').offsetTop - 80, behavior: 'smooth' });
     }
 
-    /* Attach click events to category cards */
     document.querySelectorAll('.cat-card').forEach(function (card) {
-      card.addEventListener('click', function () {
-        showCategory(card.dataset.cat);
-      });
+      card.addEventListener('click', function () { showCategory(card.dataset.cat); });
     });
 
-    /* LIGHTBOX */
-    var lbImages = []; var lbIdx = 0;
+    /* ── LIGHTBOX ── */
+    var lbImages = [], lbNames = [], lbIdx = 0;
+
     function openLb(card) {
       var view = card.closest('.paintings-view');
       var allCards = Array.from(view.querySelectorAll('.paint-card'));
       lbImages = allCards.map(function (c) { return c.querySelector('img').src; });
+      lbNames = allCards.map(function (c) { return c.querySelector('.paint-card-name').textContent; });
       lbIdx = allCards.indexOf(card);
       updateLb();
       document.getElementById('lightbox').classList.add('show');
       document.body.style.overflow = 'hidden';
     }
-    function closeLightbox() { document.getElementById('lightbox').classList.remove('show'); document.body.style.overflow = ''; }
-    function lbNav(dir) { lbIdx = (lbIdx + dir + lbImages.length) % lbImages.length; updateLb(); }
-    function updateLb() { document.getElementById('lbImg').src = lbImages[lbIdx]; }
-    document.getElementById('lightbox').addEventListener('click', function (e) { if (e.target === this) closeLightbox(); });
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    function lbNav(dir) {
+      lbIdx = (lbIdx + dir + lbImages.length) % lbImages.length;
+      updateLb();
+    }
+    function updateLb() {
+      var img = document.getElementById('lbImg');
+      img.style.opacity = '0';
+      img.style.transform = 'scale(.95)';
+      setTimeout(function () {
+        img.src = lbImages[lbIdx];
+        document.getElementById('lbCaption').textContent = lbNames[lbIdx];
+        img.style.transition = 'opacity .35s, transform .35s';
+        img.style.opacity = '1';
+        img.style.transform = 'scale(1)';
+      }, 150);
+    }
+    document.getElementById('lbPrev').addEventListener('click', function () { lbNav(-1); });
+    document.getElementById('lbNext').addEventListener('click', function () { lbNav(1); });
+    document.getElementById('lightbox').addEventListener('click', function (e) {
+      if (e.target === this) closeLightbox();
+    });
     document.addEventListener('keydown', function (e) {
       if (!document.getElementById('lightbox').classList.contains('show')) return;
       if (e.key === 'Escape') closeLightbox();
@@ -2103,24 +1124,52 @@
       if (e.key === 'ArrowRight') lbNav(1);
     });
 
-    /* SUBSCRIBE */
-    function doSubscribe() {
-      var v = document.getElementById('subInput').value;
-      if (!v) { alert('Please enter your email!'); return; }
-      alert('Thank you for subscribing!');
-      document.getElementById('subInput').value = '';
-    }
-
-    /* AOS */
+    /* ── SCROLL REVEAL ── */
     document.addEventListener('DOMContentLoaded', function () {
       var obs = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
-          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            e.target.querySelectorAll('.reveal-child').forEach(function (c) { c.classList.add('in-view'); });
+            obs.unobserve(e.target);
+          }
         });
       }, { threshold: .08 });
-      document.querySelectorAll('.aos').forEach(function (el) { obs.observe(el); });
+      document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(function (el) { obs.observe(el); });
+
+      var cObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in-view'); cObs.unobserve(e.target); }
+        });
+      }, { threshold: .1 });
+      document.querySelectorAll('.reveal-child').forEach(function (el) { cObs.observe(el); });
     });
+
+    /* ── STAT COUNTER ── */
+    function easeOut(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+    function animCount(el, target, suffix, dur) {
+      var start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        el.textContent = Math.floor(easeOut(p) * target) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    var statsDone = false;
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !statsDone) {
+          statsDone = true;
+          document.querySelectorAll('.stat-num[data-target]').forEach(function (el) {
+            var target = parseInt(el.dataset.target);
+            var suffix = target === 6 ? '' : '+';
+            animCount(el, target, suffix, 1400);
+          });
+        }
+      });
+    }, { threshold: .3 }).observe(document.querySelector('.stats-strip'));
   </script>
 </body>
-
 </html>
